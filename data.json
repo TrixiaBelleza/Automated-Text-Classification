@@ -1,0 +1,305 @@
+{
+  "items": [
+    {
+      "tags": [
+        "python",
+        "if-statement"
+      ],
+      "question_id": 51900773,
+      "link": "https://stackoverflow.com/questions/51900773/why-is-else-required-in-if-statements-when-defining-a-list-of-items",
+      "title": "Why is else required in if statements when defining a list of items?",
+      "body": "<p>When defining a list of items (i.e. not actual list comprehensions), why do you need an else statement to accompany any if statements? For example, using Python 3.7 say that we have some condition which could be true or false, and we want to include an element in a list if the condition is true, and not include it if it's false.</p>\n\n<pre><code>condition = False\nlyst = ['a', 'b', 'c' if condition]\n</code></pre>\n\n<p>I would expect it to assign ['a', 'b'] to lyst, but it throws a syntax error. It works if we include an else statement:</p>\n\n<pre><code>lyst = ['a', 'b', 'c' if condition else 'd']\n</code></pre>\n\n<p>But now the result is that <code>lyst = ['a', 'b', 'd']</code>\nIn <a href=\"https://stackoverflow.com/questions/2951701/is-it-possible-to-use-else-in-a-python-list-comprehension\">this question</a>, user Plankton's answer further specifies that you can't use a \"pass\" in the else statement. My question is <em>why</em> the else statement is required? Is it so that the list that gets created is guaranteed to have the number of items expected? If so, this strikes me as not very pythonic.</p>\n\n<p>This is particularly weird because you <em>can</em> have if statements without else statements in actual list comprehensions e.g.:</p>\n\n<pre><code>post = [x for x in range(10) if x &gt; 5]\n# equivalent to: post = [6, 7, 8, 9]\n</code></pre>\n\n<p>I realize a list comprehension is totally different functionality. Please remember that my question is <em>why</em> you can't use an if statement without an else in a list literal? Does this limitation avoid some issue I'm not aware of?</p>\n"
+    },
+    {
+      "tags": [
+        "java",
+        "for-loop"
+      ],
+      "question_id": 48462172,
+      "title": "How to concatenate a string with all other strings in the list in O(n)",
+      "body": "<p>I want to concatenate a string with all other strings in the list, I am using nested-for loops, but that method is not efficient for a large list.\nCan anyone help me to do it in o(n) or o(nlogn)?\nHere is my code.</p>\n\n<pre><code>for(int i=0;i&lt;listOfStrings.length-1;i++){                               \n   for(int j=i+1;j&lt;listOfStrings.length;j++){\n      String temp= String.join(\"\",listOfStrings[i],listOfStrings[j]);\n   }\n}\n</code></pre>\n"
+    },
+    {
+      "tags": [
+        "python",
+        "if-statement"
+      ],
+      "question_id": 51790199,
+      "link": "https://stackoverflow.com/questions/51790199/conditional-if-statements-with-decimal-constraints",
+      "title": "Conditional If statements with decimal constraints",
+      "body": "<p>Say I have a condition that if a number ends with.00 add 2 to it and if a number ends with.99 add 3 to it. So if I had 5.00 and 5.99, I want to write a nested if statement that would allow me to add the right value to the original number based on its ending.</p>\n\n<p>How to do that in python?</p>\n"
+    },
+    {
+      "tags": [
+        "python",
+        "for-loop",
+        "if-statement"
+      ],
+      "question_id": 51828178,
+      "link": "https://stackoverflow.com/questions/51828178/why-does-this-if-statement-stop-code-execution",
+      "title": "Why does this If Statement stop code execution?",
+      "body": "<p>I'm new at Python &amp; I do not understand why my <code>if</code> statement is not working as expected.</p>\n\n<p>My <code>for</code> loop uses a function to list filenames and content types</p>\n\n<pre><code>def listContentType(files):\n\n   contentType = \"text/xml\"\n\n   for filename in files:\n       if '.html' in filename :\n            contentType = 'text/html\"\n\n       # do something\n       print(contentType)\n</code></pre>\n\n<p>But, when <code>if</code> Statement returns <code>true</code>, <code>print</code> never prints 'text/html'.</p>\n\n<p>Do you know why?</p>\n"
+    },
+    {
+      "tags": [
+        "java",
+        "if-statement"
+      ],
+      "question_id": 52019351,
+      "link": "https://stackoverflow.com/questions/52019351/better-way-to-compare-d-in-the-if-statment-what-if-i-need-to-compare-it-to-say",
+      "title": "Better way to compare d in the if statment. What if i need to compare it to say 100 values?",
+      "body": "<p>Better way to compare d in the if statement. What if i need to compare it to say 100 values?</p>\n\n<pre><code>int d = 0;\nif(d == 3 || d == 8 || d == 1) {\n   System.out.println(\"d is one of the special numbers!\");\n}\n</code></pre>\n"
+    },
+    {
+      "tags": [
+        "java"
+      ],
+      "last_activity_date": 1541210231,
+      "creation_date": 1526496376,
+      "question_id": 50378035,
+      "title": "Java java.sql.SQLException while i try to concat a value into prepared statement",
+      "body": "<p>I wanted to add the a varible in the prepareded statement and </p>\n\n<pre><code>String Query = \"SELECT count(*) count from  apps.fnd_user fu where \" \n             + \"UPPER(fu.user_name) like 'ADMIN_ ||:1||' \";  \n\nPreparedStatement stmt = conn.prepareStatement(Query);  \nstmt.setString(1, CompanyName);  \n</code></pre>\n\n<p>yet this error is showing . Any Fix for this mistake ..... can i concat using pipes while preparing the statement.</p>\n"
+    },
+    {
+      "tags": [
+        "if-statement"
+      ],
+      "question_id": 51712425,
+      "link": "https://stackoverflow.com/questions/51712425/combined-workday-intl-and-if-function",
+      "title": "Combined Workday.Intl and IF function",
+      "body": "<p>Im trying to combine a WORKDAY.INTL and IF function together...</p>\n\n<p>Would like the blue cell to add the orange duration to the green cell but only if the yellow cell is empty.</p>\n\n<p>if the yellow cell has a date, then add the yellow cell and orange duration.</p>\n\n<p>Ive tried combining the functions but just cant get it to work.</p>\n\n<p>Holidays are poart of the WORKDAY.INTL function are the standard set of bank holidays in the UK.  Furthermore, have used \"1\" to ensure the calculation does not include saturdays and sundays.</p>\n\n<p><a href=\"https://i.stack.imgur.com/htrrr.jpg\" rel=\"nofollow noreferrer\"><img src=\"https://i.stack.imgur.com/htrrr.jpg\" alt=\"enter image description here\"></a></p>\n\n<p>Any help would be greatly appreciated.</p>\n"
+    },
+    {
+      "tags": [
+        "java"
+      ],
+      "last_activity_date": 1540980056,
+      "creation_date": 1516360437,
+      "question_id": 48339840,
+      "title": "How can I get content from InputStream based results in Play tests",
+      "body": "<p>I am on Play 2.6, using Java</p>\n\n<p>My controller returns:</p>\n\n<pre><code>public Result xml() {\n    return Results.ok(new ByteArrayInputStream(\"&lt;someXml /&gt;\".getBytes()));\n}\n</code></pre>\n\n<p>I want to parse the result in tests:</p>\n\n<pre><code>Result result = new MyController().xml();    \nplay.test.Helpers.contentAsString(result)\n</code></pre>\n\n<p>This throws</p>\n\n<pre><code>failed: java.lang.UnsupportedOperationException: Tried to extract body from a non strict HTTP entity without a materializer, use the version of this method that accepts a materializer instead\n</code></pre>\n\n<p>How can I retrieve the content of results issued from input streams in tests?</p>\n"
+    },
+    {
+      "tags": [
+        "python",
+        "for-loop"
+      ],
+      "question_id": 48127108,
+      "title": "How to create a for-loop that removes unwanted characters and replaces them in Python",
+      "body": "<p>I have an assignment which is to build a palindrome detector, and there is just one thing left in the code that I can't get my head around. I've been trying to fix it for days and now I need some assistance before I lose my mind...</p>\n\n<p>The only thing left is for the program to remove unwanted characters from the users input, and replace it with nothing (\"\"). So for example, the program is supposed to be able to interpret both \"Anna\" and \"A!N!N!A\" as palindromes. I'm <strong>required</strong> to use a <strong>for-loop</strong> to remove the characters. </p>\n\n<pre><code>&gt; #the characters that need to be removed \nnot_valid = \"?!\\\"\\'#€%&amp;/-()=? :,\"\n\n#user input \nuser_entry = tkinter.Entry(mid_frame, width = 67)\n\n#variable with the user input, and transforms into lower case characters\ntext = user_entry.get()\n\ntext = text.lower()\n</code></pre>\n\n<p>So what I need is a for-loop that can help me to get the <code>not_valid</code> characters out of <code>text</code>. All the code I've been trying with so far Is useless. I would be really grateful for all the help I can get!</p>\n"
+    },
+    {
+      "tags": [
+        "python"
+      ],
+      "question_id": 48197324,
+      "title": "all variables are undefined in python debugger",
+      "body": "<p>I'm facing a very strange issue on Python 3.6. In the middle of my code, I call <code>import pdb; pdb.set_trace()</code> to debug some code.</p>\n\n<p>And then I'm not able to debug properly, for instance:</p>\n\n<pre><code>(Pdb) abc = 3\n(Pdb) [abc for _ in range(2)]\n*** NameError: name 'abc' is not defined\n(Pdb) [abc, abc]\n[3, 3]\n</code></pre>\n\n<p>It seems like whenever I use list comprehensions, there is an issue of variable not defined. However, if I call the debugger right after I open Python, I do not observe this behavior, everything runs fine.</p>\n\n<p>Any ideas why I'm having this issue?</p>\n"
+    },
+    {
+      "tags": [
+        "python"
+      ],
+      "last_activity_date": 1541184754,
+      "creation_date": 1518117787,
+      "question_id": 48693258,
+      "title": "Need to make a cartoon comic version of a picture with Python and OpenCV",
+      "body": "<p>I'm trying to make a function which will make any image look like a cartooney comic strip.\nHere is my code so far:</p>\n\n<pre><code>import numpy\nimport cv2\n\n__author__ = \"Michael Beyeler\"\n__license__ = \"GNU GPL 3.0 or later\"\n\nclass Cartoonizer:\n\n    def __init__(self):\n        self.numDownSamples = 1\n        self.numBilateralFilters = 7\n\n    def render(self, img_rgb):\n\n        # downsample image using Gaussian pyramid\n        img_color = img_rgb\n        for _ in range(self.numDownSamples):\n            img_color = cv2.pyrDown(img_color)\n        # repeatedly apply small bilateral filter instead of applying\n        # one large filter\n        for _ in range(self.numBilateralFilters):\n            img_color = cv2.bilateralFilter(img_color, 9, 9, 7)\n        # upsample image to original size\n        for _ in range(self.numDownSamples):\n            img_color = cv2.pyrUp(img_color)\n        # convert to grayscale and apply bilateral blur\n        img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2GRAY)\n        for _ in range(self.numBilateralFilters):\n            img_gray_blur = cv2.bilateralFilter(img_gray, 9, 9, 7)\n        # detect and enhance edges\n        img_edge = cv2.adaptiveThreshold(img_gray_blur, 255,\n                                         cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\n                                         cv2.THRESH_BINARY, 9, 5)\n        # convert back to color so that it can be bit-ANDed with color image\n        img_edge = cv2.cvtColor(img_edge, cv2.COLOR_GRAY2RGB)\n        #Ensure that img_color and img_edge are the same size, otherwise bitwise_and will not work\n        height = min(len(img_color), len(img_edge))\n        width = min(len(img_color[0]), len(img_edge[0]))\n        img_color = img_color[0:height, 0:width]\n        img_edge = img_edge[0:height, 0:width]\n        return cv2.bitwise_and(img_color, img_edge)\n</code></pre>\n\n<p>I have taken it from here, license preserved, and slightly modified it:\n<a href=\"http://www.askaswiss.com/2016/01/how-to-create-cartoon-effect-opencv-python.html\" rel=\"noreferrer\">http://www.askaswiss.com/2016/01/how-to-create-cartoon-effect-opencv-python.html</a></p>\n\n<p>What I have originally is this:\n<a href=\"https://i.stack.imgur.com/Zq1f4.jpg\" rel=\"noreferrer\"><img src=\"https://i.stack.imgur.com/Zq1f4.jpg\" alt=\"Original image\"></a></p>\n\n<p>Here is what my script outputs:\n<a href=\"https://i.stack.imgur.com/BWNv8.jpg\" rel=\"noreferrer\"><img src=\"https://i.stack.imgur.com/BWNv8.jpg\" alt=\"My script output\"></a></p>\n\n<p>And here is what I need:\n<a href=\"https://i.stack.imgur.com/BVTSM.jpg\" rel=\"noreferrer\"><img src=\"https://i.stack.imgur.com/BVTSM.jpg\" alt=\"The image I&#39;m trying to replicate\"></a></p>\n\n<p>What I've noticed so far is:</p>\n\n<ol>\n<li>My code for blurring the image has got too many colors, I need less smooth transition from light colors to dark ones.</li>\n<li>The target image has got smooth edges, which are lines, when my code creates a lot of noise (\"lonely\" black dots) and splits lines.\nI've tried changing some parameters, added a couple of random filters, but I really have no clue what to do next.</li>\n</ol>\n\n<p>Any help is greatly appreciated.</p>\n"
+    },
+    {
+      "tags": [
+        "python"
+      ],
+      "last_activity_date": 1541037771,
+      "creation_date": 1519643070,
+      "question_id": 48987006,
+      "title": "How to make a discord bot that gives roles in Python?",
+      "body": "<p>I want to create a discord bot that gives roles to members in Python.</p>\n\n<p>I tried this:</p>\n\n<pre><code>@async def on_message(message):\n     if message.content == \"give me admin\"\n           role = discord.utils.get(server.roles, name=\"Admin\")\n           await client.add_roles(message.author.id, role)\n</code></pre>\n"
+    },
+    {
+      "tags": [
+        "python"
+      ],
+      "last_activity_date": 1541058705,
+      "creation_date": 1519333556,
+      "question_id": 48937154,
+      "title": "Sqlalchemy Error: MySQL Connection not available",
+      "body": "<p>A Python 3.6 script access the MySQL database using SQLAlchemy when it first starts. The script then continue running for several hours without accessing the MySQL database. However when it finally decides to access MySQL, we get an error</p>\n\n<blockquote>\n  <p>sqlalchemy.exc.OperationalError: (mysql.connector.errors.OperationalError) MySQL Connection not available. [SQL: 'SELECT ........ ]</p>\n</blockquote>\n\n<p>The engine was created using</p>\n\n<pre><code>create_engine(\"mysql+mysqlconnector://..., pool_pre_ping=True, pool_recycle=290)\n</code></pre>\n\n<p>The <code>pool_recycle</code> value has already been reduced to 290 seconds, much shorter than the recommended 3600 in other SO posts.</p>\n\n<p>Enabling <code>pool_pre_ping</code> also did not help with reconnecting to MySQL to avoid the mentioned error.</p>\n\n<p><strong>MySQL Variables</strong></p>\n\n<p><code>SHOW VARIABLES LIKE 'wait_%';</code> gave <code>wait_timeout</code> with value <code>28800</code></p>\n\n<p><code>SHOW VARIABLES LIKE 'interactive_%';</code> gave <code>interactive_timeout</code> with value <code>28800</code></p>\n\n<p><strong>Software Versions</strong></p>\n\n<ul>\n<li>Python 3.5</li>\n<li>SQLAlchemy 1.2.2</li>\n<li>Ubuntu 16.04</li>\n</ul>\n\n<p>How should we troubleshoot this?</p>\n"
+    },
+    {
+      "tags": [
+        "java",
+        "for-loop"
+      ],
+      "question_id": 49025619,
+      "title": "Return loop value in java",
+      "body": "<p>How to display loop value in another class?</p>\n\n<p><strong>Class B</strong></p>\n\n<pre><code>public class Runner {\n\n    public static void main(String[] args) {\n        WelcomePage welcome = new WelcomePage();\n        String a = welcome.run();\n        System.out.println(\"The output \" + a);\n    }\n}\n</code></pre>\n\n<p><strong>Class WelcomePage</strong></p>\n\n<pre><code>public String run() {\n        for (int i = 0; i &lt; 100; i++) {\n           return \"Hello\";\n        }\n         return \"Hello\";\n    }\n</code></pre>\n\n<p>The program only display Hello. How can I display multiple Hello ?</p>\n"
+    },
+    {
+      "tags": [
+        "python",
+        "if-statement"
+      ],
+      "question_id": 51850919,
+      "link": "https://stackoverflow.com/questions/51850919/python3-6-check-if-string-is-true-or-false",
+      "title": "Python3.6 |- Check if string is True or False -|",
+      "body": "<h1>Hello!</h1>\n\n<p>I wanna check if user typed string is True or False, my program creates a new variable when the user type <code>data.create {name} {value}</code> and this variable is stored in a list called \"data\", with some script it gets the name and the value and can print using <code>type $data.{name}</code>.</p>\n\n<p>To not make any problems or make the program more hard, it formats the string, so think that I created a data: <code>data.create hllw Hello World</code> and then I typed it on the console: <code>type $data.hllw</code>, the first thing that is executed is the formater because if it detect an <code>$data</code> in the string, it separates by a dot and get the name and check if the variable exists on the list. So <code>type $data.hllw</code> turns into <code>type Hello World</code></p>\n\n<p>Now, I want to make an <code>if</code> command, that do this: <code>if $data.hllw == Hello World</code> (If hllw var is \"Hello World\" it return True, else return False), but I don't know do this, I thinked that eval() can help, but no: <code>if eval(args):</code> (args = the arguments of if).</p>\n\n<p>If I try:</p>\n\n<pre><code>if args:\n    print('True!')\nelse:\n    print('False!')\n</code></pre>\n\n<p>it returns always \"True!\" :(</p>\n\n<h3>Anyone that can help? I will be happy ;)</h3>\n"
+    },
+    {
+      "tags": [
+        "python",
+        "if-statement"
+      ],
+      "closed_date": 1535159788,
+      "question_id": 52013285,
+      "link": "https://stackoverflow.com/questions/52013285/using-or-operators-with-and-without-parentheses",
+      "closed_reason": "duplicate",
+      "title": "using or operators with and without parentheses",
+      "body": "<p>I'm fairly new to python/programming in general and I would like to know the affect (if any) that parentheses have when using the 'or' operator.</p>\n\n<p>For example what's the difference between this:</p>\n\n<pre><code>if (x or y or z) == 3:\n    return True\n</code></pre>\n\n<p>this:</p>\n\n<pre><code>if x or y or z == 3:\n    return True\n</code></pre>\n\n<p>and this:</p>\n\n<pre><code>if x == 3 or y == 3 or z == 3:\n    return True\n</code></pre>\n\n<p>I have tried using each line of code and have seen varied results making it difficult to identify what each line does. Any help would be greatly appreciated-thanks.</p>\n"
+    },
+    {
+      "tags": [
+        "for-loop",
+        "if-statement"
+      ],
+      "question_id": 52086911,
+      "link": "https://stackoverflow.com/questions/52086911/nested-for-and-if-else-statement-jinja2-template",
+      "title": "Nested &#39;for&#39; and &#39;if-else&#39; statement jinja2 template",
+      "body": "<p>I am trying to write a nested loop in jinja2, but the last line is not printing as I expect:</p>\n\n<pre><code>{% for n in range(5) %}\n {% if n &gt; 4 %}\n  switchport mode trunk\n {% else %}\n  interface GigabitEthernet0/{{ n+1 }}\n  description {{ interface.description }}\n  switchport access vlan {{ interface.vlan }}\n  switchport mode access  \n {% endif %}\n{% endfor %}\n</code></pre>\n\n<p>Thanks in advance</p>\n"
+    },
+    {
+      "tags": [
+        "python"
+      ],
+      "last_activity_date": 1540935833,
+      "creation_date": 1516658642,
+      "question_id": 48390977,
+      "title": "python asynchronous context manager",
+      "body": "<p>In Python Lan Ref. 3.4.4, it is said that <code>__aenter__()</code> and <code>__aexit__()</code> must return awaitables. However, in the example async context manager, these two methods return None:</p>\n\n<pre><code>class AsyncContextManager:\n    async def __aenter__(self):\n        await log('entering context')\n\n    async def __aexit__(self, exc_type, exc, tb):\n        await log('exiting context')\n</code></pre>\n\n<p>Is this code correct?</p>\n"
+    },
+    {
+      "tags": [
+        "java"
+      ],
+      "last_activity_date": 1541120156,
+      "creation_date": 1515375718,
+      "question_id": 48143268,
+      "title": "Java tagged union / sum types",
+      "body": "<p>Is there any way to define a sum type in Java? Java seems to naturally support product types directly, and I thought enums might allow it to support sum types, and inheritance looks like maybe it could do it, but there is at least one case I can't resolve.\nTo elaborate, a sum type is a type which can have exactly one of a set of different types, like a tagged union in C.\nIn my case, I'm trying to implement haskell's Either type in Java:</p>\n\n<pre><code>data Either a b = Left a | Right b\n</code></pre>\n\n<p>but at the base level I'm having to implement it as a product type, and just ignore one of its fields:</p>\n\n<pre><code>public class Either&lt;L,R&gt;\n{\n    private L left = null;\n    private R right = null;\n\n    public static &lt;L,R&gt; Either&lt;L,R&gt; right(R right)\n    {\n        return new Either&lt;&gt;(null, right);\n    }\n\n    public static &lt;L,R&gt; Either&lt;L,R&gt; left(L left)\n    {\n        return new Either&lt;&gt;(left, null);\n    }\n\n    private Either(L left, R right) throws IllegalArgumentException\n    {\n        this.left = left;\n        this.right = right;\n        if (left != null &amp;&amp; right != null)\n        {\n            throw new IllegalArgumentException(\"An Either cannot be created with two values\");\n        }\n        if (left == right)\n        {\n            throw new IllegalArgumentException(\"An Either cannot be created without a value\");\n        }\n    }\n\n    .\n    .\n    .\n}\n</code></pre>\n\n<p>I tried implementing this with inheritance, but I have to use a wildcard type parameter, or equivalent, which Java generics won't allow:</p>\n\n<pre><code>public class Left&lt;L&gt; extends Either&lt;L,?&gt;\n</code></pre>\n\n<p>I haven't used Java's Enums much, but while they seem the next best candidate, I'm not hopeful.<br>\nAt this point, I think this might only be possible by type-casting <code>Object</code> values, which I would hope to avoid entirely, unless there's a way to do it once, safely, and be able to use that for all sum types.</p>\n"
+    },
+    {
+      "tags": [
+        "java"
+      ],
+      "last_activity_date": 1541103777,
+      "creation_date": 1519850597,
+      "question_id": 49038204,
+      "title": "AWS Java - How do I load the ~/.aws/config file?",
+      "body": "<p>I've been reading through documentation for some time. I can see examples for the JavaScript and Go SDK that show how to load the config file by setting the <code>AWS_SDK_LOAD_CONFIG</code> environment variable to a truthy value. The documentation is <a href=\"https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md#2440\" rel=\"nofollow noreferrer\">here</a> and <a href=\"https://docs.aws.amazon.com/sdk-for-go/api/aws/session/\" rel=\"nofollow noreferrer\">here</a> respectively.</p>\n\n<p>However, for my requirements, I must use Java. I can't find an equivalent reference in the Java SDK. Which leads me to assume three things.</p>\n\n<ol>\n<li>Java's SDK doesn't use this variable\n\n<ul>\n<li><s>I'm pretty sure this might be the case, as just trying it didn't seem to get it to work.</s></li>\n<li>Update: checking out both the <a href=\"https://github.com/aws/aws-sdk-java\" rel=\"nofollow noreferrer\">Java SDK</a> and <a href=\"https://github.com/aws/aws-sdk-java-v2\" rel=\"nofollow noreferrer\">Java SDK V2</a> and searching with <code>ack -i \"AWS_SDK_LOAD_CONFIG\"</code> shows that neither project use this variable.</li>\n</ul></li>\n<li>Java's SDK uses a different variable\n\n<ul>\n<li>I think this is un-likely, as it would not be uniform with the other two SDKs.</li>\n</ul></li>\n<li>Java's SDK expects you to do this programmatically.\n\n<ul>\n<li>Seems the most likely, yet I can't find how to do this. I must be using the wrong key-words or be overlooking something to get this behavior.</li>\n</ul></li>\n</ol>\n\n<p>For clarity the profile I need to load is <code>sbx</code>, which lives in my config, but has no adjacent value in the credentials file. Here is my ~/.aws/config file:</p>\n\n<pre><code>[profile shared]\noutput = json\nregion = us-west-2\nadfs_config.ssl_verification = True\nadfs_config.role_arn = ....\nadfs_config.adfs_host = ....\nadfs_config.adfs_user = ....\n\n[profile sbx]\nrole_arn = ... (this is different from the adfs_config.role_arn above)\nsource_profile = shared\nregion = us-west-2\n</code></pre>\n\n<p>and ~/.aws/credentials file: (this file is automatically populated with the <code>aws-adfs</code> command.</p>\n\n<pre><code>[shared]\naws_access_key_id = ....\naws_secret_access_key = ....\naws_session_token = ....\naws_security_token = ....\n</code></pre>\n"
+    },
+    {
+      "tags": [
+        "java",
+        "if-statement"
+      ],
+      "question_id": 52086191,
+      "link": "https://stackoverflow.com/questions/52086191/if-else-structure-in-java-printing-out-strange-code",
+      "title": "if else structure in java printing out strange code",
+      "body": "<p>Hi there I have become stuck with an exercise on if-else statements in java the problem is when I run the code it prints;\nEnter a card: 9 S\nend\n9ofS</p>\n\n<p>please see below for my code example:</p>\n\n<pre><code> String suit;\n String rank;\n String userOne; \n Scanner sc = new Scanner( System.in );\n System.out.print(\"Enter a card: \");\n rank= sc.next(); \n suit= sc.next();\n userOne= sc.next();\n if (userOne.equals(\"9\")){\n   System.out.println(\"Nine\");\n } else if (userOne.equals(\"S\")){\n   System.out.println(\"Spades\");       \n }\n System.out.print(rank+ \"of\" +suit);\n</code></pre>\n\n<p>had to squeeze the code in at the bottom I know its not in the right format but for just getting an answer to this question I had to lay it out like that.</p>\n\n<p>Why is the code printing out-</p>\n\n<pre><code>Enter a card: 9 S\nend\n9ofS\n</code></pre>\n\n<p>instead of</p>\n\n<pre><code>Enter a card: 9 S\nNine of Spades ?\n</code></pre>\n\n<p>    </p>\n"
+    },
+    {
+      "tags": [
+        "for-loop",
+        "if-statement"
+      ],
+      "closed_date": 1535567185,
+      "question_id": 52083932,
+      "link": "https://stackoverflow.com/questions/52083932/checking-for-installing-and-loading-packages-in-for-loop-in-r",
+      "closed_reason": "duplicate",
+      "title": "Checking for, installing, and loading packages in for loop in R",
+      "body": "<p>this is my first post on SO, so forgive me if the formatting is wanting.<br>\nI'm trying to write a utility script that checks whether required packages are installed and installs the packages if not installed. I am trying to use a for loop to do this. For example, </p>\n\n<pre><code>requiredpackages &lt;- c(\"FinancialMath\", \"FinCal\", \"ggplot2\")\n\nfor (pkg in requiredpackages) {\n  if (pkg %in% rownames(installed.packages()) == FALSE)\n  {install.packages(pkg)}\n  if (pkg %in% rownames(.packages()) == FALSE)\n  {library(pkg)}\n}\n</code></pre>\n\n<p>When I run this script, however, I get the following error message:\n\"Error in library(pkg) : there is no package called ‘pkg’\"</p>\n\n<p>What am I doing wrong?</p>\n\n<p>Thank you for your time.</p>\n"
+    },
+    {
+      "tags": [
+        "python",
+        "for-loop"
+      ],
+      "question_id": 48262389,
+      "title": "2D and 1D numpy array in a for loop saving into files",
+      "body": "<h1>Explanation of the problem</h1>\n\n<p>Given two 2D numpy arrays and one 1D numpy array:</p>\n\n<pre><code>F =  np.array[[-3764.9303402755891, -3764.9303494098212, -3764.9304257856452, -3764.9306329129422], [-3764.9338022566421, -3764.9338129752682, -3764.9338970928361, -3764.9341184863633]]\n\nT =  np.array[[ 10.,   30.1,  50.2,  70.3],\n [ 10.,   30.1,  50.2,  70.3]]\n\nV =  np.array[ 226.331804,  228.817957]\n</code></pre>\n\n<p>I would like to generate 4 files:</p>\n\n<pre><code># F_10.0K.dat:\n226.331804   -3764.9303402755891\n228.817957   -3764.9338022566421\n\n# F_30.1K.dat:\n226.331804    -3764.9303494098212\n228.817957    -3764.9338129752682\n\n# F_50.2K.dat:\n226.331804    -3764.9304257856452\n228.817957    -3764.9338970928361\n\n# F_70.3K.dat:\n226.331804     -3764.9306329129422\n228.817957     -3764.9341184863633\n</code></pre>\n\n<h1>My attempts:</h1>\n\n<p>I noticed that these two slicing operations:</p>\n\n<pre><code>print ' F_all[:,0] = ', F_all[:, 0]\nprint ' F_all[:,1] = ', F_all[:, 1]\n</code></pre>\n\n<p>return:</p>\n\n<pre><code> F_all[:,0] =  [-3764.93034028 -3764.93380226]\n F_all[:,1] =  [-3764.93034941 -3764.93381298]\n</code></pre>\n\n<p>which is the 2nd column of the first two files: <code>F_10.0K.dat</code> and <code>F_30.1K.dat</code>.</p>\n\n<p>So, I can loop:</p>\n\n<pre><code>F_all_each_V_at_cte_T = []\nfor indx in range(0, cols):\n   aux = F_all[:,indx]\n   print ' F_all[:, indx] = ', F_all[:,indx]\n   F_all_each_V_at_cte_T.append(aux)\n\nprint 'F_all_each_V_at_cte_T = ', F_all_each_V_at_cte_T\n\noutput_array = np.vstack((VOLUME_EACH, F_all_each_V_at_cte_T)).T\nnp.savetxt('F_vs_V_10.0K.dat', output_array, header=\"Volume    F at 10.0K\", fmt=\"%0.13f\")\n</code></pre>\n\n<p>The result is:</p>\n\n<pre><code>F_all_each_V_at_cte_T =  [array([-3764.93034028, -3764.93380226]), array([-3764.93034941, -3764.93381298]), array([-3764.93042579, -3764.93389709]), array([-3764.93063291, -3764.93411849])]\n\n# Volume    F at 10.0K\n226.3318040000000 -3764.9303402755891 -3764.9303494098212 -3764.9304257856452 -3764.9306329129422\n228.8179570000000 -3764.9338022566421 -3764.9338129752682 -3764.9338970928361 -3764.9341184863633\n</code></pre>\n\n<p>This nearly achieves the solution, however, all the columns are printed. How can I generate the above files ?</p>\n"
+    },
+    {
+      "tags": [
+        "java",
+        "for-loop"
+      ],
+      "question_id": 48936696,
+      "title": "for each loop of objects of specific instances in Java",
+      "body": "<p>I'd like to have a for each loop to loop through an array of objects.. but only the objects that are an instance of a specific class. To be more clear of what I mean, I've included the example below...</p>\n\n<pre><code>//Declare a list of employee objects\nList&lt;Employee&gt; employees = new ArrayList&lt;Employees&gt;;\n\n//Create some employees...\nEmployee employee = new Employee();\n//The class EmployeeExtender extends and is a child of Employee \nEmployeeExtender employeeExtended = new EmployeeExtender(); \n\n//Now add all the employees, even the ones of different instances to the list\nemployees.add(employee);\nemployees.add(employeeExtended);\n</code></pre>\n\n<p>Now I would like to introduce a for each loop that loops through the <code>employees</code> list that only loops through employees that are an instance of <code>EmployeeExtender</code>. I could just loop through each one and use an if statement (as shown below) but I would like to know if there was a way without making a seperate list to do this.</p>\n\n<pre><code>//I would like to only loop through employees that are an instance of EmployeeExtender\nfor(Employee employee : employees){\n    //I would like to not have this if statement...\n    if(employee instanceof EmployeeExtender){\n        //do logic...\n    }\n}\n</code></pre>\n\n<p>Are my only options creating separate lists, or using the if statement? I'd like to know if there are more options. Thanks.</p>\n"
+    },
+    {
+      "tags": [
+        "java",
+        "if-statement"
+      ],
+      "question_id": 52081941,
+      "link": "https://stackoverflow.com/questions/52081941/program-control-not-coming-out-of-else-if-condition-in-java",
+      "title": "program control not coming out of else if condition in Java",
+      "body": "<pre><code>int pi_digits1=0;\nint pi_digits2=0;\n\nSystem.out.println(\"Would you like from starting to fixed no. or for a \nrange:\\n1.Fixed no\\n2.Range\");\nbyte choice = input.nextByte();\n\nif(choice ==1){\n    System.out.println(\"Enter the no. of digits after decimal within 1 million \n    of pi to see and play\");\n    pi_digits2=input.nextInt();\n}\nelse if(choice ==2){\n     System.out.println(\"Enter the smaller +ve no of range\");\n     pi_digits1=input.nextInt();\n     System.out.println(\"Enter the larger +ve no of range\");\n     pi_digits2=input.nextInt();\n     System.out.println(\"Check\");\n}\nelse{\n    System.out.println(\"Wrong choice.Program terminated\");\n}\n</code></pre>\n\n<p>When the choice is 1,loop works fine.\nBut for the choice 2,after taking inputs for pi_digits2 ,it is still asking\nfor inputs.</p>\n\n<p>Check is also being printed,but program is strucked in input loop and hence \nfurther code is not being executed.</p>\n\n<p><a href=\"https://i.stack.imgur.com/jwnyZ.png\" rel=\"nofollow noreferrer\">Program executed in Bluej environment</a> </p>\n"
+    },
+    {
+      "tags": [
+        "if-statement"
+      ],
+      "question_id": 52075460,
+      "link": "https://stackoverflow.com/questions/52075460/comparing-arrays-using-if-how-to-get-rid-of-empty-spaces-in-final-result",
+      "title": "Comparing arrays using IF - How to get rid of empty spaces in final result?",
+      "body": "<p>I have 2 columns in Sheet 1 (named Projects), \"Projects\" in column A and \"Status\" in column B. The number of rows is dynamic. </p>\n\n<p>In Sheet 2, I want to extract the projects that meet a certain string criteria and populate a table. For example, if the Status is \"Operating\", take the project name in column A for that row and put it in a table. </p>\n\n<p>I tried =IF(Projects!B1:B=\"Operating\",Projects!A1:A,\"\") but it returns the names of the projects in the same row position as in Sheet 1. So if there is a 2 row gap in Sheet 1 between two operating projects, it keeps the 2 row gap in Sheet 2. </p>\n\n<p>How do I get rid of the gaps?</p>\n"
+    },
+    {
+      "tags": [
+        "python",
+        "if-statement"
+      ],
+      "question_id": 52081602,
+      "link": "https://stackoverflow.com/questions/52081602/python-email-pdf-from-file-directory",
+      "title": "Python Email PDF from file Directory",
+      "body": "<p>I need to email a pdf and a generic cover letter from a file directory to a an email address that matches the 5 digit code. the code can be found in the first 5 of the pdf name and then the corresonding dataframe that contains the 5 digit code and email address. Is there an easy way to accomplish this? Thanks </p>\n\n<pre><code> # loop through the email list \nfor i in email_list.itertuples():\n    PDF_name = i.AGCODE + '_2017 Net_Initial.pdf'\n    cover_letter_name = 'CoverLetter.pdf' \n    print(PDF_name)\n #attach an excel file and PDF file: \nwith open(dir_path + PDF_name, 'rb') as f, open(dir_path + cover_letter_name, 'rb') as g:\n # Read the binary file contents\n     PDF_content = f.read()  \n     cl_content = g.read()\n     PDF_att = FileAttachment(name=PDF_name, content=PDF_content) \n     cl_att = FileAttachment(name=cover_letter_name, content=cl_content) \n\n # if you want a copy in the 'Sent' folder\nm = Message(\n      account=a \n     ,folder=a.sent\n     ,subject=('Award Letter for ' + i.FACILITY_NAME + ' -- Agency Code: ' + i.AGCODE)\n     ,body = body_of_email \n     ,to_recipients=[Mailbox(email_address=i.FAC_EMAIL_ADDR)])\n\n#attach files\nm.attach(cl_att)\nm.attach(PDF_att)\n# send email each time          \nm.send_and_save()\n#======================== \n</code></pre>\n"
+    },
+    {
+      "tags": [
+        "java",
+        "if-statement"
+      ],
+      "question_id": 52075836,
+      "link": "https://stackoverflow.com/questions/52075836/java-if-else-statement-on-string-value-with-scanner-input",
+      "title": "Java If else Statement on String value, with Scanner input",
+      "body": "<p>I’m writing a program in the Java language, and I’m using if else statement. In this program i need to input word(s), i.e., alphabet character that has been assigned to be the values of the String data type. So that the program will print the sequential if statement, but is seems that program is not recognizing the input, because it keep printing only else statement. I need to know how to assign String values in Java language, import <code>java.util.Scanner;</code> on an if else Statement algorithm.</p>\n\n<pre><code>import java.util.Scanner;\n\npublic class Compare\n{\n    public static void main (String []args)\n    {\n\n        Scanner input = new Scanner(System.in);\n        String name = “Henry”;\n        System.out.println(“Enter a NAME”);\n        name = input.nextLine();\n\n        If ( name = “Henry”)\n            System.out.println(“Welcome Henry”);\n        else \n            System.out.println(“Invalid Input”);\n    }\n}\n</code></pre>\n\n<p>When i run it in CMD:</p>\n\n<pre><code>C:\\CODE&gt;java Compare\nEnter a NAME:\nHenry\nInvalid Input\n</code></pre>\n\n<p>It doesn’t accept the String value “Henry” thats why the else statement keeps displaying “Invalid Input”.</p>\n"
+    },
+    {
+      "tags": [
+        "java",
+        "if-statement"
+      ],
+      "last_activity_date": 1538194847,
+      "creation_date": 1538185795,
+      "question_id": 52564375,
+      "title": "Is &#39;error: variable a might not have been initialized&#39; really necessary in this if construct?",
+      "body": "<p>How do I tell Java that I don't need to initialize <code>a</code> to have a working program and to not give me an error?</p>\n\n<pre><code>int a;\nboolean b = true;\nwhile (true) {\n   if (b == false) {\n       System.out.print(a);\n       break;\n   } else {\n       b = false;\n       a = 5;\n   }\n}\n</code></pre>\n\n<p>And if I can't, is there a reason why this is the way the compiler was designed? </p>\n\n<p>Was it easy to design such a compiler or is this a mechanism to ensure that I restructure my code?</p>\n\n<p>This is not the same question as <a href=\"https://stackoverflow.com/questions/46288916/variable-might-not-have-been-initialized\">this one</a></p>\n"
+    },
+    {
+      "tags": [
+        "python",
+        "google-colaboratory"
+      ],
+      "last_activity_date": 1541036104,
+      "creation_date": 1516606391,
+      "question_id": 48376580,
+      "title": "Google Colab: how to read data from my google drive?",
+      "body": "<p>The problem is simple: I have some data on gDrive, for example at \n<code>/projects/my_project/my_data*</code>.</p>\n\n<p>Also I have a simple notebook in gColab.</p>\n\n<p>So, I would like to do something like:</p>\n\n<pre><code>for file in glob.glob(\"/projects/my_project/my_data*\"):\n    do_something(file)\n</code></pre>\n\n<p>Unfortunately, all examples (like this - <a href=\"https://colab.research.google.com/notebook#fileId=/v2/external/notebooks/io.ipynb\" rel=\"noreferrer\">https://colab.research.google.com/notebook#fileId=/v2/external/notebooks/io.ipynb</a>, for example) suggests to only mainly load all necessary data to notebook.</p>\n\n<p>But, if I have a lot of pieces of data, it can be quite complicated. \nIs there any opportunities to solve this issue?</p>\n\n<p>Thanks for help!</p>\n"
+    }
+  ],
+  "has_more": true,
+  "quota_max": 10000,
+  "quota_remaining": 9956
+}

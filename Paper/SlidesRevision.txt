@@ -1,0 +1,14 @@
+Slides revision:
+
+>1. Yung name ni mam khan lagyan ng "Adviser" dun sa 1st slide
+>2. Yung significance of the study, palitan yung "lift" dagdagan ng to provide accurate tags
+>3. Objectives: 
+	aims to create an application that recommends tags...
+>4. Objective 1
+	How much training and testing data
+>5. Objective 3
+	ilang percent ba dapat yung tatanggapin
+>6. Objective 4 & 5 pagsamahin na lang
+>7. RRL - indicate na low-level accuracy yung naproduce.
+>8. Methodology (Data Preprocessing) - indicate what NLTK is and relevance sa comsci industry using statistics
+>9. Dagdagan RRL, prove your points. 

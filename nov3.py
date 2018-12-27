@@ -68,7 +68,8 @@ for i in range(len(data["items"])):
 			body_tag_dict[current_key_index] = 1
 		
 	training_data.append(body_tag_dict)
-
+print("training_data")
+print(training_data)
 df = pd.DataFrame(training_data)
 # print(df)
 train, test = train_test_split(df, random_state=42, test_size=0.20, shuffle=True)

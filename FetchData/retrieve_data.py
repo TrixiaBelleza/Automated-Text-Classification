@@ -1,19 +1,18 @@
 import pymysql
 import pandas as pd
+import numpy as np
+import pickle
+
 import nltk
+from nltk.corpus import stopwords 
+
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import LinearSVC
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import MultiLabelBinarizer
-from nltk.corpus import stopwords 
-from nltk.tokenize import word_tokenize 
-from nltk.stem import PorterStemmer
-from nltk.tokenize import sent_tokenize, word_tokenize
-import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
@@ -31,7 +30,7 @@ db_connection = pymysql.connect(host='localhost',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 categories = ['python', 'javascript', 'java', 'c', 'r', 'while_loop', 'for_loop']
-df = pd.read_sql('SELECT * FROM Train_data', con=db_connection)
+df = pd.read_sql('SELECT * FROM clean_train_data', con=db_connection)
 db_connection.close()
 
 train, test = train_test_split(df, random_state=42, test_size=0.20, shuffle=True)
@@ -53,6 +52,14 @@ y_test = test.drop(labels = ['question_body'], axis=1)
 SVC_pipeline = Pipeline([
                 ('clf', OneVsRestClassifier(LinearSVC(), n_jobs=1)),
             ])
+# Using pipeline for applying logistic regression and one vs rest classifier
+LogReg_pipeline = Pipeline([
+                ('clf', OneVsRestClassifier(LogisticRegression(solver='sag'), n_jobs=1)),
+            ])
+# Using pipeline for applying Gaussian Naive Bayes and one vs rest classifier
+NB_pipeline = Pipeline([
+                ('clf', OneVsRestClassifier(MultinomialNB(), n_jobs=1)),
+            ])
 
 predicted_list = []
 
@@ -61,21 +68,52 @@ for i in range(len(test)):
     predicted['question_body'] = test["question_body"].values[i]
     predicted_list.append(predicted)
 
+# Store models of each category
+# filename = <model name> + <category name> + '.sav'
 for category in categories:
     print('... Processing {}'.format(category))
-    
-    # train the model using X_dtm & y
+
+    # train the SVC model using X_dtm & y
     SVC_pipeline.fit(x_train, train[category])
-    
-    # compute the testing accuracy
-    prediction = SVC_pipeline.predict(x_test)
-    print("prediction:")
-    print(prediction)
-    print('Test accuracy is {}'.format(accuracy_score(test[category], prediction)))
 
-    for i in range(len(prediction)):
-        if prediction[i] == 1:
-            predicted_list[i]["predicted_tags"].append(category)
+    #Save model 
+    filename = 'svc-' + category + '.sav'
+    pickle.dump(SVC_pipeline, open(filename, 'wb'))
+    # print("Saved model to " + filename) 
+    # compute the testing accuracy of SVC
+    svc_prediction = SVC_pipeline.predict(x_test)
+    print("SVC Prediction:")
+    print(svc_prediction)
+    print('Test accuracy is {}'.format(f1_score(test[category], svc_prediction)))
+    print("\n")
 
-print("Predicted list [1]:")
-print(predicted_list[1])    
+    # Training logistic regression model on train data
+    LogReg_pipeline.fit(x_train, train[category])
+    # calculating test accuracy
+    logreg_prediction = LogReg_pipeline.predict(x_test)
+    print("LogReg Prediction:")
+    print(logreg_prediction)
+    print('Test accuracy is {}'.format(f1_score(test[category], logreg_prediction)))
+    print("\n")
+
+    # Training logistic regression model on train data
+    NB_pipeline.fit(x_train, train[category])
+    # calculating test accuracy
+    nb_prediction = NB_pipeline.predict(x_test)
+    print("NB Prediction:")
+    print(nb_prediction)
+    print('Test accuracy is {}'.format(f1_score(test[category], nb_prediction)))
+    print("\n")
+
+    #Since SVC always has the higher f1 score 
+
+    # for i in range(len(svc_prediction)):
+    #     if svc_prediction[i] == 1:
+    #         predicted_list[i]["predicted_tags"].append(category)
+
+# # save the model to disk
+# filename = 'svc_model.sav'
+# pickle.dump(SVC_pipeline, open(filename, 'wb'))
+
+# print("Predicted list [1]:")
+# print(predicted_list[1])    

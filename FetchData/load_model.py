@@ -11,8 +11,11 @@ from nltk.stem import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem.snowball import SnowballStemmer
 
+<<<<<<< HEAD
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+=======
+>>>>>>> origin/master
 
 stop_words =  nltk.corpus.stopwords.words('english')
 new_stop_words = ['(', ')', '[', ']', '{', '}', '"', "'", '``', '""',"''", ',', '.', '“', '”', '’', '`']
@@ -40,6 +43,7 @@ h.ignore_links = True
 
 categories = ['python', 'javascript', 'java', 'c', 'r', 'while_loop', 'for_loop']
 
+<<<<<<< HEAD
 #Get new text data
 text_list = []
 text = input("Enter text: ")
@@ -66,3 +70,6 @@ for category in categories:
     loaded_model = pickle.load(open(filename, 'rb'))
     result = loaded_model.predict(x_text)
     print(result)
+=======
+
+>>>>>>> origin/master

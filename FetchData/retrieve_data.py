@@ -40,7 +40,7 @@ test_text = test['question_body']
 
 vectorizer = TfidfVectorizer(strip_accents='unicode', stop_words=stop_words, analyzer='word', ngram_range=(1,3), norm='l2')
 vectorizer.fit(train_text)
-vectorizer.fit(test_text)
+pickle.dump(vectorizer, open('vectorizer.sav', 'wb'))
 
 x_train = vectorizer.transform(train_text)
 y_train = train.drop(labels = ['question_body'], axis=1)

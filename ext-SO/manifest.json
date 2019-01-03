@@ -14,12 +14,12 @@
 	},
 	"content_scripts" : [
 		{
-			"matches" : ["https://meta.stackoverflow.com/questions/ask"],
+			"matches" : ["https://stackoverflow.com/questions/ask?wizard=1"],
 			"js": ["jquery.js", "contentScript.js"],
 			"run_at": "document_end"
 		}
 	],
 	"permissions" : [
-		"https://meta.stackoverflow.com/", "tabs", "activeTab", "storage" 
+		"https://stackoverflow.com/", "tabs", "activeTab", "storage" 
 	]
 }

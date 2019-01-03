@@ -1,21 +1,16 @@
+
 import pickle
 import re
-
-from sklearn.feature_extraction.text import TfidfVectorizer
 import html2text
-# nltk.download('stopwords')
+
 import nltk
 from nltk.corpus import stopwords 
 from nltk.tokenize import word_tokenize 
+
 from nltk.stem import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
+
 from nltk.stem.snowball import SnowballStemmer
-
-<<<<<<< HEAD
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-=======
->>>>>>> origin/master
 
 stop_words =  nltk.corpus.stopwords.words('english')
 new_stop_words = ['(', ')', '[', ']', '{', '}', '"', "'", '``', '""',"''", ',', '.', '“', '”', '’', '`']
@@ -37,13 +32,14 @@ def stemming(sentence):
         stemSentence += " "
     stemSentence = stemSentence.strip()
     return stemSentence
+
+
 # print(questions["items"])
 h = html2text.HTML2Text()
 h.ignore_links = True
 
 categories = ['python', 'javascript', 'java', 'c', 'r', 'while_loop', 'for_loop']
 
-<<<<<<< HEAD
 #Get new text data
 text_list = []
 text = input("Enter text: ")
@@ -52,16 +48,11 @@ text = cleanPunc(text.lower())
 text = stemming(text)
 
 text_list.append(text)
-#predicted_list = []
-
-# for i in range(len(test)):
-#     predicted = {'question_body' : '', 'predicted_tags' : []}
-#     predicted['question_body'] = test["question_body"].values[i]
-#     predicted_list.append(predicted)
 
 vectorizer = pickle.load(open('vectorizer.sav', 'rb'))
 x_text = vectorizer.transform(text_list)
 
+predicted_tags = []
 for category in categories:
     print('... Processing {}'.format(category))
 
@@ -70,6 +61,7 @@ for category in categories:
     loaded_model = pickle.load(open(filename, 'rb'))
     result = loaded_model.predict(x_text)
     print(result)
-=======
 
->>>>>>> origin/master
+    if result[0] == 1:
+        predicted_tags.append(category)
+print(predicted_tags)

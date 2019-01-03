@@ -1,0 +1,25 @@
+{
+	"manifest_version": 2,
+	"name": "TagRecom",
+	"description": "Tag Recommendation System for Stack Overflow",
+	"version": "1.0",
+
+	"browser_action": {
+		"default_icon" : "icon.png",
+		"default_title": "Tag Recommendation System for Stack Overflow"
+	},
+	"background": {
+		"scripts" : ["background.js"],
+		"persistent" : false
+	},
+	"content_scripts" : [
+		{
+			"matches" : ["https://meta.stackoverflow.com/questions/ask"],
+			"js": ["jquery.js", "contentScript.js"],
+			"run_at": "document_end"
+		}
+	],
+	"permissions" : [
+		"https://meta.stackoverflow.com/", "tabs", "activeTab", "storage" 
+	]
+}

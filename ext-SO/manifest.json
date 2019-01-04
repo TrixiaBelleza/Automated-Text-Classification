@@ -14,7 +14,7 @@
 	},
 	"content_scripts" : [
 		{
-			"matches" : ["https://stackoverflow.com/questions/ask?wizard=1"],
+			"matches" : ["https://stackoverflow.com/questions/*"],
 			"js": ["jquery.js", "contentScript.js"],
 			"run_at": "document_end"
 		}

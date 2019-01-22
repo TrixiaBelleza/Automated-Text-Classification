@@ -15,11 +15,12 @@
 	"content_scripts" : [
 		{
 			"matches" : ["https://stackoverflow.com/questions/*"],
-			"js": ["jquery.js", "contentScript.js"],
+			"js": ["jquery.js", "require.js","contentScript.js"],
 			"run_at": "document_end"
 		}
 	],
 	"permissions" : [
 		"https://stackoverflow.com/", "tabs", "activeTab", "storage" 
 	]
+	
 }

@@ -35,15 +35,14 @@ function closeModal() {
 
 document.getElementById('tagrecom_btn').onclick = function(){
 	$('#wmd-input').each(function(){
-		// var t = $(this).val();
-		// console.log("T:" + t);
 		openModal();
+		chrome.runtime.sendMessage({message: "listeners"}, function(response) {
+		});
 	});
+	
 }
 
 document.getElementById('close_btn').onclick = function() {
 	closeModal();
 }
-// chrome.runtime.sendMessage({message: "listeners"}, function(response) {
-// });
 

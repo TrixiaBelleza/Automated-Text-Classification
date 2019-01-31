@@ -21,7 +21,7 @@ def _get_data():
 @app.route('/_fetch_input/', methods=['POST'])
 
 def _fetch_input():
-	print(request.get_data())
+	print(request.get_data().decode("utf-8"))
 	return json.dumps({'status':'OK'});
 
 

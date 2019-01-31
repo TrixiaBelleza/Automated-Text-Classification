@@ -1,4 +1,3 @@
-console.log(document.domain);
 var tagrecom_div = document.createElement('div');
 tagrecom_div.id = "tagrecom_div";
 document.getElementById("tag-editor").appendChild(tagrecom_div);
@@ -28,10 +27,33 @@ modal.style.display = 'none';
 
 function openModal() {
 	modal.style.display = 'block';
-	Url = 'https://3cf785c6.ngrok.io/_get_data/';
-	fetch(Url, {method: "POST"})
-	.then(data=>{return data.json()})
-	.then(res=>(console.log(res)))
+	$.ajax({
+			url: "https://3cf785c6.ngrok.io/_fetch_input/",
+			data: $('#wmd-input').val(),
+			type: 'POST',
+			success: function(response){
+				console.log(response);
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+	$.ajax({
+	    url: "https://3cf785c6.ngrok.io/_get_data/",
+	    type: "GET",
+	    contentType : "application/json",
+	    success: function(resp){
+	      console.log(resp);
+	      $('#modal_content').append(resp.data);
+	    },
+	    error: function(e, s, t) {
+	      console.log("ERROR OCCURRED");
+	      console.log(e);
+	      console.log(s);
+	      console.log(t);
+		}
+	});
+
 }
 
 function closeModal() {
@@ -41,24 +63,11 @@ $(document).ready(function() {
 	document.getElementById('tagrecom_btn').onclick = function(){
 		$('#wmd-input').each(function(){
 		
-
+			console.log($(this).val())
 			openModal();
 			// chrome.runtime.sendMessage({message: "listeners"}, function(response) {
 			// // });
-			// $.ajax({
-			//     url: "http://127.0.0.1:5000/_get_data/",
-			//     type: "POST",
-			//     contentType : "application/json",
-			//     success: function(resp){
-			//       console.log(resp);
-			//     },
-			//     error: function(e, s, t) {
-			//       console.log("ERROR OCCURRED");
-			//       console.log(e);
-			//       console.log(s);
-			//       console.log(t);
-			// 	}
-			// });
+
 
 
 		});

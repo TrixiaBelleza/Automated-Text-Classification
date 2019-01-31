@@ -1,3 +1,4 @@
+console.log(document.domain);
 var tagrecom_div = document.createElement('div');
 tagrecom_div.id = "tagrecom_div";
 document.getElementById("tag-editor").appendChild(tagrecom_div);
@@ -27,22 +28,44 @@ modal.style.display = 'none';
 
 function openModal() {
 	modal.style.display = 'block';
+	Url = 'https://3cf785c6.ngrok.io/_get_data/';
+	fetch(Url, {method: "POST"})
+	.then(data=>{return data.json()})
+	.then(res=>(console.log(res)))
 }
 
 function closeModal() {
 	modal.style.display = 'none';
 }
+$(document).ready(function() {
+	document.getElementById('tagrecom_btn').onclick = function(){
+		$('#wmd-input').each(function(){
+		
 
-document.getElementById('tagrecom_btn').onclick = function(){
-	$('#wmd-input').each(function(){
-		openModal();
-		chrome.runtime.sendMessage({message: "listeners"}, function(response) {
+			openModal();
+			// chrome.runtime.sendMessage({message: "listeners"}, function(response) {
+			// // });
+			// $.ajax({
+			//     url: "http://127.0.0.1:5000/_get_data/",
+			//     type: "POST",
+			//     contentType : "application/json",
+			//     success: function(resp){
+			//       console.log(resp);
+			//     },
+			//     error: function(e, s, t) {
+			//       console.log("ERROR OCCURRED");
+			//       console.log(e);
+			//       console.log(s);
+			//       console.log(t);
+			// 	}
+			// });
+
+
 		});
-	});
-	
-}
+		
+	}
 
-document.getElementById('close_btn').onclick = function() {
-	closeModal();
-}
-
+	document.getElementById('close_btn').onclick = function() {
+		closeModal();
+	}
+});

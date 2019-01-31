@@ -20,7 +20,7 @@
 		}
 	],
 	"permissions" : [
-		"https://stackoverflow.com/", "tabs", "activeTab", "storage" 
+		"https://stackoverflow.com/", "https://127.0.0.1:5000/_get_data/", "tabs", "activeTab", "storage" 
 	]
 	
 }

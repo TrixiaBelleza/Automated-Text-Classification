@@ -52,6 +52,7 @@ def get_text_input():
         predicted_tags = {'none'}
     print(predicted_tags)
 
+    # return jsonify({'data' : predicted_tags})
     return jsonify({'data': render_template('response.html', predicted_tags=predicted_tags)})
 
 if __name__ == "__main__":

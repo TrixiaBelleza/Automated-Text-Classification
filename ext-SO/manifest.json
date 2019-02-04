@@ -8,10 +8,6 @@
 		"default_icon" : "icon.png",
 		"default_title": "Tag Recommendation System for Stack Overflow"
 	},
-	"background": {
-		"scripts" : ["background.js"],
-		"persistent" : false
-	},
 	"content_scripts" : [
 		{
 			"matches" : ["https://stackoverflow.com/questions/*"],
@@ -20,7 +16,7 @@
 		}
 	],
 	"permissions" : [
-		"https://stackoverflow.com/", "https://127.0.0.1:5000/_get_data/", "tabs", "activeTab", "storage" 
+		"https://stackoverflow.com/", "tabs", "activeTab", "storage" 
 	]
 	
 }

@@ -9,72 +9,58 @@ document.getElementById('tagrecom_div').appendChild(tagrecom_btn)
 
 var modal_content = document.createElement('div');
 modal_content.id = "modal_content";
-
-document.getElementById('question-only-section').appendChild(modal_content);
-
-var modal_body = document.createElement('h1');
-modal_body.appendChild(document.createTextNode("Tag Suggestions"));
-document.getElementById('modal_content').appendChild(modal_body);
+document.getElementById('tagrecom_div').appendChild(modal_content);
 
 var close_btn = document.createElement('a');
 close_btn.id = "close_btn";
 close_btn.appendChild(document.createTextNode("CLOSE"));
-document.getElementById('modal_content').appendChild(close_btn);
-
+document.getElementById('tagrecom_div').appendChild(close_btn);
+close_btn.style.display = 'none';
 
 var modal = document.querySelector('#modal_content');
 modal.style.display = 'none';
 
+var count = 0;
 function openModal() {
+	count = count + 1;
 	modal.style.display = 'block';
-	$.ajax({
-			url: "https://3cf785c6.ngrok.io/_fetch_input/",
-			data: $('#wmd-input').val(),
-			type: 'POST',
-			success: function(response){
-				console.log(response);
-			},
-			error: function(error){
-				console.log(error);
+	close_btn.style.display = 'block';
+	if(count == 1){
+		$.ajax({
+		    url: "https://9f638471.ngrok.io/_get_text_input/",
+		    data: $('#wmd-input').val(),
+		    type: "POST",
+		    contentType : "application/json",
+		    success: function(resp){
+		      console.log(resp);
+		      $('#modal_content').append(resp.data);
+		    },
+		    error: function(e, s, t) {
+		      console.log("ERROR OCCURRED");
+		      console.log(e);
+		      console.log(s);
+		      console.log(t);
 			}
 		});
-	$.ajax({
-	    url: "https://3cf785c6.ngrok.io/_get_data/",
-	    type: "GET",
-	    contentType : "application/json",
-	    success: function(resp){
-	      console.log(resp);
-	      $('#modal_content').append(resp.data);
-	    },
-	    error: function(e, s, t) {
-	      console.log("ERROR OCCURRED");
-	      console.log(e);
-	      console.log(s);
-	      console.log(t);
-		}
-	});
+	}
 
 }
 
 function closeModal() {
 	modal.style.display = 'none';
+	close_btn.style.display = 'none';
 }
+
 $(document).ready(function() {
 	document.getElementById('tagrecom_btn').onclick = function(){
 		$('#wmd-input').each(function(){
-		
 			console.log($(this).val())
 			openModal();
-			// chrome.runtime.sendMessage({message: "listeners"}, function(response) {
-			// // });
-
-
-
-		});
-		
+		});	
 	}
 
 	document.getElementById('close_btn').onclick = function() {
 		closeModal();
 	}
+	
 });

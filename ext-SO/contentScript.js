@@ -39,11 +39,16 @@ function openModal() {
 	    type: "POST",
 	    contentType : "application/json",
 	    success: function(resp){
-    	  $('#modal_content').append(resp.data);
-    	  // var tags = "";
-    	  // for(i=0; i<resp.predicted_tags.length; i++){
-    	  // 	tags += resp.predicted_tags[i] + " ";
-    	  // }
+    	  var tagButton;
+  
+    	  for(i=0; i<resp.predicted_tags.length; i++){
+    	  	tagButton = document.createElement('a');
+    	  	tagButton.classList.add('s-tag', 'rendered-element');
+    	  	tagButton.appendChild(document.createTextNode(resp.predicted_tags[i]));
+    	  	document.getElementById('modal_content').appendChild(tagButton);
+    	  	document.getElementById('modal_content').appendChild(document.createElement('br'));
+    	  }
+
     	  var tagspan = document.createElement('span');
     	  tagspan.classList.add('s-tag', 'rendered-element');
     	  tagspan.appendChild(document.createTextNode("javascript"));

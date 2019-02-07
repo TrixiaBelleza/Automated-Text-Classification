@@ -28,17 +28,27 @@ close_btn.appendChild(document.createTextNode("CLOSE"));
 document.getElementById('tagrecom_div').appendChild(close_btn);
 close_btn.style.display = 'none';
 
+
 function openModal() {
 	modal.style.display = 'block';
 	close_btn.style.display = 'block';
 	loader.style.display = 'block';
 	$.ajax({
-	    url: "https://9f638471.ngrok.io/_get_text_input/",
+	    url: "https://e69d2257.ngrok.io/_get_text_input/",
 	    data: $('#wmd-input').val(),
 	    type: "POST",
 	    contentType : "application/json",
 	    success: function(resp){
     	  $('#modal_content').append(resp.data);
+    	  // var tags = "";
+    	  // for(i=0; i<resp.predicted_tags.length; i++){
+    	  // 	tags += resp.predicted_tags[i] + " ";
+    	  // }
+    	  var tagspan = document.createElement('span');
+    	  tagspan.classList.add('s-tag', 'rendered-element');
+    	  tagspan.appendChild(document.createTextNode("javascript"));
+    	  document.getElementsByClassName('tag-editor s-input')[0].firstChild.appendChild(tagspan);
+    	  // document.getElementById('tageditor-replacing-tagnames--input').value = "javascript";
 		  loader.style.display = 'none';
 	    },
 	    error: function(e, s, t) {
@@ -55,6 +65,7 @@ function closeModal() {
 }
 
 $(document).ready(function() {
+	
 	document.getElementById('tagrecom_btn').onclick = function(){
 
 		while (modal_content.firstChild) {

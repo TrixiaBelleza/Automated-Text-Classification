@@ -29,6 +29,10 @@ document.getElementById('tagrecom_div').appendChild(close_btn);
 close_btn.style.display = 'none';
 
 function clicked(e) {
+	// Once a suggested tag is clicked, it will disappear on the modal
+	clicked_suggested = document.querySelector('#' + e.target.id);
+	clicked_suggested.style.display = 'none';
+
 	var tagspan = document.createElement('span');
 	tagspan.classList.add('s-tag', 'rendered-element');
 	tagspan.appendChild(document.createTextNode(e.target.id));
@@ -58,7 +62,7 @@ function openModal() {
 	close_btn.style.display = 'block';
 	loader.style.display = 'block';
 	$.ajax({
-	    url: "https://3a3fb753.ngrok.io/_get_text_input/",
+	    url: "https://a90e9127.ngrok.io/_get_text_input/",
 	    data: $('#wmd-input').val(),
 	    type: "POST",
 	    contentType : "application/json",
@@ -72,7 +76,9 @@ function openModal() {
     	  	tagButton.appendChild(document.createTextNode(resp.predicted_tags[i]));
     	  	document.getElementById('modal_content').appendChild(tagButton);
     	  	document.getElementById('modal_content').appendChild(document.createElement('br'));
-    	  	tagButton.onclick = clicked;
+    	  	tagButton.onclick = function(e) {
+    	  		clicked(e);
+    	  	}
     	  }
 		  loader.style.display = 'none';
 	    },
@@ -90,9 +96,7 @@ function closeModal() {
 }
 
 $(document).ready(function() {
-	
 	document.getElementById('tagrecom_btn').onclick = function(){
-
 		while (modal_content.firstChild) {
     		modal_content.removeChild(modal_content.firstChild);
 		}
@@ -103,5 +107,4 @@ $(document).ready(function() {
 	document.getElementById('close_btn').onclick = function() {
 		closeModal();
 	}
-	
 });

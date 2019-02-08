@@ -28,13 +28,37 @@ close_btn.appendChild(document.createTextNode("CLOSE"));
 document.getElementById('tagrecom_div').appendChild(close_btn);
 close_btn.style.display = 'none';
 
+function clicked(e) {
+	var tagspan = document.createElement('span');
+	tagspan.classList.add('s-tag', 'rendered-element');
+	tagspan.appendChild(document.createTextNode(e.target.id));
+	tagspan.id = e.target.id + "_span";
+	document.getElementsByClassName('tag-editor s-input')[0].firstChild.appendChild(tagspan);
+
+	var removeTag = document.createElement('a');
+	removeTag.classList.add('js-delete-tag', 's-tag--dismiss');
+	removeTag.setAttribute("title", "Remove tag");
+	document.getElementById(e.target.id + "_span").appendChild(removeTag);
+
+	var removeTagSVG = document.createElement('svg');
+	removeTagSVG.style.pointerEvents = 'none';
+	removeTagSVG.classList.add('svg-icon', 'iconClearSm');
+	removeTagSVG.setAttribute("height", "12");
+	removeTagSVG.setAttribute("width", "12"); 
+	removeTagSVG.setAttribute("viewBox", "0 0 14 14");
+	removeTag.appendChild(removeTagSVG);
+
+	var pathSVG = document.createElement('path');
+	pathSVG.setAttribute("d", "M12 3.41L10.59 2 7 5.59 3.41 2 2 3.41 5.59 7 2 10.59 3.41 12 7 8.41 10.59 12 12 10.59 8.41 7z");
+	removeTagSVG.appendChild(pathSVG);
+}
 
 function openModal() {
 	modal.style.display = 'block';
 	close_btn.style.display = 'block';
 	loader.style.display = 'block';
 	$.ajax({
-	    url: "https://e69d2257.ngrok.io/_get_text_input/",
+	    url: "https://3a3fb753.ngrok.io/_get_text_input/",
 	    data: $('#wmd-input').val(),
 	    type: "POST",
 	    contentType : "application/json",
@@ -44,33 +68,12 @@ function openModal() {
     	  for(i=0; i<resp.predicted_tags.length; i++){
     	  	tagButton = document.createElement('a');
     	  	tagButton.classList.add('s-tag', 'rendered-element');
+    	  	tagButton.id = resp.predicted_tags[i];
     	  	tagButton.appendChild(document.createTextNode(resp.predicted_tags[i]));
     	  	document.getElementById('modal_content').appendChild(tagButton);
     	  	document.getElementById('modal_content').appendChild(document.createElement('br'));
+    	  	tagButton.onclick = clicked;
     	  }
-
-    	  var tagspan = document.createElement('span');
-    	  tagspan.classList.add('s-tag', 'rendered-element');
-    	  tagspan.appendChild(document.createTextNode("javascript"));
-    	  document.getElementsByClassName('tag-editor s-input')[0].firstChild.appendChild(tagspan);
-
-    	  var removeTag = document.createElement('a');
-    	  removeTag.classList.add('js-delete-tag', 's-tag--dismiss');
-    	  removeTag.setAttribute("title", "Remove tag");
-    	  document.getElementsByClassName('s-tag rendered-element')[0].appendChild(removeTag);
-
-    	  var removeTagSVG = document.createElement('svg');
-    	  removeTagSVG.style.pointerEvents = 'none';
-    	  removeTagSVG.classList.add('svg-icon', 'iconClearSm');
-    	  removeTagSVG.setAttribute("height", "12");
-    	  removeTagSVG.setAttribute("width", "12"); 
-    	  removeTagSVG.setAttribute("viewBox", "0 0 14 14");
-    	  removeTag.appendChild(removeTagSVG);
-
-    	  var pathSVG = document.createElement('path');
-    	  pathSVG.setAttribute("d", "M12 3.41L10.59 2 7 5.59 3.41 2 2 3.41 5.59 7 2 10.59 3.41 12 7 8.41 10.59 12 12 10.59 8.41 7z");
-    	  removeTagSVG.appendChild(pathSVG);
-
 		  loader.style.display = 'none';
 	    },
 	    error: function(e, s, t) {
@@ -97,7 +100,6 @@ $(document).ready(function() {
 			openModal();
 		});	
 	}
-
 	document.getElementById('close_btn').onclick = function() {
 		closeModal();
 	}

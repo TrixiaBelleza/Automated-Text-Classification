@@ -1,11 +1,11 @@
 import pymysql
+import matplotlib.pyplot as plt
 import pandas as pd
+from pandas.plotting import table
 import numpy as np
 import pickle
-
 import nltk
 from nltk.corpus import stopwords 
-
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -82,7 +82,6 @@ for category in categories:
     # #Save dataframe
     # df_filename = category + '-df.png'
 
-
     # compute the testing accuracy of SVC
     svc_prediction = SVC_pipeline.predict(x_test)
     print("SVC Prediction:")
@@ -129,6 +128,16 @@ for category in categories:
                 ['LogisticRegression',recall_score(test[category], logreg_prediction), precision_score(test[category], logreg_prediction), f1_score(test[category], logreg_prediction), accuracy_score(test[category], logreg_prediction)],
                 ['NaiveBayes',recall_score(test[category], nb_prediction), precision_score(test[category], nb_prediction), f1_score(test[category], nb_prediction), accuracy_score(test[category], nb_prediction)]])
 
-    print(pd.DataFrame(data=df_results[1:,1:],
+    df = pd.DataFrame(data=df_results[1:,1:],
                   index=df_results[1:,0],
-                  columns=df_results[0,1:]))
+                  columns=df_results[0,1:])
+    print(df)
+
+    # ax = plt.subplot(111, frame_on=False) # no visible frame
+    fig, ax = plt.subplots(figsize=(12, 2)) # set size frame
+    ax.xaxis.set_visible(False)  # hide the x axis
+    ax.yaxis.set_visible(False)  # hide the y axis
+    ax.axis('off')
+    table(ax, df, loc='center', colWidths=[0.17]*len(df.columns))  # where df is your data frame
+
+    plt.savefig('mytable' + category +'.png')

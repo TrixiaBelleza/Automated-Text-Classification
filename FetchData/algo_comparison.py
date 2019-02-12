@@ -73,6 +73,9 @@ for i in range(len(test)):
 
 # Store models of each category
 # filename = <model name> + <category name> + '.sav'
+svc_fscores = ()
+logreg_fscores = ()
+nb_fscores = ()
 for category in categories:
     print('... Processing {}'.format(category))
 
@@ -87,6 +90,7 @@ for category in categories:
     print("SVC Prediction:")
     print(svc_prediction)
     print('Test F-SCORE is {}'.format(f1_score(test[category], svc_prediction)))
+    svc_fscores += (f1_score(test[category], svc_prediction),)
     print("\n")
     print('Test ACCURACY is {}'.format(accuracy_score(test[category], svc_prediction)))
     print("\n")
@@ -102,6 +106,7 @@ for category in categories:
     print("LogReg Prediction:")
     print(logreg_prediction)
     print('Test F-SCORE is {}'.format(f1_score(test[category], logreg_prediction)))
+    logreg_fscores += (f1_score(test[category], logreg_prediction),)
     print("\n")
     print('Test ACCURACY is {}'.format(accuracy_score(test[category], logreg_prediction)))
     print("\n")
@@ -116,6 +121,7 @@ for category in categories:
     print("NB Prediction:")
     print(nb_prediction)
     print('Test F-SCORE is {}'.format(f1_score(test[category], nb_prediction)))
+    nb_fscores += (f1_score(test[category], nb_prediction),)
     print("\n")
     print('Test ACCURACY is {}'.format(accuracy_score(test[category], nb_prediction)))
     print("\n")
@@ -131,7 +137,7 @@ for category in categories:
     df = pd.DataFrame(data=df_results[1:,1:],
                   index=df_results[1:,0],
                   columns=df_results[0,1:])
-    print(df)
+    # print(df)
 
     # ax = plt.subplot(111, frame_on=False) # no visible frame
     fig, ax = plt.subplots(figsize=(12, 2)) # set size frame
@@ -141,3 +147,38 @@ for category in categories:
     table(ax, df, loc='center', colWidths=[0.17]*len(df.columns))  # where df is your data frame
 
     plt.savefig('mytable' + category +'.png')
+# print("nb_fscores: " + nb_fscores)
+
+#create plot
+n_groups = 7 
+fig, ax = plt.subplots()
+index = np.arange(n_groups)
+bar_width = 0.3
+opacity = 0.8
+
+ 
+rects1 = plt.bar(index, svc_fscores, bar_width,
+alpha=opacity,
+color='b',
+label='SVC')
+
+rects2 = plt.bar(index + bar_width, logreg_fscores, bar_width,
+alpha=opacity,
+color='g',
+label='LogReg')
+
+rects3 = plt.bar(index + bar_width + bar_width, nb_fscores, bar_width,
+alpha=opacity,
+color='y',
+label='NB')
+
+categories_tuple = ('python', 'javascript', 'java', 'c', 'r', 'while_loop', 'for_loop')
+plt.xlabel('Tags')
+plt.ylabel('F Scores')
+plt.title('F Scores by tags')
+plt.xticks(index + bar_width, categories_tuple)
+plt.legend()
+ 
+plt.tight_layout()
+plt.show()
+plt.savefig('fscores.png')

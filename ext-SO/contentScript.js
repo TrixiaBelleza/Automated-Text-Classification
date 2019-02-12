@@ -62,7 +62,7 @@ function openModal() {
 	close_btn.style.display = 'block';
 	loader.style.display = 'block';
 	$.ajax({
-	    url: "https://a90e9127.ngrok.io/_get_text_input/",
+	    url: "https://0f33dbd4.ngrok.io/_get_text_input/",
 	    data: $('#wmd-input').val(),
 	    type: "POST",
 	    contentType : "application/json",

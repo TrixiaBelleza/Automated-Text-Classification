@@ -1,4 +1,3 @@
-
 import pickle
 import re
 import html2text
@@ -33,7 +32,6 @@ def stemming(sentence):
     stemSentence = stemSentence.strip()
     return stemSentence
 
-
 # print(questions["items"])
 h = html2text.HTML2Text()
 h.ignore_links = True
@@ -65,3 +63,7 @@ for category in categories:
     if result[0] == 1:
         predicted_tags.append(category)
 print(predicted_tags)
+'''
+#Testcases:
+I'm using the python logging module, along with python-json-logger and I would like to add a few key {"app_name": "myapp", "env": "prod"} To all of my logs automatically without doing the following. logger.info("Something happened", extra={"app_name": "myapp", "env": "prod"}) But for it to work as if I had. :)
+'''

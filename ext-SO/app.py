@@ -1,32 +1,59 @@
+import pickle
+import re
+from nltk.stem.snowball import SnowballStemmer
 from flask import Flask, render_template, request, jsonify, json
 from flask_cors import CORS, cross_origin
-# from flask_wtf.csrf import CSRFProtect
-# from flask_sslify import SSLify
 
+stemmer = SnowballStemmer("english")
+text_list = []
+categories = ['python', 'javascript', 'java', 'c', 'r', 'while_loop', 'for_loop']
 
-# csrf = CSRFProtect()
+def cleanPunc(sentence): #function to clean the word of unnecessary punctuation or special characters using re library or regex
+    cleaned = re.sub(r'[?|!|,|~|^]',r'',sentence)
+    cleaned = cleaned.strip()
+    cleaned = cleaned.replace("\n"," ")
+    return cleaned
+
+def stemming(sentence):
+    stemSentence = ""
+    for word in sentence.split():
+        stem = stemmer.stem(word)
+        stemSentence += stem
+        stemSentence += " "
+    stemSentence = stemSentence.strip()
+    return stemSentence
+
 app = Flask(__name__)
-# sslify = SSLify(app)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-# @csrf.exempt
-@app.route('/_get_data/', methods=['GET'])
+@app.route('/_get_text_input/', methods=['POST'])
+def get_text_input():
+    #Get new text data
+    text_list = []
+    text = request.get_data().decode("utf-8")
+    text = cleanPunc(text.lower())
+    text = stemming(text)
+    text_list.append(text)
 
-def _get_data():
-	myList = ['Element1', 'Element2', 'Element3']
-	#return jsonify({'data' : myList})
-	return jsonify({'data': render_template('response.html', myList=myList)})
+    print(text_list)
+    vectorizer = pickle.load(open('vectorizer.sav', 'rb'))
+    vectorized_text = vectorizer.transform(text_list)
 
-@app.route('/_fetch_input/', methods=['POST'])
+    predicted_tags = []
+    for category in categories:
+       #load model
+        filename = 'svc-' + category + '.sav'
+        loaded_model = pickle.load(open(filename, 'rb'))
+        result = loaded_model.predict(vectorized_text)
+        if result[0] == 1:
+            predicted_tags.append(category)
+    if len(predicted_tags) == 0:
+        predicted_tags = {'none'}
+    print(predicted_tags)
 
-def _fetch_input():
-	print(request.get_data().decode("utf-8"))
-	return json.dumps({'status':'OK'});
-
+    # return jsonify({'data' : predicted_tags})
+    return jsonify({'data': render_template('response.html', predicted_tags=predicted_tags), 'predicted_tags' : predicted_tags})
 
 if __name__ == "__main__":
 	app.run(debug=True, threaded=True)
-
-#generate SSL Certificate
-#OpenSSL for Flask

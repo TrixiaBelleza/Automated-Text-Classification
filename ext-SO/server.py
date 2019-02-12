@@ -3,6 +3,8 @@ import re
 from nltk.stem.snowball import SnowballStemmer
 from flask import Flask, render_template, request, jsonify, json
 from flask_cors import CORS, cross_origin
+import time
+
 
 stemmer = SnowballStemmer("english")
 text_list = []
@@ -29,6 +31,8 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/_get_text_input/', methods=['POST'])
 def get_text_input():
+
+    start = time.time()
     #Get new text data
     text_list = []
     text = request.get_data().decode("utf-8")
@@ -49,11 +53,14 @@ def get_text_input():
         if result[0] == 1:
             predicted_tags.append(category)
     if len(predicted_tags) == 0:
-        predicted_tags = {'none'}
+        predicted_tags = {'others'}
     print(predicted_tags)
-
+    end = time.time()
+    print("Time:")
+    print(end - start)
     # return jsonify({'data' : predicted_tags})
     return jsonify({'data': render_template('response.html', predicted_tags=predicted_tags), 'predicted_tags' : predicted_tags})
 
 if __name__ == "__main__":
 	app.run(debug=True, threaded=True)
+    

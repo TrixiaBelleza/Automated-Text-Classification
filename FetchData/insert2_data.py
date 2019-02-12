@@ -20,7 +20,6 @@ def insert_into_train_db(id, question_body, python, javascript, java, c, r, whil
 SITE = StackAPI('stackoverflow', max_pages=30)
 questions = SITE.fetch('questions', page=20, tagged='while-loop', filter='!)re8*vhaqGn7n9_0lKeP')
 
-
 ############ DATA PREPROCESSING ################
 stemmer = SnowballStemmer("english")
 

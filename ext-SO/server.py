@@ -5,7 +5,6 @@ from flask import Flask, render_template, request, jsonify, json
 from flask_cors import CORS, cross_origin
 import time
 
-
 stemmer = SnowballStemmer("english")
 text_list = []
 categories = ['python', 'javascript', 'java', 'c', 'r', 'while_loop', 'for_loop']
@@ -41,14 +40,14 @@ def get_text_input():
     text_list.append(text)
 
     print(text_list)
-    vectorizer = pickle.load(open('vectorizer.sav', 'rb'))
+    vectorizer = pickle.load(open('./models/vectorizer.sav', 'rb'))
     vectorized_text = vectorizer.transform(text_list)
 
     predicted_tags = []
     for category in categories:
        #load model
         filename = 'svc-' + category + '.sav'
-        loaded_model = pickle.load(open(filename, 'rb'))
+        loaded_model = pickle.load(open('./models/' + filename, 'rb'))
         result = loaded_model.predict(vectorized_text)
         if result[0] == 1:
             predicted_tags.append(category)

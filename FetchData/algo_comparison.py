@@ -19,13 +19,12 @@ from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
-# nltk.download('stopwords')
-
+nltk.download('stopwords')
 stop_words =  nltk.corpus.stopwords.words('english')
 new_stop_words = ['(', ')', '[', ']', '{', '}', '"', "'", '``', '""',"''", ',', '.', '“', '”', '’', '`']
 stop_words.extend(new_stop_words)
 
-# # Connect to the database
+# Connect to the database
 db_connection = pymysql.connect(host='localhost',
                              user='root',
                              password='592008',
@@ -134,17 +133,14 @@ for category in categories:
                 ['LogisticRegression',recall_score(test[category], logreg_prediction), precision_score(test[category], logreg_prediction), f1_score(test[category], logreg_prediction), accuracy_score(test[category], logreg_prediction)],
                 ['NaiveBayes',recall_score(test[category], nb_prediction), precision_score(test[category], nb_prediction), f1_score(test[category], nb_prediction), accuracy_score(test[category], nb_prediction)]])
 
-    df = pd.DataFrame(data=df_results[1:,1:],
+    dataframe = pd.DataFrame(data=df_results[1:,1:],
                   index=df_results[1:,0],
                   columns=df_results[0,1:])
-    # print(df)
-
-    # ax = plt.subplot(111, frame_on=False) # no visible frame
     fig, ax = plt.subplots(figsize=(12, 2)) # set size frame
     ax.xaxis.set_visible(False)  # hide the x axis
     ax.yaxis.set_visible(False)  # hide the y axis
     ax.axis('off')
-    table(ax, df, loc='center', colWidths=[0.17]*len(df.columns))  # where df is your data frame
+    table(ax, dataframe, loc='center', colWidths=[0.17]*len(dataframe.columns))  # where df is your data frame
 
     plt.savefig('mytable' + category +'.png')
 # print("nb_fscores: " + nb_fscores)
@@ -180,5 +176,4 @@ plt.xticks(index + bar_width, categories_tuple)
 plt.legend()
  
 plt.tight_layout()
-plt.show()
 plt.savefig('fscores.png')

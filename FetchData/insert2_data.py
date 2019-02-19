@@ -9,16 +9,16 @@ from nltk.stem.snowball import SnowballStemmer
 def insert_into_train_db(id, question_body, python, javascript, java, c, r, while_loop, for_loop):
 	connection = pymysql.connect(host="localhost",user="root",passwd="592008",database="questions_db" )
 	cursor = connection.cursor()
-	sql_insert_query = """ INSERT IGNORE INTO `clean_train_data`
+	sql_insert_query = """ INSERT IGNORE INTO `train_data`
 					  (`id`, `question_body`, `python`, `javascript`, `java`, `c`, `r`, `while_loop`, `for_loop`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
 	insert_tuple = (id, question_body, python, javascript, java, c, r, while_loop, for_loop)
 	result  = cursor.execute(sql_insert_query, insert_tuple)
 	connection.commit()
-	print ("Record inserted successfully into create_train_data table")
+	print ("Record inserted successfully into train_data table")
 
 #Main
-SITE = StackAPI('stackoverflow', max_pages=30)
-questions = SITE.fetch('questions', page=20, tagged='while-loop', filter='!)re8*vhaqGn7n9_0lKeP')
+SITE = StackAPI('stackoverflow', max_pages=12)
+questions = SITE.fetch('questions', page=11, tagged='while-loop', filter='!)re8*vhaqGn7n9_0lKeP')
 
 ############ DATA PREPROCESSING ################
 stemmer = SnowballStemmer("english")

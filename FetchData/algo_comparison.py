@@ -81,9 +81,6 @@ for category in categories:
     # train the SVC model using X_dtm & y
     SVC_pipeline.fit(x_train, train[category])
 
-    # #Save dataframe
-    # df_filename = category + '-df.png'
-
     # compute the testing accuracy of SVC
     svc_prediction = SVC_pipeline.predict(x_test)
     print("SVC Prediction:")
@@ -96,7 +93,6 @@ for category in categories:
     print('Test RECALL is {}'.format(recall_score(test[category], svc_prediction)))
     print("\n")
     print('Test PRECISION is {}'.format(precision_score(test[category], svc_prediction)))
-
 
     # Training logistic regression model on train data
     LogReg_pipeline.fit(x_train, train[category])
@@ -143,9 +139,8 @@ for category in categories:
     table(ax, dataframe, loc='center', colWidths=[0.17]*len(dataframe.columns))  # where df is your data frame
 
     plt.savefig('mytable' + category +'.png')
-# print("nb_fscores: " + nb_fscores)
 
-#create plot
+#create plot for F-scores for each category.
 n_groups = 7 
 fig, ax = plt.subplots()
 index = np.arange(n_groups)

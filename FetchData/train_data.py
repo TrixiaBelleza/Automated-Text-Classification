@@ -33,7 +33,7 @@ db_connection = pymysql.connect(host='localhost',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 categories = ['python', 'javascript', 'java', 'c', 'r', 'while_loop', 'for_loop']
-df = pd.read_sql('SELECT * FROM clean_train_data', con=db_connection)
+df = pd.read_sql('SELECT * FROM train_data', con=db_connection)
 db_connection.close()
 
 train, test = train_test_split(df, random_state=42, test_size=0.20, shuffle=True)
@@ -41,7 +41,7 @@ train, test = train_test_split(df, random_state=42, test_size=0.20, shuffle=True
 train_text = train['question_body']
 test_text = test['question_body']
 
-vectorizer = TfidfVectorizer(strip_accents='unicode', stop_words=stop_words, analyzer='word', ngram_range=(1,3), norm='l2')
+vectorizer = TfidfVectorizer(strip_accents='unicode', stop_words=stop_words, analyzer='word', ngram_range=(1,3), norm='l2', min_df=10)
 vectorizer.fit(train_text)
 pickle.dump(vectorizer, open('../ext-SO/models/vectorizer.sav', 'wb'))
 
@@ -87,12 +87,7 @@ for category in categories:
     print(svc_prediction)
     print('Test F-SCORE is {}'.format(f1_score(test[category], svc_prediction)))
     print("\n")
-    print('Test ACCURACY is {}'.format(accuracy_score(test[category], svc_prediction)))
-    print("\n")
-    print('Test RECALL is {}'.format(recall_score(test[category], svc_prediction)))
-    print("\n")
-    print('Test PRECISION is {}'.format(precision_score(test[category], svc_prediction)))
-
+   
     # Training logistic regression model on train data
     LogReg_pipeline.fit(x_train, train[category])
     # calculating test accuracy
@@ -101,11 +96,6 @@ for category in categories:
     print(logreg_prediction)
     print('Test F-SCORE is {}'.format(f1_score(test[category], logreg_prediction)))
     print("\n")
-    print('Test ACCURACY is {}'.format(accuracy_score(test[category], logreg_prediction)))
-    print("\n")
-    print('Test RECALL is {}'.format(recall_score(test[category], logreg_prediction)))
-    print("\n")
-    print('Test PRECISION is {}'.format(precision_score(test[category], logreg_prediction)))
 
     # Training logistic regression model on train data
     NB_pipeline.fit(x_train, train[category])
@@ -115,9 +105,3 @@ for category in categories:
     print(nb_prediction)
     print('Test F-SCORE is {}'.format(f1_score(test[category], nb_prediction)))
     print("\n")
-    print('Test ACCURACY is {}'.format(accuracy_score(test[category], nb_prediction)))
-    print("\n")
-    print('Test RECALL is {}'.format(recall_score(test[category], nb_prediction)))
-    print("\n")
-    print('Test PRECISION is {}'.format(precision_score(test[category], nb_prediction)))
-

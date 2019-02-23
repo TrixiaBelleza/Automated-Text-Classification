@@ -50,28 +50,33 @@ function clicked(e) {
 	clicked_suggested = document.querySelector('#' + e.target.id);
 	clicked_suggested.style.display = 'none';
 
-	//Add tag to the Tags bar of Stack Overflow
-	var tagspan = document.createElement('span');
-	tagspan.classList.add('s-tag', 'rendered-element');
-	tagspan.appendChild(document.createTextNode(e.target.id));
-	tagspan.id = e.target.id + "_span";
-	document.getElementsByClassName('tag-editor s-input')[0].firstChild.appendChild(tagspan);
+	if(e.target.id != "others") {
+		//Add tag to the Tags bar of Stack Overflow
+		var tagspan = document.createElement('span');
+		tagspan.classList.add('s-tag', 'rendered-element');
+		tagspan.appendChild(document.createTextNode(e.target.id));
+		tagspan.id = e.target.id + "_span";
+		document.getElementsByClassName('tag-editor s-input')[0].firstChild.appendChild(tagspan);
 
-	// Create a small "X" button beside the tag name
-	var removeTag = document.createElement('a');
-	removeTag.classList.add('js-delete-tag', 's-tag--dismiss');
-	removeTag.setAttribute("title", "Remove tag");
-	document.getElementById(e.target.id + "_span").appendChild(removeTag);
-	var removeTagSVG = document.createElement('svg');
-	removeTagSVG.style.pointerEvents = 'none';
-	removeTagSVG.classList.add('svg-icon', 'iconClearSm');
-	removeTagSVG.setAttribute("height", "12");
-	removeTagSVG.setAttribute("width", "12"); 
-	removeTagSVG.setAttribute("viewBox", "0 0 14 14");
-	removeTag.appendChild(removeTagSVG);
-	var pathSVG = document.createElement('path');
-	pathSVG.setAttribute("d", "M12 3.41L10.59 2 7 5.59 3.41 2 2 3.41 5.59 7 2 10.59 3.41 12 7 8.41 10.59 12 12 10.59 8.41 7z");
-	removeTagSVG.appendChild(pathSVG);
+		// Create a small "X" button beside the tag name
+		var removeTag = document.createElement('a');
+		removeTag.classList.add('js-delete-tag', 's-tag--dismiss');
+		removeTag.setAttribute("title", "Remove tag");
+		document.getElementById(e.target.id + "_span").appendChild(removeTag);
+		var removeTagSVG = document.createElement('svg');
+		removeTagSVG.style.pointerEvents = 'none';
+		removeTagSVG.classList.add('svg-icon', 'iconClearSm');
+		removeTagSVG.setAttribute("height", "12");
+		removeTagSVG.setAttribute("width", "12"); 
+		removeTagSVG.setAttribute("viewBox", "0 0 14 14");
+		removeTag.appendChild(removeTagSVG);
+		var pathSVG = document.createElement('path');
+		pathSVG.setAttribute("d", "M12 3.41L10.59 2 7 5.59 3.41 2 2 3.41 5.59 7 2 10.59 3.41 12 7 8.41 10.59 12 12 10.59 8.41 7z");
+		removeTagSVG.appendChild(pathSVG);
+	}
+	else {
+		alert("'Others' represent other labels not included in the scope of the study.")
+	}
 }
 
 /****************************

@@ -43,7 +43,7 @@ test_text = test['question_body']
 
 vectorizer = TfidfVectorizer(strip_accents='unicode', stop_words=stop_words, analyzer='word', ngram_range=(1,3), norm='l2', min_df=10)
 vectorizer.fit(train_text)
-pickle.dump(vectorizer, open('../ext-SO/models/vectorizer.sav', 'wb'))
+pickle.dump(vectorizer, open('../extension-app/models/vectorizer.sav', 'wb'))
 
 x_train = vectorizer.transform(train_text)
 y_train = train.drop(labels = ['question_body'], axis=1)
@@ -80,7 +80,7 @@ for category in categories:
 
     #Save model 
     filename = 'svc-' + category + '.sav'
-    pickle.dump(SVC_pipeline, open('../ext-SO/models/' + filename, 'wb'))
+    pickle.dump(SVC_pipeline, open('../extension-app/models/' + filename, 'wb'))
     # compute the testing accuracy of SVC
     svc_prediction = SVC_pipeline.predict(x_test)
     print("SVC Prediction:")

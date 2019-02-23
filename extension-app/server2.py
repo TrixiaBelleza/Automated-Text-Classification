@@ -27,6 +27,7 @@ def stemming(sentence):
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+vectorizer = pickle.load(open('vectorizer.sav', 'rb'))
 
 @app.route('/')
 def index():
@@ -42,7 +43,6 @@ def get_text_input():
     text = stemming(text)
     text_list.append(text)
 
-    vectorizer = pickle.load(open('vectorizer.sav', 'rb'))
     vectorized_text = vectorizer.transform(text_list)
     
     predicted_tags = []

@@ -28,6 +28,7 @@ def stemming(sentence):
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+vectorizer = pickle.load(open('./models/vectorizer.sav', 'rb'))
 
 @app.route('/')
 def index():
@@ -44,7 +45,6 @@ def get_text_input():
     text_list.append(text)
 
     #Vectorizer is TF-IDF
-    vectorizer = pickle.load(open('./models/vectorizer.sav', 'rb'))
     vectorized_text = vectorizer.transform(text_list)
     
     predicted_tags = []
@@ -61,7 +61,8 @@ def get_text_input():
             else: 
                 predicted_tags.append(category)
     if len(predicted_tags) == 0:
-        predicted_tags = {'others'}
+
+        predicted_tags.append("others")
    
     return jsonify({'predicted_tags' : predicted_tags})
 

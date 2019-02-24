@@ -25,9 +25,9 @@ document.getElementById('tagrecom_div').appendChild(modal_content);
 var modal = document.querySelector('#modal_content');
 modal.style.display = 'none';
 
-/*
+/********************************************************************************************
 Create a loader inside the modal while waiting for the tag suggestions to be displayed.
-*/
+********************************************************************************************/
 var loader = document.createElement('img');
 loader.src = chrome.runtime.getURL("simple-loader.gif");
 loader.style.width = '30px';
@@ -49,6 +49,8 @@ function clicked(e) {
 	// Once a suggested tag is clicked, it will disappear on the modal
 	clicked_suggested = document.querySelector('#' + e.target.id);
 	clicked_suggested.style.display = 'none';
+
+	document.getElementById('tageditor-replacing-tagnames--input').placeholder = '';
 
 	if(e.target.id != "others") {
 		//Add tag to the Tags bar of Stack Overflow

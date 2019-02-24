@@ -2,10 +2,8 @@ import pymysql
 import pandas as pd
 import numpy as np
 import pickle
-
 import nltk
 from nltk.corpus import stopwords 
-
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -20,7 +18,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
 # nltk.download('stopwords')
-
 stop_words =  nltk.corpus.stopwords.words('english')
 new_stop_words = ['(', ')', '[', ']', '{', '}', '"', "'", '``', '""',"''", ',', '.', '“', '”', '’', '`']
 stop_words.extend(new_stop_words)
@@ -32,8 +29,8 @@ db_connection = pymysql.connect(host='localhost',
                              db='questions_db',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
-categories = ['python', 'javascript', 'java', 'c', 'r', 'while_loop', 'for_loop']
-df = pd.read_sql('SELECT * FROM train_data', con=db_connection)
+categories = ['python', 'javascript', 'java', 'c', 'r', 'mysql', 'html', 'if_statement', 'while_loop', 'for_loop']
+df = pd.read_sql('SELECT * FROM complete_train_data', con=db_connection)
 db_connection.close()
 
 train, test = train_test_split(df, random_state=42, test_size=0.20, shuffle=True)
@@ -41,7 +38,7 @@ train, test = train_test_split(df, random_state=42, test_size=0.20, shuffle=True
 train_text = train['question_body']
 test_text = test['question_body']
 
-vectorizer = TfidfVectorizer(strip_accents='unicode', stop_words=stop_words, analyzer='word', ngram_range=(1,3), norm='l2', min_df=10)
+vectorizer = TfidfVectorizer(strip_accents='unicode', stop_words=stop_words, analyzer='word', ngram_range=(1,3), norm='l2', min_df=15)
 vectorizer.fit(train_text)
 pickle.dump(vectorizer, open('../extension-app/models/vectorizer.sav', 'wb'))
 

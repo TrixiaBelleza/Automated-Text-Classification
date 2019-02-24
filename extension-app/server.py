@@ -7,7 +7,7 @@ import time
 
 stemmer = SnowballStemmer("english")
 text_list = []
-categories = ['python', 'javascript', 'java', 'c', 'r', 'while_loop', 'for_loop']
+categories = ['python', 'javascript', 'java', 'c', 'r', 'mysql', 'html', 'if_statement', 'while_loop', 'for_loop']
 
  #function to clean the word of unnecessary punctuation or special characters using re library or regex
 def cleanPunc(sentence):
@@ -58,6 +58,8 @@ def get_text_input():
                 predicted_tags.append('while-loop')
             elif category == "for_loop":
                 predicted_tags.append('for-loop')
+            elif category == "if_statement":
+                predicted_tags.append('if-statement')
             else: 
                 predicted_tags.append(category)
     if len(predicted_tags) == 0:

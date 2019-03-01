@@ -17,8 +17,8 @@ def insert_into_train_db(id, question_body, python, javascript, java, c, r, mysq
 	print ("Record inserted successfully into train_data table")
 
 #Main
-SITE = StackAPI('stackoverflow', max_pages=20)
-questions = SITE.fetch('questions', page=19, tagged='while-loop', filter='!)re8*vhaqGn7n9_0lKeP')
+SITE = StackAPI('stackoverflow', max_pages=16)
+questions = SITE.fetch('questions', page=15, tagged='if-statement', filter='!)re8*vhaqGn7n9_0lKeP')
 
 ############ DATA PREPROCESSING ################
 stemmer = SnowballStemmer("english")

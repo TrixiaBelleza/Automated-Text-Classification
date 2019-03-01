@@ -70,7 +70,7 @@ for train_index, test_index in kf.split(df):
                 ])
     # Using pipeline for applying Gaussian Naive Bayes and one vs rest classifier
     NB_pipeline = Pipeline([
-                    ('clf', OneVsRestClassifier(MultinomialNB(), n_jobs=1)),
+                    ('clf', OneVsRestClassifier(MultinomialNB(alpha=5), n_jobs=1)),
                 ])
 
     predicted_list = []
@@ -90,35 +90,35 @@ for train_index, test_index in kf.split(df):
         svc_prediction = SVC_pipeline.predict(x_test)
         print("SVC Prediction:")
         print(svc_prediction)
-        print('Test F-SCORE is {}'.format(f1_score(test[category], svc_prediction)))
+        print('Test F-SCORE is {}'.format(f1_score(test[category], svc_prediction, average='macro')))
         # svc_fscores += (f1_score(test[category], svc_prediction),)
         print("\n")
         print('Test ACCURACY is {}'.format(accuracy_score(test[category], svc_prediction)))
         print("\n")
-        print('Test RECALL is {}'.format(recall_score(test[category], svc_prediction)))
+        print('Test RECALL is {}'.format(recall_score(test[category], svc_prediction, average='macro')))
         print("\n")
-        print('Test PRECISION is {}'.format(precision_score(test[category], svc_prediction)))
+        print('Test PRECISION is {}'.format(precision_score(test[category], svc_prediction, average='macro')))
 
         # SVC F1 Score
         key_name = "svc_" + category
         if key_name in ave_f1scores:
-            ave_f1scores[key_name] += f1_score(test[category], svc_prediction)
+            ave_f1scores[key_name] += f1_score(test[category], svc_prediction, average='macro')
         else :
-            ave_f1scores[key_name] = f1_score(test[category], svc_prediction)
+            ave_f1scores[key_name] = f1_score(test[category], svc_prediction, average='macro')
 
         # SVC Recall 
         key_name = "svc_" + category
         if key_name in ave_recall:
-            ave_recall[key_name] += recall_score(test[category], svc_prediction)
+            ave_recall[key_name] += recall_score(test[category], svc_prediction, average='macro')
         else :
-            ave_recall[key_name] = recall_score(test[category], svc_prediction)
+            ave_recall[key_name] = recall_score(test[category], svc_prediction, average='macro')
 
         # SVC Precision
         key_name = "svc_" + category
         if key_name in ave_precision:
-            ave_precision[key_name] += precision_score(test[category], svc_prediction)
+            ave_precision[key_name] += precision_score(test[category], svc_prediction, average='macro')
         else :
-            ave_precision[key_name] = precision_score(test[category], svc_prediction)
+            ave_precision[key_name] = precision_score(test[category], svc_prediction, average='macro')
 
         # SVC Accuracy
         key_name = "svc_" + category
@@ -133,35 +133,35 @@ for train_index, test_index in kf.split(df):
         logreg_prediction = LogReg_pipeline.predict(x_test)
         print("LogReg Prediction:")
         print(logreg_prediction)
-        print('Test F-SCORE is {}'.format(f1_score(test[category], logreg_prediction)))
+        print('Test F-SCORE is {}'.format(f1_score(test[category], logreg_prediction, average='macro')))
         # logreg_fscores += (f1_score(test[category], logreg_prediction),)
         print("\n")
         print('Test ACCURACY is {}'.format(accuracy_score(test[category], logreg_prediction)))
         print("\n")
-        print('Test RECALL is {}'.format(recall_score(test[category], logreg_prediction)))
+        print('Test RECALL is {}'.format(recall_score(test[category], logreg_prediction, average='macro')))
         print("\n")
-        print('Test PRECISION is {}'.format(precision_score(test[category], logreg_prediction)))
+        print('Test PRECISION is {}'.format(precision_score(test[category], logreg_prediction, average='macro')))
 
         #Log Reg F1 Score
         key_name = "logreg_" + category
         if key_name in ave_f1scores:
-            ave_f1scores[key_name] += f1_score(test[category], logreg_prediction)
+            ave_f1scores[key_name] += f1_score(test[category], logreg_prediction, average='macro')
         else :
-            ave_f1scores[key_name] = f1_score(test[category], logreg_prediction)
+            ave_f1scores[key_name] = f1_score(test[category], logreg_prediction, average='macro')
 
         # LogReg Recall 
         key_name = "logreg_" + category
         if key_name in ave_recall:
-            ave_recall[key_name] += recall_score(test[category], logreg_prediction)
+            ave_recall[key_name] += recall_score(test[category], logreg_prediction, average='macro')
         else :
-            ave_recall[key_name] = recall_score(test[category], logreg_prediction)
+            ave_recall[key_name] = recall_score(test[category], logreg_prediction, average='macro')
 
         # logreg Precision
         key_name = "logreg_" + category
         if key_name in ave_precision:
-            ave_precision[key_name] += precision_score(test[category], logreg_prediction)
+            ave_precision[key_name] += precision_score(test[category], logreg_prediction, average='macro')
         else :
-            ave_precision[key_name] = precision_score(test[category], logreg_prediction)
+            ave_precision[key_name] = precision_score(test[category], logreg_prediction, average='macro')
 
         # logreg Accuracy
         key_name = "logreg_" + category
@@ -176,35 +176,35 @@ for train_index, test_index in kf.split(df):
         nb_prediction = NB_pipeline.predict(x_test)
         print("NB Prediction:")
         print(nb_prediction)
-        print('Test F-SCORE is {}'.format(f1_score(test[category], nb_prediction)))
+        print('Test F-SCORE is {}'.format(f1_score(test[category], nb_prediction, average='macro')))
         # nb_fscores += (f1_score(test[category], nb_prediction),)
         print("\n")
         print('Test ACCURACY is {}'.format(accuracy_score(test[category], nb_prediction)))
         print("\n")
-        print('Test RECALL is {}'.format(recall_score(test[category], nb_prediction)))
+        print('Test RECALL is {}'.format(recall_score(test[category], nb_prediction, average='macro')))
         print("\n")
-        print('Test PRECISION is {}'.format(precision_score(test[category], nb_prediction)))
+        print('Test PRECISION is {}'.format(precision_score(test[category], nb_prediction, average='macro')))
 
         #NB F1 Score
         key_name = "nb_" + category
         if key_name in ave_f1scores:
-            ave_f1scores[key_name] += f1_score(test[category], nb_prediction)
+            ave_f1scores[key_name] += f1_score(test[category], nb_prediction, average='macro')
         else :
-            ave_f1scores[key_name] = f1_score(test[category], nb_prediction)
+            ave_f1scores[key_name] = f1_score(test[category], nb_prediction, average='macro')
 
         # nb Recall 
         key_name = "nb_" + category
         if key_name in ave_recall:
-            ave_recall[key_name] += recall_score(test[category], nb_prediction)
+            ave_recall[key_name] += recall_score(test[category], nb_prediction, average='macro')
         else :
-            ave_recall[key_name] = recall_score(test[category], nb_prediction)
+            ave_recall[key_name] = recall_score(test[category], nb_prediction, average='macro')
 
         # nb Precision
         key_name = "nb_" + category
         if key_name in ave_precision:
-            ave_precision[key_name] += precision_score(test[category], nb_prediction)
+            ave_precision[key_name] += precision_score(test[category], nb_prediction, average='macro')
         else :
-            ave_precision[key_name] = precision_score(test[category], nb_prediction)
+            ave_precision[key_name] = precision_score(test[category], nb_prediction, average='macro')
 
         # nb Accuracy
         key_name = "nb_" + category

@@ -4,7 +4,7 @@ import pymysql
 connection = pymysql.connect(host="localhost",user="root",passwd="592008",database="questions_db" )
 cursor = connection.cursor()
 
-CleanTrainDataTbl = """CREATE TABLE complete_train_data(
+CleanTrainDataTbl = """CREATE TABLE complete_train_data2(
 id VARCHAR(500) PRIMARY KEY,
 question_body  TEXT(65000) NOT NULL,
 python INT(50),

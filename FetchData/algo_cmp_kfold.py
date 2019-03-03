@@ -32,8 +32,8 @@ db_connection = pymysql.connect(host='localhost',
                              db='questions_db',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
-categories = ['python', 'javascript', 'java', 'c', 'r', 'mysql', 'html', 'if_statement', 'while_loop', 'for_loop']
-df = pd.read_sql('SELECT * FROM complete_train_data', con=db_connection)
+categories = ['python', 'javascript', 'java', 'c', 'r', 'mysql', 'html', 'if_statement', 'while_loop', 'for_loop', 'css']
+df = pd.read_sql('SELECT * FROM complete_train_data2', con=db_connection)
 db_connection.close()
 
 kf = KFold(n_splits=10)
@@ -259,7 +259,7 @@ for category in categories:
     nb_fscores += (ave_f1scores.get('nb_'+category),)
 
 # create plot for F-scores for each category.
-n_groups = 10
+n_groups = 11
 fig, ax = plt.subplots()
 index = np.arange(n_groups)
 bar_width = 0.3
@@ -281,7 +281,7 @@ alpha=opacity,
 color='y',
 label='NB')
 
-categories_tuple = ('Python', 'JS', 'Java', 'C', 'R', 'MySQL', 'HTML', 'If', 'While', 'For')
+categories_tuple = ('Python', 'JS', 'Java', 'C', 'R', 'MySQL', 'HTML', 'If', 'While', 'For', 'CSS')
 plt.xlabel('Tags')
 plt.ylabel('F Scores')
 plt.title('F Scores by tags')

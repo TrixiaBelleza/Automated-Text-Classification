@@ -81,3 +81,4 @@ for i in range(len(questions["items"])):
 		if questions["items"][i]["tags"][j] == 'if-statement':
 			if_statement = 1			
 	insert_into_train_db(question_id, question_body, python, javascript, java, c, r, mysql, html, if_statement, while_loop, for_loop)
+

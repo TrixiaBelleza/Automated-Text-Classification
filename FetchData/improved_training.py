@@ -28,8 +28,8 @@ db_connection = pymysql.connect(host='localhost',
                              db='questions_db',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
-categories = ['python', 'javascript', 'java', 'c', 'r', 'mysql', 'html', 'if_statement', 'while_loop', 'for_loop']
-df = pd.read_sql('SELECT * FROM complete_train_data', con=db_connection)
+categories = ['python', 'javascript', 'java', 'c', 'r', 'mysql', 'html', 'if_statement', 'while_loop', 'for_loop', 'css']
+df = pd.read_sql('SELECT * FROM complete_train_data2', con=db_connection)
 # print(df)
 db_connection.close()
 

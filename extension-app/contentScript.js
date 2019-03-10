@@ -95,9 +95,10 @@ function openModal() {
 	Then, get response from server. The response will contain the predicted tags.
 	Append each predicted tags to Modal.
 	*/
+	const text = $('#title').val() + ' ' + $('#wmd-input').val()
 	$.ajax({
 	    url: "https://trixiabells.pythonanywhere.com/_get_text_input/",
-	    data: $('#wmd-input').val(),
+	    data: text,
 	    type: "POST",
 	    contentType : "application/json",
 	    success: function(resp){

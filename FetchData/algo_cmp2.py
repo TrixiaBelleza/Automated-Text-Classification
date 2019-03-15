@@ -20,6 +20,67 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import KFold
 
+def create_10fold_df(fold_svc_score_list, fold_logreg_score_list, fold_nb_score_list, score_type):
+    score_df_results = np.array([['FOLDS','SVM','LR', 'NB'],
+                ['Fold1', fold_svc_score_list[0]*100, fold_logreg_score_list[0]*100, fold_nb_score_list[0]*100],
+                ['Fold2', fold_svc_score_list[1]*100, fold_logreg_score_list[1]*100, fold_nb_score_list[1]*100],
+                ['Fold3', fold_svc_score_list[2]*100, fold_logreg_score_list[2]*100, fold_nb_score_list[2]*100],
+                ['Fold4', fold_svc_score_list[3]*100, fold_logreg_score_list[3]*100, fold_nb_score_list[3]*100],
+                ['Fold5', fold_svc_score_list[4]*100, fold_logreg_score_list[4]*100, fold_nb_score_list[4]*100],
+                ['Fold6', fold_svc_score_list[5]*100, fold_logreg_score_list[5]*100, fold_nb_score_list[5]*100],
+                ['Fold7', fold_svc_score_list[6]*100, fold_logreg_score_list[6]*100, fold_nb_score_list[6]*100],
+                ['Fold8', fold_svc_score_list[7]*100, fold_logreg_score_list[7]*100, fold_nb_score_list[7]*100],
+                ['Fold9', fold_svc_score_list[8]*100, fold_logreg_score_list[8]*100, fold_nb_score_list[8]*100],
+                ['Fold10', fold_svc_score_list[9]*100, fold_logreg_score_list[9]*100, fold_nb_score_list[9]*100],
+          	    ['Average', (sum(fold_svc_score_list)/10)*100, (sum(fold_logreg_score_list)/10)*100, (sum(fold_nb_score_list)/10)*100]
+                ])
+
+    score_df = pd.DataFrame(data=score_df_results[1:,1:],
+                      index=score_df_results[1:,0],
+                      columns=score_df_results[0,1:])
+    fig, ax = plt.subplots(figsize=(12, 2)) # set size frame
+    ax.xaxis.set_visible(False)  # hide the x axis
+    ax.yaxis.set_visible(False)  # hide the y axis
+    ax.axis('off')
+    table(ax, score_df, loc='center', colWidths=[0.17]*len(score_df.columns))  # where df is your data frame
+
+    plt.savefig('./scores/' + score_type + '_perfold.png')
+
+def ML_algorithms(x_train, x_test, train_category, test_category, algorithm_type):
+	if algorithm_type == 'SVC':
+		# Using pipeline for applying linearSVC and one vs rest classifier
+		pipeline = Pipeline([
+						('clf', OneVsRestClassifier(LinearSVC(), n_jobs=-1)),
+					])
+	if algorithm_type == 'LR':
+		# Using pipeline for applying logistic regression and one vs rest classifier
+		pipeline = Pipeline([
+						('clf', OneVsRestClassifier(LogisticRegression(solver='sag'), n_jobs=-1)),
+					])
+	if algorithm_type == 'NB':
+		# Using pipeline for applying Gaussian Naive Bayes and one vs rest classifier
+		pipeline = Pipeline([
+						('clf', OneVsRestClassifier(MultinomialNB(alpha=5), n_jobs=-1)),
+					])
+	pipeline.fit(x_train, train_category)
+	
+	# compute the testing accuracy 
+	prediction = pipeline.predict(x_test)
+	print(algorithm_type + " Prediction:")
+	print(prediction)
+	print('Test F-SCORE is {}'.format(f1_score(test_category, prediction, average='macro')))
+	f1score = f1_score(test_category, prediction, average='macro')
+	print("\n")
+	print('Test ACCURACY is {}'.format(accuracy_score(test_category, prediction)))
+	accuracy = accuracy_score(test_category, prediction)
+	print("\n")
+	print('Test RECALL is {}'.format(recall_score(test_category, prediction, average='macro')))
+	recall = recall_score(test_category, prediction, average='macro')
+	print("\n")
+	print('Test PRECISION is {}'.format(precision_score(test_category, prediction, average='macro')))
+	precision = precision_score(test_category, prediction, average='macro')
+		
+	return f1score, accuracy, recall, precision
 
 stop_words =  nltk.corpus.stopwords.words('english')
 new_stop_words = ['(', ')', '[', ']', '{', '}', '"', "'", '``', '""',"''", ',', '.', '“', '”', '’', '`']
@@ -37,13 +98,37 @@ df = pd.read_sql('SELECT * FROM complete_train_data2', con=db_connection)
 
 db_connection.close()
 
-kf = KFold(n_splits=2)
+kf = KFold(n_splits=10)
 fold_svcf1scores_list = []
+fold_svcaccuracy_list = []
+fold_svcrecall_list = []
+fold_svcprecision_list = []
 
+fold_logregf1scores_list = []
+fold_logregaccuracy_list = []
+fold_logregrecall_list = []
+fold_logregprecision_list = []
+
+fold_nbf1scores_list = []
+fold_nbaccuracy_list = []
+fold_nbrecall_list = []
+fold_nbprecision_list = []
 for train_index, test_index in kf.split(df):
 
-
+	fold_svcaccuracy = 0
 	fold_svcf1scores = 0
+	fold_svcrecall = 0
+	fold_svcprecision = 0
+
+	fold_logregaccuracy = 0
+	fold_logregf1scores = 0
+	fold_logregrecall = 0
+	fold_logregprecision = 0
+
+	fold_nbaccuracy = 0
+	fold_nbf1scores = 0
+	fold_nbrecall = 0
+	fold_nbprecision = 0
 	print("TRAIN:", train_index, "TEST:", test_index)
 
 	train = df.iloc[train_index]
@@ -60,31 +145,44 @@ for train_index, test_index in kf.split(df):
 	x_test = vectorizer.transform(test_text)
 	y_test = test.drop(labels = ['question_body'], axis=1)
 
-	# Using pipeline for applying linearSVC and one vs rest classifier
-	SVC_pipeline = Pipeline([
-					('clf', OneVsRestClassifier(LinearSVC(), n_jobs=-1)),
-				])
-	# Using pipeline for applying logistic regression and one vs rest classifier
-	LogReg_pipeline = Pipeline([
-					('clf', OneVsRestClassifier(LogisticRegression(solver='sag'), n_jobs=-1)),
-				])
-	# Using pipeline for applying Gaussian Naive Bayes and one vs rest classifier
-	NB_pipeline = Pipeline([
-					('clf', OneVsRestClassifier(MultinomialNB(alpha=5), n_jobs=-1)),
-				])
-
 	for category in categories:
 		print('... Processing {}'.format(category))
-		 # train the SVC model using X_dtm & y
-		SVC_pipeline.fit(x_train, train[category])
+		# train the SVC model using X_dtm & y
+		f1score, accuracy, recall, precision = ML_algorithms(x_train, x_test, train[category], test[category], 'SVC')
+		fold_svcf1scores += f1score
+		fold_svcaccuracy += accuracy
+		fold_svcrecall += recall
+		fold_svcprecision += precision
 
-		# compute the testing accuracy of SVC
-		svc_prediction = SVC_pipeline.predict(x_test)
-		print("SVC Prediction:")
-		print(svc_prediction)
-		print('Test F-SCORE is {}'.format(f1_score(test[category], svc_prediction, average='macro')))
-		fold_svcf1scores += f1_score(test[category], svc_prediction, average='macro')
-		print("\n")
+		# train the LogReg model using X_dtm & y
+		f1score, accuracy, recall, precision = ML_algorithms(x_train, x_test, train[category], test[category], 'LR')
+		fold_logregf1scores += f1score
+		fold_logregaccuracy += accuracy
+		fold_logregrecall += recall
+		fold_logregprecision += precision
 
-	print("Total fold_svcf1scores: ")
-	print(fold_svcf1scores/len(categories))
+		# train the SVC model using X_dtm & y
+		f1score, accuracy, recall, precision = ML_algorithms(x_train, x_test, train[category], test[category], 'NB')
+		fold_nbf1scores += f1score
+		fold_nbaccuracy += accuracy
+		fold_nbrecall += recall
+		fold_nbprecision += precision
+	fold_svcf1scores_list.append(round(fold_svcf1scores/len(categories),5))
+	fold_svcaccuracy_list.append(round(fold_svcaccuracy/len(categories),5))
+	fold_svcrecall_list.append(round(fold_svcrecall/len(categories),5))
+	fold_svcprecision_list.append(round(fold_svcprecision/len(categories),5))
+
+	fold_logregf1scores_list.append(round(fold_logregf1scores/len(categories),5))
+	fold_logregaccuracy_list.append(round(fold_logregaccuracy/len(categories),5))
+	fold_logregrecall_list.append(round(fold_logregrecall/len(categories),5))
+	fold_logregprecision_list.append(round(fold_logregprecision/len(categories),5))
+
+	fold_nbf1scores_list.append(round(fold_nbf1scores/len(categories),5))
+	fold_nbaccuracy_list.append(round(fold_nbaccuracy/len(categories),5))
+	fold_nbrecall_list.append(round(fold_nbrecall/len(categories),5))
+	fold_nbprecision_list.append(round(fold_nbprecision/len(categories),5))
+
+create_10fold_df(fold_svcf1scores_list, fold_logregf1scores_list, fold_nbf1scores_list, 'fscore')
+create_10fold_df(fold_svcaccuracy_list, fold_logregaccuracy_list, fold_nbaccuracy_list, 'acc')
+create_10fold_df(fold_svcrecall_list, fold_logregrecall_list, fold_nbrecall_list, 'recall')
+create_10fold_df(fold_svcprecision_list, fold_logregprecision_list, fold_nbprecision_list, 'precision')

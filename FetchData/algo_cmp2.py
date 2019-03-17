@@ -22,17 +22,17 @@ from sklearn.model_selection import KFold
 
 def create_10fold_df(fold_svc_score_list, fold_logreg_score_list, fold_nb_score_list, score_type):
     score_df_results = np.array([['FOLDS','SVM','LR', 'NB'],
-                ['Fold1', fold_svc_score_list[0]*100, fold_logreg_score_list[0]*100, fold_nb_score_list[0]*100],
-                ['Fold2', fold_svc_score_list[1]*100, fold_logreg_score_list[1]*100, fold_nb_score_list[1]*100],
-                ['Fold3', fold_svc_score_list[2]*100, fold_logreg_score_list[2]*100, fold_nb_score_list[2]*100],
-                ['Fold4', fold_svc_score_list[3]*100, fold_logreg_score_list[3]*100, fold_nb_score_list[3]*100],
-                ['Fold5', fold_svc_score_list[4]*100, fold_logreg_score_list[4]*100, fold_nb_score_list[4]*100],
-                ['Fold6', fold_svc_score_list[5]*100, fold_logreg_score_list[5]*100, fold_nb_score_list[5]*100],
-                ['Fold7', fold_svc_score_list[6]*100, fold_logreg_score_list[6]*100, fold_nb_score_list[6]*100],
-                ['Fold8', fold_svc_score_list[7]*100, fold_logreg_score_list[7]*100, fold_nb_score_list[7]*100],
-                ['Fold9', fold_svc_score_list[8]*100, fold_logreg_score_list[8]*100, fold_nb_score_list[8]*100],
-                ['Fold10', fold_svc_score_list[9]*100, fold_logreg_score_list[9]*100, fold_nb_score_list[9]*100],
-          	    ['Average', (sum(fold_svc_score_list)/10)*100, (sum(fold_logreg_score_list)/10)*100, (sum(fold_nb_score_list)/10)*100]
+                ['Fold1', fold_svc_score_list[0], fold_logreg_score_list[0], fold_nb_score_list[0]],
+                ['Fold2', fold_svc_score_list[1], fold_logreg_score_list[1], fold_nb_score_list[1]],
+                ['Fold3', fold_svc_score_list[2], fold_logreg_score_list[2], fold_nb_score_list[2]],
+                ['Fold4', fold_svc_score_list[3], fold_logreg_score_list[3], fold_nb_score_list[3]],
+                ['Fold5', fold_svc_score_list[4], fold_logreg_score_list[4], fold_nb_score_list[4]],
+                ['Fold6', fold_svc_score_list[5], fold_logreg_score_list[5], fold_nb_score_list[5]],
+                ['Fold7', fold_svc_score_list[6], fold_logreg_score_list[6], fold_nb_score_list[6]],
+                ['Fold8', fold_svc_score_list[7], fold_logreg_score_list[7], fold_nb_score_list[7]],
+                ['Fold9', fold_svc_score_list[8], fold_logreg_score_list[8], fold_nb_score_list[8]],
+                ['Fold10', fold_svc_score_list[9], fold_logreg_score_list[9], fold_nb_score_list[9]],
+          	    ['Average', round(sum(fold_svc_score_list)/10, 5), round(sum(fold_logreg_score_list)/10, 5), round(sum(fold_nb_score_list)/10, 5)]
                 ])
 
     score_df = pd.DataFrame(data=score_df_results[1:,1:],
@@ -167,20 +167,22 @@ for train_index, test_index in kf.split(df):
 		fold_nbaccuracy += accuracy
 		fold_nbrecall += recall
 		fold_nbprecision += precision
-	fold_svcf1scores_list.append(round(fold_svcf1scores/len(categories),5))
-	fold_svcaccuracy_list.append(round(fold_svcaccuracy/len(categories),5))
-	fold_svcrecall_list.append(round(fold_svcrecall/len(categories),5))
-	fold_svcprecision_list.append(round(fold_svcprecision/len(categories),5))
+		
+		
+	fold_svcf1scores_list.append(round((fold_svcf1scores/len(categories))*100, 5))
+	fold_svcaccuracy_list.append(round((fold_svcaccuracy/len(categories))*100, 5))
+	fold_svcrecall_list.append(round((fold_svcrecall/len(categories))*100, 5))
+	fold_svcprecision_list.append(round((fold_svcprecision/len(categories))*100, 5))
 
-	fold_logregf1scores_list.append(round(fold_logregf1scores/len(categories),5))
-	fold_logregaccuracy_list.append(round(fold_logregaccuracy/len(categories),5))
-	fold_logregrecall_list.append(round(fold_logregrecall/len(categories),5))
-	fold_logregprecision_list.append(round(fold_logregprecision/len(categories),5))
+	fold_logregf1scores_list.append(round((fold_logregf1scores/len(categories))*100, 5))
+	fold_logregaccuracy_list.append(round((fold_logregaccuracy/len(categories))*100, 5))
+	fold_logregrecall_list.append(round((fold_logregrecall/len(categories))*100, 5))
+	fold_logregprecision_list.append(round((fold_logregprecision/len(categories))*100, 5))
 
-	fold_nbf1scores_list.append(round(fold_nbf1scores/len(categories),5))
-	fold_nbaccuracy_list.append(round(fold_nbaccuracy/len(categories),5))
-	fold_nbrecall_list.append(round(fold_nbrecall/len(categories),5))
-	fold_nbprecision_list.append(round(fold_nbprecision/len(categories),5))
+	fold_nbf1scores_list.append(round((fold_nbf1scores/len(categories))*100, 5))
+	fold_nbaccuracy_list.append(round((fold_nbaccuracy/len(categories))*100, 5))
+	fold_nbrecall_list.append(round((fold_nbrecall/len(categories))*100, 5))
+	fold_nbprecision_list.append(round((fold_nbprecision/len(categories))*100, 5))
 
 create_10fold_df(fold_svcf1scores_list, fold_logregf1scores_list, fold_nbf1scores_list, 'fscore')
 create_10fold_df(fold_svcaccuracy_list, fold_logregaccuracy_list, fold_nbaccuracy_list, 'acc')

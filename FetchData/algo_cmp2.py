@@ -44,7 +44,7 @@ def create_10fold_df(fold_svc_score_list, fold_logreg_score_list, fold_nb_score_
     ax.axis('off')
     table(ax, score_df, loc='center', colWidths=[0.17]*len(score_df.columns))  # where df is your data frame
 
-    plt.savefig('./scores/' + score_type + '_perfold.png')
+    plt.savefig('./scores-Gaussian/' + score_type + '_perfold.png')
 
 def ML_algorithms(x_train, x_test, train_category, test_category, algorithm_type):
 	if algorithm_type == 'SVC':
@@ -60,7 +60,7 @@ def ML_algorithms(x_train, x_test, train_category, test_category, algorithm_type
 	if algorithm_type == 'NB':
 		# Using pipeline for applying Gaussian Naive Bayes and one vs rest classifier
 		pipeline = Pipeline([
-						('clf', OneVsRestClassifier(MultinomialNB(alpha=5), n_jobs=-1)),
+						('clf', OneVsRestClassifier(MultinomialNB(alpha=1.0, fit_prior=True), n_jobs=-1)),
 					])
 	pipeline.fit(x_train, train_category)
 	
@@ -82,10 +82,6 @@ def ML_algorithms(x_train, x_test, train_category, test_category, algorithm_type
 		
 	return f1score, accuracy, recall, precision
 
-stop_words =  nltk.corpus.stopwords.words('english')
-new_stop_words = ['(', ')', '[', ']', '{', '}', '"', "'", '``', '""',"''", ',', '.', '“', '”', '’', '`']
-stop_words.extend(new_stop_words)
-
 # Connect to the database
 db_connection = pymysql.connect(host='localhost',
 							 user='root',
@@ -98,7 +94,14 @@ df = pd.read_sql('SELECT * FROM complete_train_data2', con=db_connection)
 
 db_connection.close()
 
+vectorizer = pickle.load(open('../extension-app/models/vectorizer.sav', 'rb'))
+
 kf = KFold(n_splits=10)
+ave_f1scores = {}
+ave_recall = {}
+ave_precision = {}
+ave_accuracy = {}
+
 fold_svcf1scores_list = []
 fold_svcaccuracy_list = []
 fold_svcrecall_list = []
@@ -136,7 +139,6 @@ for train_index, test_index in kf.split(df):
 	train_text = train['question_body']
 	test_text = test['question_body']
 	
-	vectorizer = TfidfVectorizer(strip_accents='unicode', stop_words=stop_words, analyzer='word', ngram_range=(1,3), norm='l2')
 	vectorizer.fit(train_text)
 
 	x_train = vectorizer.transform(train_text)

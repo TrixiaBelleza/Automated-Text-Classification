@@ -6,19 +6,19 @@ import pickle
 from nltk.stem.snowball import SnowballStemmer
 
 #database connection
-def insert_into_train_db(id, question_body, python, javascript, java, c, r, mysql, html, if_statement, while_loop, for_loop):
+def insert_into_train_db(id, question_body, python, javascript, java, c, r, mysql, html, if_statement, while_loop, for_loop, css):
 	connection = pymysql.connect(host="localhost",user="root",passwd="592008",database="questions_db" )
 	cursor = connection.cursor()
-	sql_insert_query = """ INSERT IGNORE INTO `complete_train_data`
-					  (`id`, `question_body`, `python`, `javascript`, `java`, `c`, `r`, `mysql`, `html`, `if_statement`, `while_loop`, `for_loop`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-	insert_tuple = (id, question_body, python, javascript, java, c, r, mysql, html, if_statement, while_loop, for_loop)
+	sql_insert_query = """ INSERT IGNORE INTO `test_data`
+					  (`id`, `question_body`, `python`, `javascript`, `java`, `c`, `r`, `mysql`, `html`, `if_statement`, `while_loop`, `for_loop`, `css`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+	insert_tuple = (id, question_body, python, javascript, java, c, r, mysql, html, if_statement, while_loop, for_loop, css)
 	result  = cursor.execute(sql_insert_query, insert_tuple)
 	connection.commit()
-	print ("Record inserted successfully into train_data table")
+	print ("Record inserted successfully into test_data table")
 
 #Main
-SITE = StackAPI('stackoverflow', max_pages=16)
-questions = SITE.fetch('questions', page=15, tagged='if-statement', filter='!)re8*vhaqGn7n9_0lKeP')
+SITE = StackAPI('stackoverflow', max_pages=20)
+questions = SITE.fetch('questions', page=16, tagged='css', filter='!)re8*vhaqGn7n9_0lKeP')
 
 ############ DATA PREPROCESSING ################
 stemmer = SnowballStemmer("english")
@@ -41,7 +41,7 @@ def stemming(sentence):
 h = html2text.HTML2Text()
 h.ignore_links = True
 
-categories = ['python', 'javascript', 'java', 'c', 'r', 'mysql', 'html', 'if_statement', 'while_loop', 'for_loop']
+categories = ['python', 'javascript', 'java', 'c', 'r', 'mysql', 'html', 'if_statement', 'while_loop', 'for_loop', 'css']
 for i in range(len(questions["items"])):
 	html_to_text = h.handle(questions["items"][i]["body"])
 	question_body = cleanPunc(html_to_text.lower())		#Remove punctuation marks
@@ -57,6 +57,7 @@ for i in range(len(questions["items"])):
 	for_loop = 0
 	mysql = 0
 	html = 0
+	css = 0
 	if_statement = 0
 
 	for j in range(len(questions["items"][i]["tags"])):
@@ -79,6 +80,8 @@ for i in range(len(questions["items"])):
 		if questions["items"][i]["tags"][j] == 'html':
 			html = 1
 		if questions["items"][i]["tags"][j] == 'if-statement':
-			if_statement = 1			
-	insert_into_train_db(question_id, question_body, python, javascript, java, c, r, mysql, html, if_statement, while_loop, for_loop)
+			if_statement = 1	
+		if questions["items"][i]["tags"][j] == 'css':
+			css = 1			
+	insert_into_train_db(question_id, question_body, python, javascript, java, c, r, mysql, html, if_statement, while_loop, for_loop, css)
 

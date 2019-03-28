@@ -20,7 +20,33 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import KFold
 
-nltk.download('stopwords')
+def create_10fold_df(fold_svc_score_tuple, fold_logreg_score_tuple, fold_nb_score_tuple, score_type):
+    score_df_results = np.array([['','SVM','LR', 'NB'],
+                ['Fold1', fold_svc_score_tuple[0], fold_logreg_score_tuple[0], fold_nb_score_tuple[0]],
+                ['Fold2', fold_svc_score_tuple[1], fold_logreg_score_tuple[1], fold_nb_score_tuple[1]]
+                # ['Fold3', fold_svc_score_tuple[2], fold_logreg_score_tuple[2], fold_nb_score_tuple[2]],
+                # ['Fold4', fold_svc_score_tuple[3], fold_logreg_score_tuple[3], fold_nb_score_tuple[3]],
+                # ['Fold5', fold_svc_score_tuple[4], fold_logreg_score_tuple[4], fold_nb_score_tuple[4]],
+                # ['Fold6', fold_svc_score_tuple[5], fold_logreg_score_tuple[5], fold_nb_score_tuple[5]],
+                # ['Fold7', fold_svc_score_tuple[6], fold_logreg_score_tuple[6], fold_nb_score_tuple[6]],
+                # ['Fold8', fold_svc_score_tuple[7], fold_logreg_score_tuple[7], fold_nb_score_tuple[7]],
+                # ['Fold9', fold_svc_score_tuple[8], fold_logreg_score_tuple[8], fold_nb_score_tuple[8]],
+                # ['Fold10', fold_svc_score_tuple[9], fold_logreg_score_tuple[9], fold_nb_score_tuple[9]]
+                ])
+
+    score_df = pd.DataFrame(data=score_df_results[1:,1:],
+                      index=score_df_results[1:,0],
+                      columns=score_df_results[0,1:])
+    fig, ax = plt.subplots(figsize=(12, 2)) # set size frame
+    ax.xaxis.set_visible(False)  # hide the x axis
+    ax.yaxis.set_visible(False)  # hide the y axis
+    ax.axis('off')
+    table(ax, score_df, loc='center', colWidths=[0.17]*len(score_df.columns))  # where df is your data frame
+
+    plt.savefig('./scores/' + score_type + '_perfold.png')
+
+
+# nltk.download('stopwords')
 stop_words =  nltk.corpus.stopwords.words('english')
 new_stop_words = ['(', ')', '[', ']', '{', '}', '"', "'", '``', '""',"''", ',', '.', '“', '”', '’', '`']
 stop_words.extend(new_stop_words)
@@ -36,17 +62,46 @@ categories = ['python', 'javascript', 'java', 'c', 'r', 'mysql', 'html', 'if_sta
 df = pd.read_sql('SELECT * FROM complete_train_data2', con=db_connection)
 db_connection.close()
 
-kf = KFold(n_splits=10)
+kf = KFold(n_splits=2)
 
 ave_f1scores = {}
 ave_recall = {}
 ave_precision = {}
 ave_accuracy = {}
+fold_svcf1scores_list = []
+fold_svcrecall_list = []
+fold_svcprecision_list = []
+fold_svcaccuracy_list = []
+
+fold_logregf1scores_list = []
+fold_logregrecall_list = []
+fold_logregprecision_list = []
+fold_logregaccuracy_list = []
+
+fold_nbf1scores_list = []
+fold_nbrecall_list = []
+fold_nbprecision_list = []
+fold_nbaccuracy_list = []
 
 for train_index, test_index in kf.split(df):
+    fold_svcf1scores = 0
+    fold_svcrecall = 0
+    fold_svcprecision = 0
+    fold_svcaccuracy = 0
+
+    fold_logregf1scores = 0
+    fold_logregrecall = 0
+    fold_logregprecision = 0
+    fold_logregaccuracy = 0
+
+    fold_nbf1scores = 0
+    fold_nbrecall = 0
+    fold_nbprecision = 0
+    fold_nbaccuracy = 0
+
     print("TRAIN:", train_index, "TEST:", test_index)
 
-    train, test = train_test_split(df, random_state=42, test_size=0.20, shuffle=True)
+    train, test = train_test_split(df, random_state=42, train_size=0.67, test_size=0.33, shuffle=True)
 
     train_text = train['question_body']
     test_text = test['question_body']
@@ -62,15 +117,15 @@ for train_index, test_index in kf.split(df):
 
     # Using pipeline for applying linearSVC and one vs rest classifier
     SVC_pipeline = Pipeline([
-                    ('clf', OneVsRestClassifier(LinearSVC(), n_jobs=1)),
+                    ('clf', OneVsRestClassifier(LinearSVC(), n_jobs=-1)),
                 ])
     # Using pipeline for applying logistic regression and one vs rest classifier
     LogReg_pipeline = Pipeline([
-                    ('clf', OneVsRestClassifier(LogisticRegression(solver='sag'), n_jobs=1)),
+                    ('clf', OneVsRestClassifier(LogisticRegression(solver='sag'), n_jobs=-1)),
                 ])
     # Using pipeline for applying Gaussian Naive Bayes and one vs rest classifier
     NB_pipeline = Pipeline([
-                    ('clf', OneVsRestClassifier(MultinomialNB(alpha=5), n_jobs=1)),
+                    ('clf', OneVsRestClassifier(MultinomialNB(alpha=5), n_jobs=-1)),
                 ])
 
     predicted_list = []
@@ -79,7 +134,9 @@ for train_index, test_index in kf.split(df):
         predicted['question_body'] = test["question_body"].values[i]
         predicted_list.append(predicted)
 
-
+    svc_fscores = ()
+    logreg_fscores = ()
+    nb_fscores = ()
     for category in categories:
         print('... Processing {}'.format(category))
 
@@ -91,42 +148,17 @@ for train_index, test_index in kf.split(df):
         print("SVC Prediction:")
         print(svc_prediction)
         print('Test F-SCORE is {}'.format(f1_score(test[category], svc_prediction, average='macro')))
-        # svc_fscores += (f1_score(test[category], svc_prediction),)
+        fold_svcf1scores += f1_score(test[category], svc_prediction, average='macro')
         print("\n")
         print('Test ACCURACY is {}'.format(accuracy_score(test[category], svc_prediction)))
+        fold_svcaccuracy += accuracy_score(test[category], svc_prediction)
         print("\n")
         print('Test RECALL is {}'.format(recall_score(test[category], svc_prediction, average='macro')))
+        fold_svcrecall += recall_score(test[category], svc_prediction, average='macro')
         print("\n")
         print('Test PRECISION is {}'.format(precision_score(test[category], svc_prediction, average='macro')))
-
-        # SVC F1 Score
-        key_name = "svc_" + category
-        if key_name in ave_f1scores:
-            ave_f1scores[key_name] += f1_score(test[category], svc_prediction, average='macro')
-        else :
-            ave_f1scores[key_name] = f1_score(test[category], svc_prediction, average='macro')
-
-        # SVC Recall 
-        key_name = "svc_" + category
-        if key_name in ave_recall:
-            ave_recall[key_name] += recall_score(test[category], svc_prediction, average='macro')
-        else :
-            ave_recall[key_name] = recall_score(test[category], svc_prediction, average='macro')
-
-        # SVC Precision
-        key_name = "svc_" + category
-        if key_name in ave_precision:
-            ave_precision[key_name] += precision_score(test[category], svc_prediction, average='macro')
-        else :
-            ave_precision[key_name] = precision_score(test[category], svc_prediction, average='macro')
-
-        # SVC Accuracy
-        key_name = "svc_" + category
-        if key_name in ave_accuracy:
-            ave_accuracy[key_name] += accuracy_score(test[category], svc_prediction)
-        else :
-            ave_accuracy[key_name] = accuracy_score(test[category], svc_prediction)
-
+        fold_svcprecision += precision_score(test[category], svc_prediction, average='macro')
+        
         # Training logistic regression model on train data
         LogReg_pipeline.fit(x_train, train[category])
         # calculating test accuracy
@@ -134,41 +166,16 @@ for train_index, test_index in kf.split(df):
         print("LogReg Prediction:")
         print(logreg_prediction)
         print('Test F-SCORE is {}'.format(f1_score(test[category], logreg_prediction, average='macro')))
-        # logreg_fscores += (f1_score(test[category], logreg_prediction),)
+        fold_logregf1scores += f1_score(test[category], logreg_prediction, average='macro')
         print("\n")
         print('Test ACCURACY is {}'.format(accuracy_score(test[category], logreg_prediction)))
+        fold_logregaccuracy += accuracy_score(test[category], logreg_prediction)
         print("\n")
         print('Test RECALL is {}'.format(recall_score(test[category], logreg_prediction, average='macro')))
+        fold_logregrecall += recall_score(test[category], logreg_prediction, average='macro')
         print("\n")
         print('Test PRECISION is {}'.format(precision_score(test[category], logreg_prediction, average='macro')))
-
-        #Log Reg F1 Score
-        key_name = "logreg_" + category
-        if key_name in ave_f1scores:
-            ave_f1scores[key_name] += f1_score(test[category], logreg_prediction, average='macro')
-        else :
-            ave_f1scores[key_name] = f1_score(test[category], logreg_prediction, average='macro')
-
-        # LogReg Recall 
-        key_name = "logreg_" + category
-        if key_name in ave_recall:
-            ave_recall[key_name] += recall_score(test[category], logreg_prediction, average='macro')
-        else :
-            ave_recall[key_name] = recall_score(test[category], logreg_prediction, average='macro')
-
-        # logreg Precision
-        key_name = "logreg_" + category
-        if key_name in ave_precision:
-            ave_precision[key_name] += precision_score(test[category], logreg_prediction, average='macro')
-        else :
-            ave_precision[key_name] = precision_score(test[category], logreg_prediction, average='macro')
-
-        # logreg Accuracy
-        key_name = "logreg_" + category
-        if key_name in ave_accuracy:
-            ave_accuracy[key_name] += accuracy_score(test[category], logreg_prediction)
-        else :
-            ave_accuracy[key_name] = accuracy_score(test[category], logreg_prediction)
+        fold_logregprecision += precision_score(test[category], logreg_prediction, average='macro')
 
         # Training logistic regression model on train data
         NB_pipeline.fit(x_train, train[category])
@@ -177,116 +184,45 @@ for train_index, test_index in kf.split(df):
         print("NB Prediction:")
         print(nb_prediction)
         print('Test F-SCORE is {}'.format(f1_score(test[category], nb_prediction, average='macro')))
-        # nb_fscores += (f1_score(test[category], nb_prediction),)
+        fold_nbf1scores += f1_score(test[category], nb_prediction, average='macro')
         print("\n")
         print('Test ACCURACY is {}'.format(accuracy_score(test[category], nb_prediction)))
+        fold_nbaccuracy += accuracy_score(test[category], nb_prediction)
         print("\n")
         print('Test RECALL is {}'.format(recall_score(test[category], nb_prediction, average='macro')))
+        fold_nbrecall += recall_score(test[category], nb_prediction, average='macro')
         print("\n")
         print('Test PRECISION is {}'.format(precision_score(test[category], nb_prediction, average='macro')))
+        fold_nbprecision += precision_score(test[category], nb_prediction, average='macro')
 
-        #NB F1 Score
-        key_name = "nb_" + category
-        if key_name in ave_f1scores:
-            ave_f1scores[key_name] += f1_score(test[category], nb_prediction, average='macro')
-        else :
-            ave_f1scores[key_name] = f1_score(test[category], nb_prediction, average='macro')
+    # print(fold_svcf1scores)
+    fold_svcf1scores = fold_svcf1scores/len(categories)
+    fold_svcf1scores_list.append(fold_svcf1scores)
+    print("Fold SVC FSCORES LIST")
+    print(fold_svcf1scores_list)
+    # fold_logregf1scores_tuple += (fold_logregf1scores/len(categories),)
+    # fold_nbf1scores_tuple += (fold_nbf1scores/len(categories),)
 
-        # nb Recall 
-        key_name = "nb_" + category
-        if key_name in ave_recall:
-            ave_recall[key_name] += recall_score(test[category], nb_prediction, average='macro')
-        else :
-            ave_recall[key_name] = recall_score(test[category], nb_prediction, average='macro')
+    # fold_svcaccuracy = fold_svcaccuracy/len(categories)
+    # fold_logregaccuracy = fold_logregaccuracy/len(categories)
+    # fold_nbaccuracy = fold_nbaccuracy/len(categories)
 
-        # nb Precision
-        key_name = "nb_" + category
-        if key_name in ave_precision:
-            ave_precision[key_name] += precision_score(test[category], nb_prediction, average='macro')
-        else :
-            ave_precision[key_name] = precision_score(test[category], nb_prediction, average='macro')
+    # fold_svcaccuracy_tuple += (fold_svcaccuracy/len(categories),)
+    # fold_logregaccuracy_tuple += (fold_logregaccuracy/len(categories),)
+    # fold_nbaccuracy_tuple += (fold_nbaccuracy/len(categories),)
 
-        # nb Accuracy
-        key_name = "nb_" + category
-        if key_name in ave_accuracy:
-            ave_accuracy[key_name] += accuracy_score(test[category], nb_prediction)
-        else :
-            ave_accuracy[key_name] = accuracy_score(test[category], nb_prediction)
+    # fold_svcrecall_tuple += (fold_svcrecall/len(categories),)
+    # fold_logregrecall_tuple += (fold_logregrecall/len(categories),)
+    # fold_nbrecall_tuple += (fold_nbrecall/len(categories),)
 
-print("Average f1 Scores:")
+    # fold_svcprecision_tuple += (fold_svcprecision/len(categories),)
+    # fold_logregprecision_tuple += (fold_logregprecision/len(categories),)
+    # fold_nbprecision_tuple += (fold_nbprecision/len(categories),)
 
-ave_f1scores = {k: v / 10 for k, v in ave_f1scores.items()}
-print(ave_f1scores)
+# create_10fold_df(fold_svcf1scores_tuple, fold_logregf1scores_tuple, fold_nbf1scores_tuple, 'fscore')
+# create_10fold_df(fold_svcaccuracy_tuple, fold_logregaccuracy_tuple, fold_nbaccuracy_tuple, 'acc')
+# create_10fold_df(fold_svcrecall_tuple, fold_logregrecall_tuple, fold_nbrecall_tuple, 'recall')
+# create_10fold_df(fold_svcprecision_tuple, fold_logregprecision_tuple, fold_nbprecision_tuple, 'precision')
 
-print("Average recall Scores:")
+# print("Average f1 Scores:")
 
-ave_recall = {k: v / 10 for k, v in ave_recall.items()}
-print(ave_recall)
-
-print("Average precision Scores:")
-
-ave_precision = {k: v / 10 for k, v in ave_precision.items()}
-print(ave_precision)
-
-print("Average accuracy Scores:")
-
-ave_accuracy = {k: v / 10 for k, v in ave_accuracy.items()}
-print(ave_accuracy)
-
-print(ave_accuracy.get('svc_python'))
-
-svc_fscores = ()
-logreg_fscores = ()
-nb_fscores = ()
-for category in categories: 
-    df_results = np.array([['','Recall','Precision', 'F-score', 'Accuracy'],
-                ['SVC',ave_recall.get('svc_'+category), ave_precision.get('svc_'+category), ave_f1scores.get('svc_'+category), ave_accuracy.get('svc_'+category)],
-                ['LogisticRegression',ave_recall.get('logreg_'+category), ave_precision.get('logreg_'+category), ave_f1scores.get('logreg_'+category), ave_accuracy.get('logreg_'+category)],
-                ['NaiveBayes',ave_recall.get('nb_'+category), ave_precision.get('nb_'+category), ave_f1scores.get('nb_'+category), ave_accuracy.get('nb_'+category)]])
-
-    dataframe = pd.DataFrame(data=df_results[1:,1:],
-                  index=df_results[1:,0],
-                  columns=df_results[0,1:])
-    fig, ax = plt.subplots(figsize=(12, 2)) # set size frame
-    ax.xaxis.set_visible(False)  # hide the x axis
-    ax.yaxis.set_visible(False)  # hide the y axis
-    ax.axis('off')
-    table(ax, dataframe, loc='center', colWidths=[0.17]*len(dataframe.columns))  # where df is your data frame
-
-    plt.savefig('FARP_' + category +'.png')
-    svc_fscores += (ave_f1scores.get('svc_'+category),)
-    logreg_fscores += (ave_f1scores.get('logreg_'+category),)
-    nb_fscores += (ave_f1scores.get('nb_'+category),)
-
-# create plot for F-scores for each category.
-n_groups = 11
-fig, ax = plt.subplots()
-index = np.arange(n_groups)
-bar_width = 0.3
-opacity = 0.8
-
- 
-rects1 = plt.bar(index, svc_fscores, bar_width,
-alpha=opacity,
-color='b',
-label='SVC')
-
-rects2 = plt.bar(index + bar_width, logreg_fscores, bar_width,
-alpha=opacity,
-color='g',
-label='LogReg')
-
-rects3 = plt.bar(index + bar_width + bar_width, nb_fscores, bar_width,
-alpha=opacity,
-color='y',
-label='NB')
-
-categories_tuple = ('Python', 'JS', 'Java', 'C', 'R', 'MySQL', 'HTML', 'If', 'While', 'For', 'CSS')
-plt.xlabel('Tags')
-plt.ylabel('F Scores')
-plt.title('F Scores by tags')
-plt.xticks(index + bar_width, categories_tuple)
-plt.legend()
- 
-plt.tight_layout()
-plt.savefig('avefscores.png')

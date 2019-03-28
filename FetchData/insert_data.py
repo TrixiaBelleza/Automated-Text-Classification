@@ -82,7 +82,7 @@ def menu():
 choice = menu()
 #Load categories from file
 pickle_in = open("categories_dict.pickle","rb")
-example_dict = pickle.load(pickle_in)
+categories_dict = pickle.load(pickle_in)
 while choice != 3:
 	if choice == 1:
 		categories_dict = add_new_tag(categories_dict)

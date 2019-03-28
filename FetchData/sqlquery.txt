@@ -1,0 +1,6 @@
+insert into complete_train_data2 values ('1998598','What is the most efficient way to clone a object? I've seen obj = eval(uneval(o)) being used, but that's non-standard and only supported by Firefox.
+
+I've done things like obj = JSON.parse(JSON.stringify(o)) but question the efficiency. 
+
+I've also seen recursive copying functions with various flaws. 
+I'm surprised no canonical solution exists. JSON', 0,1,0,0,0,0,0,0,0,0,0);

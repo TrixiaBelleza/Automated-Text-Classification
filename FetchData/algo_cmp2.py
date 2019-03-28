@@ -170,7 +170,6 @@ for train_index, test_index in kf.split(df):
 		fold_nbrecall += recall
 		fold_nbprecision += precision
 		
-		
 	fold_svcf1scores_list.append(round((fold_svcf1scores/len(categories))*100, 5))
 	fold_svcaccuracy_list.append(round((fold_svcaccuracy/len(categories))*100, 5))
 	fold_svcrecall_list.append(round((fold_svcrecall/len(categories))*100, 5))

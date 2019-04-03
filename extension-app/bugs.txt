@@ -1,0 +1,42 @@
+1. Bug: kulang ng JS tag 
+    var mysql = require('mysql');
+    
+    var con = mysql.createConnection({
+      host: "localhost",
+      user: "yourusername",
+      password: "yourpassword",
+      database: "mydb"
+    });
+    
+    con.connect(function(err) {
+      if (err) throw err;
+      console.log("Connected!");
+      var sql = "INSERT INTO customers (name, address) VALUES ('Company Inc', 'Highway 37')";
+      con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("1 record inserted");
+      });
+    });
+
+2. Kulang ng JS tag
+insert into complete_train_data2 values ('19987986', 'var mysql = require(mysql);
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "yourusername",
+  password: "yourpassword",
+  database: "mydb"
+});
+
+con.connect(function(err) {
+  if (err) throw err
+  console.log("Connected!")
+  var sql = "CREATE TABLE customers (name VARCHAR(255), address VARCHAR(255))"
+  con.query(sql, function (err, result) {
+    if (err) throw err
+    console.log("Table created")
+  })
+})', 0,1,0,0,0,1,0,0,0,0,0);
+
+
+3. 

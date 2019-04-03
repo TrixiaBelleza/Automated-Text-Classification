@@ -1,0 +1,217 @@
+WHILE
+
+1. Java & While
+
+I want to input something via scanning next line in a loop and at some conditions break the loop. But I found I can't break out and still in this loop.
+
+public class test{
+    public static void main(String args[]){
+        Scanner scan=new Scanner(System.in);
+        String line;
+        int count=1;
+        while (true){
+            line=scan.nextLine();
+            if (line.equals(" ")){
+                break;
+            }
+            System.out.println(line);
+            System.out.println(count);
+            count=count+1;
+        }
+    }
+}
+What is expected is like this:
+
+apple
+soda
+and then a space line
+
+And the output would be:
+
+apple
+1
+soda
+2
+and break out and end the program
+
+But the actual is the loop continues until I end the terminal.
+
+
+2. Python & While
+Trying to open and read one line at a time from a txt file, while collect the info and build up lists as I go.
+
+So I have something looking like this:
+
+name_list = []
+rating_list = []
+price_list = []
+cuisine_list = []
+end_list = []
+
+filename = '/Users/anqixiao/Desktop/restaurant recommendation/restaurants_small.txt'
+file = open(filename, 'r')
+line = file.readline()
+
+while line != '':
+    name_list.append(line.strip('\n'))
+    rating_list.append(line.strip('\n'))
+    price_list.append(line.strip('\n'))
+    cuisine_list.append(line.strip('\n'))
+    end_list.append(line.strip('\n'))
+file.close()
+However, Python Shell has already stopped responding while I was manually entering the while loop. Can someone sheds some light on where I went wrong? I'd really appreciate it!
+
+Many thanks.
+
+
+
+2. C & While
+
+fgets() in while loop prevents any code within the same scope from being executed
+
+A while(fgets()) loop seemingly prevents code on the same scope before it from running, and then ends the program with no observable errors.
+
+I have a string action that comes from using fgets() on a file, and my program iterates through the file so that action is reassigned to represent each line of the file.
+
+I have a series of if statements checking to see if action is a certain command (this behavior is tested and working as intended for other commands). One of them is
+
+if (strcmp(action, "upload") == 0) {
+
+/* And the behavior I'm about to describe is when this 
+statement is true (this has been tested). Inside that if statement, I have: */
+
+printf("success");
+upload_file("a.txt"); }
+upload_file() is a function in a separate file (from which I have already successfully called other functions) and is intended to populate a local string array with the lines of a.txt. The function looks like this:
+
+void upload_file(const char *title) {
+    FILE *fp;
+    int lines = 0;
+    char txt[defined_maximum][defined_string_length_max];
+    fp = fopen(title, "r+");
+    while(fgets(txt[lines], defined_string_length_max, fp) {
+        lines+=1;
+    }
+    internal_irrelevant_function(txt, lines);
+}
+The expected behavior of this would be that when action is compared to "upload", it will enter the if statement, print success, then call upload_file and work its stuff. However, running this program results in no output and ends the program immediately. I have found through testing via commenting out potentially problematic lines that when the while(fgets(... loop is commented out, any printf statements in both the if statement above and upload_file are successful, which indicates to me that the loop is somehow preventing printf("success") from executing successfully and then ending the program before my next internal function at the end of upload_file is called.
+
+I've tried fclose()ing in my main file before calling fgets in upload_file, even though I think that would break the rest of my program, but I can't seem to stop the loop from halting everything. gdb seems to show no issues. What could be stopping my program from working as intended?
+
+Edit: adding a \n to make printf("success\n") causes it to print successfully, after seeing on another thread that it was something to do with the buffer. However, nothing after the while loop works still.
+
+3. Java & While
+
+Hello I'm beginner at java, now i'm in while/do-while lesson, and i found is some hard
+
+I tried to execute the code below but i didn't understand
+
+What is difference between this:
+
+int count = 0;
+
+do {
+            System.out.println(count);
+            count++;
+        } while (count < 8);
+and this:
+
+int count = 0;
+while (count < 8) {
+
+            System.out.println(count);
+            count++;
+
+        }
+
+4. Python and While
+
+
+So I'm working on a piece of code i was given as an assignment. I'm having trouble with the second else part of code. When the input is odd, it goes to this part of code and won't break when the loop restarts. I know there is a flaw in this part and was wondering if any one could help me see it. (Sorry if this code seems very amateur, I am learning.
+
+I've tried changing the location for the input but to no avail.
+
+def part1c():
+
+    def get_int(prompt):
+            while True:
+                    try:
+                            return int(butt(prompt))
+                    except ValueError:
+                            pass
+
+    def get_ch(prompt):
+            while True:
+                    res = butt(prompt).strip()
+                    if res:
+                            return res[:1]
+
+
+    def make_row(w , edge, center):
+            return edge*(w>0) + center*(w-2) + edge*(w>1)
+
+    import time
+
+    def print_rectangle(h, w, c):
+            top_row = make_row(w, c, c)
+            mid_row = make_row(w, c, ' ')
+            rows = [top_row]*(h>0) + [mid_row]*(h-2) + [top_row]*(h>1)
+            print('\n'.join(rows))
+            while True:
+                    print_rectangle(h, w, c)
+                    time.sleep(2)
+
+
+
+    def main():
+            h = get_int('Size of box in rows? ')
+            w = get_int('Size of box in columns? ')
+            c = get_ch('Character to use: ')
+            print_rectangle(h, w, c)
+
+    while True:
+            print('Draw boxes:(Enter 0 to stop)')
+            butt=int(input('If box has an odd number(s), type it.' +
+                     ' If not, type the even number(s):') )
+            if butt == 0:
+                    print('Thank you, next')
+                    break
+            else:
+
+                    if butt % 2== 0:
+                            pass
+
+
+                            rows=int(input('Size of box in rows? '))
+                            cols= int(input('Size of box in columns? '))
+                            for r in range(rows):
+                                    for c in range(cols):
+                                            print('*', end='')
+                                    print()
+
+                    else:
+                            butt_is_zero = True
+                            while butt_is_zero:
+                                    import sys
+
+                                    # Python 2/3 compatibility shims
+                                    if sys.hexversion >= 0x3000000:
+                                        butt = input
+                                        rng = range
+                                    else:
+                                        butt = raw_input
+                                        rng = xrange
+
+
+                                    if __name__=="__main__":
+                                            main()
+                                    if butt==1:
+                                            butt_is_zero = False
+
+                                    get_int()
+                                    get_ch()
+                                    make_row()
+                                    print_rectangle()
+                                    part1c()
+part1c()
+

@@ -1,0 +1,61 @@
+R
+
+1. 
+In one of my homework, I am asked to print the prices of a bond over 2015,2016,2017,2018. Since 2015,2016 have 252 trading days, 2017 with 251 and 2018 with 250, I need to write an if statement. Here is my attempt:
+
+plt = function(a){
+  if (a == 2015){
+    x = 1:252
+  }else if ( a == 2016){
+    x = 1:252
+    }else if (a == 2017){
+    x = 1:251
+  }else{
+      x = 1:250
+    }
+  plot(x = x , y = data[data$Year == a,5] , type = "l" , col = "red")
+  }
+However,when I input
+
+function(c(2015,2016,2017,2018)
+only draft of 2015 shows up and R returns
+
+Warning messages:
+1: In if (a == 2015) { :
+  the condition has length > 1 and only the first element will be used
+2: In data$Year == a :
+  longer object length is not a multiple of shorter object length  
+If I input these years seperately, it gives four perfect plots.
+
+Many thanks in advance.
+
+2. FOR LOOP AND R
+I have a matrix and an adjacency/graph object. And I wrote a big for loop:
+
+vector_t1 <- rep(1, 2878)
+vector_t1 <- append(vector_t1, c(0))
+    LR_BASE_new <- matrix(0L, nrow= 2879, ncol=2879)
+    n <- 1:2879
+         for (i in seq_along(n)) {
+        for (j in seq_along(n)) {
+          LR_BASE_new[j,i]<- ((are.connected(jan_adj_g_small, i, j))/outnodes[j])*vector_t1[j]
+        }
+          }
+This works as intended, but the for loops take a lot of time. Now I'm trying to do the same thing with the apply() function but I can't quite figure it out. This is what I currently have:
+
+leaderFUN <- function(Src_Matrix, size1, graphobject) {
+
+
+ i <<- 1:size1
+  j <<- 1:size1
+  vector_t1 <- rep(1, size1)
+  vector_t1 <- append(vector_t1, c(0))
+  outnodes <- degree(graphobject, mode = "out")
+  LR_BASE_new <- matrix(0L, nrow= size1, ncol=size1)
+  LR_BASE_new[j,i]<- ((are.connected(graphobject, i, j))/outnodes[j])*vector_t1[j]
+  return(LR_BASE_new)
+}
+size <- 2879
+asd <- apply(LR_BASE_new,c(1,2), leaderFUN, size1 = size, graphobject =jan_adj_g_small)
+I'm trying to change things up and I get either "Error: cannot allocate vector of size..." or an unused argument Error. Is there an easy way to replace the for loops with an apply or multiple apply functions?
+

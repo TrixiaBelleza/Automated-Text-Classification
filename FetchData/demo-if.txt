@@ -1,0 +1,438 @@
+1. IF & JAVA
+
+Simplify the complex if statements in java
+Is there a way to simplyfy the below code, I can combine condition1 and condition2 but I want the else statements print different messages for each step.
+
+if(condition1){
+    if(condition2){
+        if(condition3){
+            //do something
+        }
+    }
+    else{
+       //sout condition2 failed
+    }
+}
+else{
+    //sout condition1 failed
+}
+
+
+2. IF AND JS 
+Dropdown menu changes its preselect when an if statement is used
+I have a dropdown menu with a preselected option and when I use an if statement later in the code saying that if one dropdown menu option is selected then it will show my text but it then changes the preselected to my if statements selection. That may be very confusing.
+
+            <p>
+                Filter Products By:
+                <select id="sbProductsFilter" onchange="displayProducts();">
+                    <option id ="All" >All</option>
+                    <option id = "Expired" selected>Expired</option>
+                    <option id = "NotExpired" >NotExpired</option>
+                </select>
+            </p>
+
+            <!-- Products Output -->
+            <span><strong>Department | Product | Price ($) | Shelf Life</strong></span>
+            <div id="productOutput">[Print Products here...]</div>
+        </form>
+    </fieldset>
+    <br>
+
+
+    <script>
+
+            var food1 = new Product( "Avacados",             "Produce" ,     8.99,       ("June 27, 2019") );
+        var food2 = new Product( "<br/>Baguette",             "Bakery" ,      5.99,       ("July 30, 2019") );
+        var food3 = new Product( "<br/>Beef",                 "Deli" ,        14.99,      ("April 1, 2019") );
+        var food4 = new Product( "<br/>Pears",                "Produce" ,     5.50,       ("April 2, 2019") );
+        var food5 = new Product( "<br/>2L Chocolate Milk",    "Dairy" ,       4.99,       ("March 21, 2019") );
+        var food6 = new Product( "<br/>Pumpkin Pie",          "Bakery" ,      10.50,      ("March 13, 2019") );
+        var food7 = new Product( "<br/>Grapes",               "Produce" ,     6.99,       ("February 1, 2018") );
+        var food8 = new Product( "<br/>Loaf of Bread",        "Bakery" ,      5.99,       ("March 30, 2019") );
+        var food9 = new Product( "<br/>Cheddar Cheese",       "Dairy" ,       10.99,      ("March 14, 2019") );
+        var food10 = new Product( "<br/>Margarine",            "Dairy" ,       8.99,       ("June 14, 2017") ) ;
+        var food11 = new Product( "<br/>Salami",               "Deli" ,        5.99,       ("March 13, 2019") );
+        var food12 = new Product( "<br/>Oranges",              "Produce" ,     7.50,       ("May 2, 2019") );
+        var food13 = new Product( "<br/>Chicken",              "Deli" ,        21.99,      ("March 22, 2019") );
+        var food14 = new Product( "<br/>Turkey",               "Deli" ,        14.99,      ("April 3, 2019") );
+        var food15 = new Product( "<br/>Peppers",              "Produce" ,     3.99,       ("March 27, 2019") );
+        var food16 = new Product( "<br/>Ham",                  "Deli" ,        9.99,       ("May 5, 2019") );
+        var food17 = new Product( "<br/>Chocolate Cake",       "Bakery" ,      19.99,      ("October 10, 2007") );
+        var food18 = new Product( "<br/>10kg White Flour",     "Bakery" ,      12.99,      ("September 30, 2020") );
+
+
+        products.push(food1.fullproduct());
+        products.push(food2.fullproduct());
+        products.push(food3.fullproduct());
+        products.push(food4.fullproduct());
+        products.push(food5.fullproduct());
+        products.push(food6.fullproduct());
+        products.push(food7.fullproduct());
+        products.push(food8.fullproduct());
+        products.push(food9.fullproduct());
+        products.push(food10.fullproduct());
+        products.push(food11.fullproduct());
+        products.push(food12.fullproduct());
+        products.push(food13.fullproduct());
+        products.push(food14.fullproduct());
+        products.push(food15.fullproduct());
+        products.push(food16.fullproduct());
+        products.push(food17.fullproduct());
+        products.push(food18.fullproduct());
+
+        if (document.getElementById("All").selected = "true"){
+            document.getElementById('productOutput').innerHTML = products 
+             }
+
+    </script>
+</body>
+My page should load with the Expired dropdown preselected and when I select the All dropdown option it should display all of the array.
+
+
+3. IF
+
+Issues with multiple elseif statements
+
+Trying to create a lengthy series of if else statements. Basically, four different scenarios to bring up different button based on queries.
+
+If the event is free, have a button saying so.
+
+However, if the event is free, but you have to RSVP (like our meetups), show this button
+
+Or if there are tickets but the event isn’t free but has a discount, show this button,
+
+Else if there are tickets but they aren’t free, show this button.
+
+And this is what I currently have.
+
+if ( isset($additional_fields[ 'Price' ]) == 'Free' ) {
+    echo '<button class="btn-free">This Event is Free!</button></a>';
+} elseif( isset($additional_fields[ 'Tickets' ]) && (isset($additional_fields[ 'Price' ])) == 'Free' ) {
+    echo '<a href="' . $additional_fields[ 'Tickets' ] . '" target="_blank"><button class="btn-rsvp">Free with RSVP</button></a>';
+} elseif( isset($additional_fields[ 'Tickets' ]) && (isset($additional_fields[ 'Price' ])) != 'Free' && (isset($additional_fields[ 'Discounts' ]))) {
+    echo '<a href="' . $additional_fields[ 'Tickets' ] . '" target="_blank"><button class="btn-discount">Tickets ' . $additional_fields[ 'Discount Text' ] . '</button></a>';
+} elseif( isset($additional_fields[ 'Tickets' ]) ){
+    echo '<a href="' . $additional_fields[ 'Tickets' ] . '" target="_blank"><button class="btn-tkts">Get Tickets</button></a>';
+}
+Code works.... to a point. If I have an event that is free, I get the This Event is Free button, but if I have an event that is free but also offers tickets / rsvp, I still get the first free button with no link. The second step should be occurring here. Not the first. Same deal if add a price or anything beyond the word 'Free'.
+
+Is my order correct? Or something else in the code?
+
+
+
+4. IF AND PYTHON
+
+how to get IF statement to work for looking up string in dataframe column 
+
+I only get "no" values written to my "eliminate" column when i know i should get some "yes"? df['Account Number'] is a dataframe column. I am looking for a string stored in variable "a".
+
+Please help
+
+import pandas as pd
+a = user_input_links[1]
+a = a.strip()
+
+for i in df['Account Number']:
+    if df['Account Number'].str.contains(a) is True:
+        df['eliminate'] = "yes"
+    else:
+        df['eliminate'] = "no"
+
+
+df.head()
+
+5. IF AND MYSQL
+
+I have two SQL Server tables where I need to add records from one table to the next. If the unique identifier already exists in the target table, then update the record to the data coming from source table - If the unique identifier doesn't exist, then insert the entire new record into the target table.
+Insert New Records Into Table Using If/Else Statement
+I seem to have gotten the initial part to work where I update the records in target table but the the part where I would INSERT new records does not seem to be working.
+
+if exists (
+   select 1
+   from SCM_Top_Up_Operational O
+   join SCM_Top_Up_Rolling R ON O.String = R.string
+)
+begin
+
+   update O
+   set    O.Date_Added = R.Date_Added,
+          O.Real_Exfact = R.Real_Exfact,
+          O.Excess_Top_Up = R.Excess_Top_Up 
+   from  SCM_Top_Up_Operational O 
+   join  SCM_Top_Up_Rolling R on O.String = R.String
+   where O.String = R.string and R.date_added > O.date_added
+
+end
+
+else 
+
+begin
+   insert into SCM_Top_Up_Operational (String,Date_Added,Real_Exfact,Article_ID,Excess_Top_Up,Plant)
+   select String,Date_Added,Real_Exfact,Article_ID,Excess_Top_Up,Plant
+   from SCM_Top_Up_Rolling
+end
+
+6.
+I have problems with If statement, and what to put inside of it [on hold]
+
+ will show you the challenge that I need to do. It's about if statement, and what to put inside of it. I have this chalenge:
+
+In next section I will write you my code.
+
+draw = function() {
+
+    fill(0, 255, 68); // start color
+    rect(0, 0, 400, 200);  // the button
+
+    // The button text
+    fill(0, 0, 0);
+    textSize(30);
+    text("Press me!", 145, 115);
+};
+The code is on the left side. On the right side is a rectangle with green background and text "Press me" . The chalengde is:
+
+Buttons often change color when they're pressed, so that the user realizes they've pressed something. In this challenge, you'll change the code so that this button turns red when you press it. For this first step, add an if that colors the button red when you press the mouse anywhere on the canvas.
+
+
+7. Java & IF 
+
+while using an if statement i keep getting "- Syntax error on token ";", { expected after this token" error message. im not sure why, I am somewhat new to java.this is a java fx project but i have any connections to the controller yet.
+
+ive tried adding a else statement and changing the variables. ive also tried to make the declaration and the modification separate.
+
+package application;
+
+public class Mathprocess {
+
+
+    int numberOne = 15;
+    int numberTwo = 5;
+    int answerNumbers;
+    int ansSubtract = 0;
+    int ansDivide =  0;
+    int ansMultiply = 0;
+    int ansAddition = 0;
+
+
+
+
+    //Question 1
+    ansAddition = numberOne + numberTwo;
+        String questionOne = numberOne + " + " + numberTwo +" = ";
+    //Question 2 
+    ansMultiply = numberOne * numberTwo;
+    String questionTwo = numberOne + " * " + numberTwo +" = ";
+
+    //Question 3 
+    ansDivide = numberOne / numberTwo;
+
+
+
+
+    //Question 4
+    ansSubtract = numberOne - numberTwo;
+    // error happens here
+    if (ansAddition > 0) { 
+        answerNumbers = ansAddition;
+    }
+
+}
+the expected result is a clean program with no errors.
+
+8. Python & IF
+
+or my assignment I needed to create a club and have requirements that the user has to answer via three inputs, and I also need to include an if statement and an and-or-not statement. I sorted everything out and it was working swimmingly until the and-or-not statement. I am learning via an online class, and I just briefly learned the and-or-not statements. They showed examples using numbers and two options, but I have way more and they're word options. I am not sure if I am coding it properly, because even if the person enters false values, it still outputs as if it were a true value. Any advice to fix the issue?
+
+#Module Four Project
+#3/23/19
+#Create a program that asks the user questions to see if they meet the club requirements
+
+def main(): 
+
+    age = input("How old are you?")
+    job = input("What is your job?")
+    major = input("What did you major in college?")
+
+    print("This is the Programmers Only Club!")
+    print("")
+    print("Thank you for filling out our quick admission form! :)")
+    print("")
+
+    print("Your answers to our form:")
+    print("Age: " + str(age))
+    print("Profession: " + str(job))
+    print("College Major: " +(major))
+    print("")
+    print("We appreciate you filling out the form and your appreciation for programming.")
+    print("")
+
+    if (major == "computer science" or "Computer science" or "Computer Science" and job == "programmer" or "Programmer" ):
+        if( age >= 18):
+            print("Welcome, you meet the requirements to join the club!")
+    else:
+        print("Unfortunately, you do not meet all of the requirements to be in the Programmers Only Club :(")
+
+main()
+
+
+9. 
+
+I have a column of hospital names. In most of them, the last three characters are "-" and the two-letter abbreviation for the state, e.g. "-CA". but some (out of hundreds) have the state name somewhere in the hospital name, e.g. "Texas Tech U Affil-Lubbock" or "Community Health of South Florida".
+
+I'm trying to find a way to make Excel give the last two characters only if the 3rd character from the right is a dash ("-"), but trying to specify that character position seems impossible.
+
+I tried:
+
+=IF(RIGHT(H4,-3)="-",RIGHT(H4,2),"noabbrev") and get #VALUE
+
+=IF(RIGHT(H4,3)="-??",(RIGHT(H4,2)),"noabbrev") and always get noabbrev for all cells
+
+At this point, I fear I need to use =RIGHT(H4,2) in order to get the bulk of the cells correctly and eyeball/correct the errors by hand.
+
+Am I missing the obvious again?
+
+
+10. 
+
+I'm making a Windows vb.net form application in Visual Studio 2015, where user can either preview an image in a PictureBox by importing it from a file dialog browser, or from a web url. If the user chooses to import it from its computer using the file dialog, the preview will automatically load once it has selected the image file. If user accidentally fills both url and file dialog, i want to clear the TextBox of the url (called url_cover), the TextBox displaying the name of file imported in file dialog (called Browse.FileName) and the PictureBox preview (called preview), and also display a MessageBox telling user to try again, using only one of the import options.
+
+I've already tried making a basic if statement which (until there everything normal) :
+
+If url_cover.Text <> Nothing And Browse.FileName <> Nothing Then
+MsgBox("Please do not import image using both file browser and URL.", [vbOKOnly], "Warning") 
+url_cover.Clear() Browse.FileName = Nothing preview.Enabled = False
+I was expecting all these things to happen if i filled both url and file browser, but i came out with an error telling me that an end of statement was expected after the second instruction (which is url_cover.Clear()). I tried switching the order in which the three instructions had to be executed, but every time it was the same, after the second instruction, an end of statement was expected... Hope my explanations have been clear, and my question is how can i execute more than 2 instructions after the condition of my If statement has been completed.
+
+11. PYTHON & IF
+
+I'm making a program to help elementary students classify animals, however, my conditional statements and logical statements aren't working as intended.
+
+This is basically how I want it to work:
+
+Choose 1 to identify or 2 to research a class
+If 1, user will answer 5 questions (user defined functions) to narrow down the possibility of the class
+If 2, user will select a class from those printed to screen and then is given a summary on the class (also functions)
+This issue is regardless of what the user enters in the prompt (eg. "def question_1"), the program always executes the first "if" statement. So if I enter "n" (in def question_1), I would expect answer1 to contain "notWet", however, "isWet" is still assigned. Is my structure incorrect? This issue persists in both my choices 1 and 2.
+
+I also wish to remove each answer from each function after it assigned, to append to the "animal" list at the top. Again I'm a beginner to programming so please excuse any sill mistakes. I'm using pycharm. All help appreciated.
+
+Honestly, I've tried a lot of syntax stuff. Indentations, moving some code up or down etc. Nothing seems to work
+
+animal = [ ]
+
+#FUNCTIONS
+def question_1():
+
+print("Enter 'Y' for yes or 'N' for no")
+
+answer1 = input(str("Does the animal live in water? "))
+
+    if answer1 == "Y" or "y":
+
+        answer1 = "isWet"
+
+    elif answer1 == "N" or "n":
+
+        answer1 = "notWet"
+
+    return answer1
+
+
+def fish():
+
+    print("Fishes, sci-----
+
+
+def bird():
+
+    print("Birds----
+
+
+# INTERFACE
+choice = input(str("Enter 1 or 2: "))
+
+  if choice == "1": 
+
+ question_1()
+
+elif choice == "2":
+
+ani = input(str("Please select the animal class you wish to research. "))
+
+print("\n")
+
+if ani == "Fish" or "fish":
+
+print(fish())
+
+elif ani == "Bird" or "bird":
+
+print(bird())
+
+11. Python & IF
+
+I'm trying to figure out the issue with this code. I'm coding in python. I want my condition to fail only when both statements are inside an array. Otherwise, I'm looking for this code to pass and print "Enter".
+
+edge1 = []
+edge2 = []
+edge1.append("hello")
+edge2.append("world")
+
+if ("hello" not in edge1 and "bye" not in edge2):
+    print("entered")
+Expected output: "entered"
+
+
+12. JAVA , WHILE , IF
+
+ created a program for tictactoe but there are a few issues
+
+1) The computer replaces my space on the board 2) I am able to replace the computers place (even though i created a if statement to make it print "Spot is taken" 3)If the user selects a spot that is not allowed (ex. 4), the game just stops, it wont tell the user to select another spot
+
+My teacher has provided a board for us. If the board program is needed, please ask.
+
+Thanks!
+
+I've tried creating if statements but something is wrong with what I did. I looked my code over and it makes sense, but there is something wrong with the way I wrote it down and I am unable to catch my mistake.
+
+if (players == 1) {
+    while (gameContinue == true) {
+        System.out.println("Enter a row: ");
+        xc = reader.nextInt();
+        System.out.println("Enter a column: ");
+        yc = reader.nextInt();
+        if (xc <0 || xc > 2 || yc < 0 || yc > 2)
+            System.out.print("Invalid postition, please enter another point");
+        cx = (int)(Math.random()*3);
+        cy = (int)(Math.random()*3);
+        int random = (int)(Math.random()*3);
+        int random2 = (int)(Math.random()*3);
+
+        if ((arr[xc][yc] != '-') || (arr[cx][cy] != '-' )) {
+            System.out.println("Spot is taken. ");
+            System.out.println("Enter a row: ");
+            xc = reader.nextInt();
+            System.out.println("Enter a column: ");
+            yc = reader.nextInt();
+            if (arr[xc][yc] == '-') {
+                arr[xc][yc] = 'x';
+                board.repaint();
+            }
+            if (arr[cx][cy] == '-') {
+                arr[cx][cy] = 'o';
+                board.repaint();
+            }
+        }
+
+        arr[xc][yc] = 'x';
+        if (arr[cx][cy] == arr[xc][yc]) {
+            arr[random][random2] = 'o';
+            board.repaint();
+
+        } else {
+            arr[cx][cy] = 'o';
+            board.repaint();
+        }
+    }
+}
+I expect the output to say "Invalid position, select another postition" but it automatically just stops the game. Also if the computer selects my spot, it should go somewhere else but the computer is overlapping my spot.

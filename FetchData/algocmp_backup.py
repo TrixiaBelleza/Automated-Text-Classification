@@ -133,11 +133,11 @@ for train_index, test_index in kf.split(df):
         print('Test PRECISION is {}'.format(precision_score(test[category], svc_prediction, average='macro')))
         fold_svcprecision += precision_score(test[category], svc_prediction, average='macro')
         # # SVC F1 Score
-        # key_name = "svc_" + category
-        # if key_name in ave_f1scores:
-        #     ave_f1scores[key_name] += f1_score(test[category], svc_prediction, average='macro')
-        # else :
-        #     ave_f1scores[key_name] = f1_score(test[category], svc_prediction, average='macro')
+        key_name = "svc_" + category
+        if key_name in ave_f1scores:
+            ave_f1scores[key_name] += f1_score(test[category], svc_prediction, average='macro')
+        else :
+            ave_f1scores[key_name] = f1_score(test[category], svc_prediction, average='macro')
 
         # # SVC Recall 
         # key_name = "svc_" + category
@@ -291,35 +291,35 @@ table(ax, fscore_df, loc='center', colWidths=[0.17]*len(fscore_df.columns))  # w
 
 # print(ave_accuracy.get('svc_python'))
 
-# svc_fscores = ()
-# logreg_fscores = ()
-# nb_fscores = ()
-# for category in categories: 
-#     df_results = np.array([['','Recall','Precision', 'F-score', 'Accuracy'],
-#                 ['SVC',ave_recall.get('svc_'+category), ave_precision.get('svc_'+category), ave_f1scores.get('svc_'+category), ave_accuracy.get('svc_'+category)],
-#                 ['LogisticRegression',ave_recall.get('logreg_'+category), ave_precision.get('logreg_'+category), ave_f1scores.get('logreg_'+category), ave_accuracy.get('logreg_'+category)],
-#                 ['NaiveBayes',ave_recall.get('nb_'+category), ave_precision.get('nb_'+category), ave_f1scores.get('nb_'+category), ave_accuracy.get('nb_'+category)]])
+svc_fscores = ()
+logreg_fscores = ()
+nb_fscores = ()
+for category in categories: 
+    df_results = np.array([['','Recall','Precision', 'F-score', 'Accuracy'],
+                ['SVC',ave_recall.get('svc_'+category), ave_precision.get('svc_'+category), ave_f1scores.get('svc_'+category), ave_accuracy.get('svc_'+category)],
+                ['LogisticRegression',ave_recall.get('logreg_'+category), ave_precision.get('logreg_'+category), ave_f1scores.get('logreg_'+category), ave_accuracy.get('logreg_'+category)],
+                ['NaiveBayes',ave_recall.get('nb_'+category), ave_precision.get('nb_'+category), ave_f1scores.get('nb_'+category), ave_accuracy.get('nb_'+category)]])
 
-#     dataframe = pd.DataFrame(data=df_results[1:,1:],
-#                   index=df_results[1:,0],
-#                   columns=df_results[0,1:])
-#     fig, ax = plt.subplots(figsize=(12, 2)) # set size frame
-#     ax.xaxis.set_visible(False)  # hide the x axis
-#     ax.yaxis.set_visible(False)  # hide the y axis
-#     ax.axis('off')
-#     table(ax, dataframe, loc='center', colWidths=[0.17]*len(dataframe.columns))  # where df is your data frame
+    dataframe = pd.DataFrame(data=df_results[1:,1:],
+                  index=df_results[1:,0],
+                  columns=df_results[0,1:])
+    fig, ax = plt.subplots(figsize=(12, 2)) # set size frame
+    ax.xaxis.set_visible(False)  # hide the x axis
+    ax.yaxis.set_visible(False)  # hide the y axis
+    ax.axis('off')
+    table(ax, dataframe, loc='center', colWidths=[0.17]*len(dataframe.columns))  # where df is your data frame
 
-#     plt.savefig('./scores/FARP_' + category +'.png')
-#     svc_fscores += (ave_f1scores.get('svc_'+category),)
-#     logreg_fscores += (ave_f1scores.get('logreg_'+category),)
-#     nb_fscores += (ave_f1scores.get('nb_'+category),)
+    plt.savefig('./scores/FARP_' + category +'.png')
+    svc_fscores += (ave_f1scores.get('svc_'+category),)
+    logreg_fscores += (ave_f1scores.get('logreg_'+category),)
+    nb_fscores += (ave_f1scores.get('nb_'+category),)
 
-# # create plot for F-scores for each category.
-# n_groups = 11
-# fig, ax = plt.subplots()
-# index = np.arange(n_groups)
-# bar_width = 0.3
-# opacity = 0.8
+# create plot for F-scores for each category.
+n_groups = 11
+fig, ax = plt.subplots()
+index = np.arange(n_groups)
+bar_width = 0.3
+opacity = 0.8
 
  
 # rects1 = plt.bar(index, svc_fscores, bar_width,

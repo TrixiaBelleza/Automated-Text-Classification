@@ -21,30 +21,30 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import KFold
 
 def create_10fold_df(fold_svc_score_list, fold_logreg_score_list, fold_nb_score_list, score_type):
-    score_df_results = np.array([['FOLDS','SVM','LR', 'NB'],
-                ['Fold1', fold_svc_score_list[0], fold_logreg_score_list[0], fold_nb_score_list[0]],
-                ['Fold2', fold_svc_score_list[1], fold_logreg_score_list[1], fold_nb_score_list[1]],
-                ['Fold3', fold_svc_score_list[2], fold_logreg_score_list[2], fold_nb_score_list[2]],
-                ['Fold4', fold_svc_score_list[3], fold_logreg_score_list[3], fold_nb_score_list[3]],
-                ['Fold5', fold_svc_score_list[4], fold_logreg_score_list[4], fold_nb_score_list[4]],
-                ['Fold6', fold_svc_score_list[5], fold_logreg_score_list[5], fold_nb_score_list[5]],
-                ['Fold7', fold_svc_score_list[6], fold_logreg_score_list[6], fold_nb_score_list[6]],
-                ['Fold8', fold_svc_score_list[7], fold_logreg_score_list[7], fold_nb_score_list[7]],
-                ['Fold9', fold_svc_score_list[8], fold_logreg_score_list[8], fold_nb_score_list[8]],
-                ['Fold10', fold_svc_score_list[9], fold_logreg_score_list[9], fold_nb_score_list[9]],
-          	    ['Average', round(sum(fold_svc_score_list)/10, 5), round(sum(fold_logreg_score_list)/10, 5), round(sum(fold_nb_score_list)/10, 5)]
-                ])
+	score_df_results = np.array([['FOLDS','SVM','LR', 'NB'],
+				['Fold1', fold_svc_score_list[0], fold_logreg_score_list[0], fold_nb_score_list[0]],
+				['Fold2', fold_svc_score_list[1], fold_logreg_score_list[1], fold_nb_score_list[1]],
+				['Fold3', fold_svc_score_list[2], fold_logreg_score_list[2], fold_nb_score_list[2]],
+				['Fold4', fold_svc_score_list[3], fold_logreg_score_list[3], fold_nb_score_list[3]],
+				['Fold5', fold_svc_score_list[4], fold_logreg_score_list[4], fold_nb_score_list[4]],
+				['Fold6', fold_svc_score_list[5], fold_logreg_score_list[5], fold_nb_score_list[5]],
+				['Fold7', fold_svc_score_list[6], fold_logreg_score_list[6], fold_nb_score_list[6]],
+				['Fold8', fold_svc_score_list[7], fold_logreg_score_list[7], fold_nb_score_list[7]],
+				['Fold9', fold_svc_score_list[8], fold_logreg_score_list[8], fold_nb_score_list[8]],
+				['Fold10', fold_svc_score_list[9], fold_logreg_score_list[9], fold_nb_score_list[9]],
+				['Average', round(sum(fold_svc_score_list)/10, 5), round(sum(fold_logreg_score_list)/10, 5), round(sum(fold_nb_score_list)/10, 5)]
+				])
 
-    score_df = pd.DataFrame(data=score_df_results[1:,1:],
-                      index=score_df_results[1:,0],
-                      columns=score_df_results[0,1:])
-    fig, ax = plt.subplots(figsize=(12, 2)) # set size frame
-    ax.xaxis.set_visible(False)  # hide the x axis
-    ax.yaxis.set_visible(False)  # hide the y axis
-    ax.axis('off')
-    table(ax, score_df, loc='center', colWidths=[0.17]*len(score_df.columns))  # where df is your data frame
+	score_df = pd.DataFrame(data=score_df_results[1:,1:],
+					  index=score_df_results[1:,0],
+					  columns=score_df_results[0,1:])
+	fig, ax = plt.subplots(figsize=(12, 2)) # set size frame
+	ax.xaxis.set_visible(False)  # hide the x axis
+	ax.yaxis.set_visible(False)  # hide the y axis
+	ax.axis('off')
+	table(ax, score_df, loc='center', colWidths=[0.17]*len(score_df.columns))  # where df is your data frame
 
-    plt.savefig('./scores-Gaussian/' + score_type + '_perfold.png')
+	plt.savefig('./scores-Gaussian/' + score_type + '_perfold.png')
 
 def ML_algorithms(x_train, x_test, train_category, test_category, algorithm_type):
 	if algorithm_type == 'SVC':
@@ -98,10 +98,6 @@ vectorizer = pickle.load(open('../extension-app/models/vectorizer.sav', 'rb'))
 
 kf = KFold(n_splits=10)
 ave_f1scores = {}
-ave_recall = {}
-ave_precision = {}
-ave_accuracy = {}
-
 fold_svcf1scores_list = []
 fold_svcaccuracy_list = []
 fold_svcrecall_list = []
@@ -156,6 +152,12 @@ for train_index, test_index in kf.split(df):
 		fold_svcrecall += recall
 		fold_svcprecision += precision
 
+		key_name = "svc_" + category
+		if key_name in ave_f1scores:
+			ave_f1scores[key_name] += f1score
+		else :
+			ave_f1scores[key_name] = f1score
+
 		# train the LogReg model using X_dtm & y
 		f1score, accuracy, recall, precision = ML_algorithms(x_train, x_test, train[category], test[category], 'LR')
 		fold_logregf1scores += f1score
@@ -163,13 +165,25 @@ for train_index, test_index in kf.split(df):
 		fold_logregrecall += recall
 		fold_logregprecision += precision
 
-		# train the SVC model using X_dtm & y
+		key_name = "logreg_" + category
+		if key_name in ave_f1scores:
+			ave_f1scores[key_name] += f1score
+		else :
+			ave_f1scores[key_name] = f1score
+
+		# train the NB model using X_dtm & y
 		f1score, accuracy, recall, precision = ML_algorithms(x_train, x_test, train[category], test[category], 'NB')
 		fold_nbf1scores += f1score
 		fold_nbaccuracy += accuracy
 		fold_nbrecall += recall
 		fold_nbprecision += precision
-		
+	
+		key_name = "nb_" + category
+		if key_name in ave_f1scores:
+			ave_f1scores[key_name] += f1score
+		else :
+			ave_f1scores[key_name] = f1score
+
 	fold_svcf1scores_list.append(round((fold_svcf1scores/len(categories))*100, 5))
 	fold_svcaccuracy_list.append(round((fold_svcaccuracy/len(categories))*100, 5))
 	fold_svcrecall_list.append(round((fold_svcrecall/len(categories))*100, 5))
@@ -189,3 +203,44 @@ create_10fold_df(fold_svcf1scores_list, fold_logregf1scores_list, fold_nbf1score
 create_10fold_df(fold_svcaccuracy_list, fold_logregaccuracy_list, fold_nbaccuracy_list, 'acc')
 create_10fold_df(fold_svcrecall_list, fold_logregrecall_list, fold_nbrecall_list, 'recall')
 create_10fold_df(fold_svcprecision_list, fold_logregprecision_list, fold_nbprecision_list, 'precision')
+
+ave_f1scores = {k: v / 10 for k, v in ave_f1scores.items()} #divide each value in dictionary by 10, to get the average score out of all 10 folds.
+svc_fscores = ()
+logreg_fscores = ()
+nb_fscores = ()
+
+for category in categories:
+	svc_fscores += (ave_f1scores.get('svc_'+category),)
+	logreg_fscores += (ave_f1scores.get('logreg_'+category),)
+	nb_fscores += (ave_f1scores.get('nb_'+category),)
+
+n_groups = 11
+fig, ax = plt.subplots()
+index = np.arange(n_groups)
+bar_width = 0.3
+opacity = 0.8
+
+rects1 = plt.bar(index, svc_fscores, bar_width,
+alpha=opacity,
+color='b',
+label='SVM')
+
+rects2 = plt.bar(index + bar_width, logreg_fscores, bar_width,
+alpha=opacity,
+color='g',
+label='LR')
+
+rects3 = plt.bar(index + bar_width + bar_width, nb_fscores, bar_width,
+alpha=opacity,
+color='y',
+label='NB')
+
+categories_tuple = ('Python', 'JS', 'Java', 'C', 'R', 'MySQL', 'HTML', 'If', 'While', 'For', 'CSS')
+plt.xlabel('Tags')
+plt.ylabel('F Scores')
+plt.title('Distribution of F Scores for Each Tag')
+plt.xticks(index + bar_width, categories_tuple)
+plt.legend()
+ 
+plt.tight_layout()
+plt.savefig('./scores/avefscores2.png')

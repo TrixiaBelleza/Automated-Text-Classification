@@ -8,7 +8,7 @@ def insert_into_db(id, question_body, categories_dict) :
 	cursor = connection.cursor()	
 
 	#Generate SQL Insert Query
-	sql_insert_query = " REPLACE INTO `new_data` (`id`, `question_body`, "
+	sql_insert_query = " REPLACE INTO `training_data` (`id`, `question_body`, "
 	format_query = "(%s, %s,"
 	insert_tuple = (id, question_body)
 	for key in categories_dict:

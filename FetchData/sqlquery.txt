@@ -1,6 +1,36 @@
-insert into complete_train_data2 values ('1998598','What is the most efficient way to clone a object? I've seen obj = eval(uneval(o)) being used, but that's non-standard and only supported by Firefox.
+insert into complete_train_data2 values ('1998423','I am using python3 and I have this code where I ask the user for three inputs. then I perform a calculation on them. I would like to keep adding the calculation results to a list. How to do that?
 
-I've done things like obj = JSON.parse(JSON.stringify(o)) but question the efficiency. 
+...
 
-I've also seen recursive copying functions with various flaws. 
-I'm surprised no canonical solution exists. JSON', 0,1,0,0,0,0,0,0,0,0,0);
+if choice == 1: #my fist input x
+    while True:
+        x = int(input(Please insert the number of things you consider yourself a fan of))
+        if x > 0:
+            break
+        else:
+             print(Please insert a number higher than 0)
+
+elif choice == 2: #my second input y
+    while True:
+        y = int(input(Please insert the number of hobbies you like to do every month))
+        if y % 4 == 0:
+            break
+        else:
+            print(Please insert a valid number)
+
+elif choice == 3: #my third input z
+    while True:
+        z = int(input(Please insert the number of sports you like))
+        if z > 0:
+            break
+        else:
+            print(Please insert a number higher than 0)
+
+elif choice == 4: #the calculation part
+    import math
+    def square_root():
+        c=(42 * y ** 2)/(z + 1)
+        nerd_score=int(x*math.sqrt(c))
+        return nerd_score
+    print(your nerd score is, square_root())
+I want the loop to keep going, and each result to be added to the list. until the user exits the loop.', 1,0,0,0,0,0,0,1,1,0,0);

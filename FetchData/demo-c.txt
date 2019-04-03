@@ -1,0 +1,187 @@
+C
+
+1. IF AND C
+
+How would I fix this if statement in C to get it working as intended?
+
+
+In this piece of code for a "contact management system" I am having difficulty in getting the intended output for a line. Basically, during this one part when you are adding a new contact, it asks you to "please enter an apartment #" as shown below:
+
+ if (yes() == 1)
+ {
+     printf("Please enter the contact's apartment number: ");
+     address->apartmentNumber = getInt();
+     if (address->apartmentNumber > 0)
+     {
+     }
+     else
+     {
+        printf("*** INVALID INTEGER *** <Please enter an integer>: ");
+        address->apartmentNumber = getInt();
+    }
+  }
+  else
+  {
+      address->apartmentNumber = 0;
+  }
+Now, according to my assignment, you're supposed to enter the word (instead of a number, get it?) "bison" which brings up the output:
+
+* INVALID INTEGER * Please enter an integer:
+For context, this part works absolutely fine. However, you're then directed to put in the integer "-1200" which should then bring up the prompt
+
+* INVALID APARTMENT NUMBER * Please enter a positive number:
+It is this part that I'm having issue in because simply put, I don't know where to put it, whether in the if statement or outside of it. Im not sure, and would kindly like some help with this.
+
+I have attempted to correct the problem my self, but it just gives me double of the Invalid integer output instead of this correct Invalid apartment number statement. Here is my (failed) attempt:
+
+    if (yes() == 1)
+    {
+        printf("Please enter the contact's apartment number: ");
+        address->apartmentNumber = getInt();
+
+        if (address->apartmentNumber > 0)
+        {
+        }
+        else
+        {
+            printf("*** INVALID INTEGER *** <Please enter an integer>: ");
+            address->apartmentNumber = getInt();
+        }
+        if (address->apartmentNumber < 0)
+        {
+        }
+        else
+        {
+            printf("*** INVALID APARTMENT NUMBER *** <Please enter a positive number>: ");
+            address->apartmentNumber = getInt();       
+        }
+        else
+        {
+            address->apartmentNumber = 0;
+        }
+EDIT: For those who've asked for the code for getInt() and yes(), Here:
+
+getInt()
+
+int getInt(void)
+{
+int num;
+char nl;
+
+  scanf("%d%c", &num, &nl);
+  while (nl != '\n') {
+  clearKeyboard();
+
+  printf("*** INVALID INTEGER *** <Please enter an integer>: ");
+  scanf("%d%c", &num, &nl);
+  }
+  return num;
+}
+and yes():
+
+int yes(void)
+{
+    int yesno, flag;
+    char c, nl;
+    scanf("%c%c", &c, &nl);
+
+    do {
+        if (nl != '\n') {
+            clearKeyboard();
+
+            printf("*** INVALID ENTRY *** <Only (Y)es or (N)o are acceptable>: ");
+            flag = 1;
+            scanf("%c%c", &c, &nl);
+        }
+        else if (c != 'Y' && c != 'y' && c != 'N' && c != 'n') {
+            printf("*** INVALID ENTRY *** <Only (Y)es or (N)o are acceptable>: ");
+            flag = 1;
+            scanf("%c%c", &c, &nl);
+        }
+        else if (nl == '\n' && (c == 'Y' || c == 'y' || c == 'N' || c == 'n')) 
+        {
+            flag = 0;
+        }
+    } while (flag == 1);
+
+    if (c == 'Y' || c == 'y') {
+        yesno = 1;
+    }
+    else {
+        yesno = 0;
+    }
+    return yesno;
+}
+
+
+
+2.
+
+I'm writing a shell with job control. The main process should ignore stop-signals and handle SIGCHLD. Child process after fork() should set signals to SIG_DFL. The problem is that my child process ignores signals too.
+
+At the start of my program I set shell to foreground and initialize signals
+
+...
+tcsetpgrp(shell_terminal, shell_pgid);
+set_signals();
+
+void    chld_handler(int signum)
+{
+    if (signum == SIGCHLD)
+        check_and_wait();
+    return ;
+}
+
+void    set_signals() {
+    sigset_t set;
+    struct sigaction act;
+
+    sigfillset(&set);
+    sigprocmask(SIG_SETMASK, &set, NULL);
+
+    ft_memset(&act, 0, sizeof(act));
+
+    sigfillset(&act.sa_mask);
+    act.sa_handler = SIG_IGN;
+
+    sigaction(SIGINT, &act, NULL);
+    sigaction(SIGQUIT, &act, NULL);
+    sigaction(SIGTSTP, &act, NULL);
+    sigaction(SIGTERM, &act, NULL);
+    sigaction(SIGTTIN, &act, NULL);
+    sigaction(SIGTTOU, &act, NULL);
+
+    act.sa_handler = chld_handler;
+
+    sigaction(SIGCHLD, &act, NULL);
+
+    sigemptyset(&set);
+    sigprocmask(SIG_SETMASK, &set, NULL);
+    return;
+}
+after fork() in child process:
+
+/* set to foreground */
+pid = getpid();
+if (!job->pgid)
+    job->pgid = pid;
+setpgid(pid, job->pgid);
+tcsetpgrp(shell_terminal, job->pgid);
+
+/* set signals */
+sigset_t set;
+struct sigaction act;
+
+sigfillset(&set);
+sigprocmask(SIG_SETMASK, &set, NULL);
+
+memset(&act, 0, sizeof(act));
+sigfillset(&act.sa_mask);
+
+act.sa_handler = SIG_DFL;
+
+sigemptyset(&set);
+sigprocmask(SIG_SETMASK, &set, NULL);
+
+execve(...);
+But child process ignores signals

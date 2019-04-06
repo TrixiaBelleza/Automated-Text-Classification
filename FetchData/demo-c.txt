@@ -311,3 +311,54 @@ struct Test2{
 Of course this code is wrong because struct Test2 is used before being defined. I want to declare the struct forward. So I typed struct Test2; before struct Test but it didn't work. Is there a solution?
 
 I know it is possible with functions, so maybe it should be the case for structures?
+
+
+7. 
+
+Why doesn't strsep() work with pointers to the stack?
+
+It appears that there is a pointer compatibility problem using the function strsep to find the first word of a string. So far I always thought that char *s and char s[] are completely interchangeable. But it appears they are not. My program using an array on the stack fails with the message:
+
+foo.c: In function ‘main’:
+foo.c:9:21: warning: passing argument 1 of ‘strsep’ from incompatible pointer type [-Wincompatible-pointer-types]
+  char *sub = strsep(&s2, " ");
+                     ^
+In file included from foo.c:2:0:
+/usr/include/string.h:552:14: note: expected ‘char ** restrict’ but argument is of type ‘char (*)[200]’
+ extern char *strsep (char **__restrict __stringp,
+I do not understand the problem. The program using malloc works.
+
+This works:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(void)
+{
+    char s1[] = "Hello world\0";
+    char *s2 = malloc(strlen(s1)+1);
+    strcpy(s2, s1);
+    char *sub = strsep(&s2, " ");
+
+    printf("%s\n", sub);
+
+    return 0;
+}
+This doesn't:
+
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char s1[] = "Hello world\0";
+    char s2[200];
+    strcpy(s2, s1);
+    char *sub = strsep(&s2, " ");
+
+    printf("%s\n", sub);
+
+    return 0;
+}
+What's the issue? (Sorry for strcpy). Why does it matter to functions wether a pointer points towards stack or heap? I understand why you can't access strings in the binary/text segment, but what's the issue with the stack?

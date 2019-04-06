@@ -8,7 +8,7 @@ def insert_into_db(id, question_body, categories_dict) :
 	cursor = connection.cursor()	
 
 	#Generate SQL Insert Query
-	sql_insert_query = " REPLACE INTO `training_data` (`id`, `question_body`, "
+	sql_insert_query = " REPLACE INTO `test_data` (`id`, `question_body`, "
 	format_query = "(%s, %s,"
 	insert_tuple = (id, question_body)
 	for key in categories_dict:
@@ -45,11 +45,11 @@ def tag_map(questions, categories_dict):
 		for j in range(len(questions["items"][i]["tags"])):
 			key = questions["items"][i]["tags"][j]
 			if key in categories_dict:
-				print("categories_dict[key]: ")
-				print(categories_dict[key])
+				# print("categories_dict[key]: ")
+				# print(categories_dict[key])
 				categories_dict[key] = 1
 		insert_into_db(question_id, question_body, categories_dict)
-
+		categories_dict.fromkeys(categories_dict, 0) #Reset all to 0 
 def scrape_all(categories_dict):
 	for key in categories_dict:
 		scrape(key, categories_dict)
@@ -58,8 +58,8 @@ def scrape(tag, categories_dict):
 	if '_' in tag:
 		tag = tag.replace('_', '-')
 
-	SITE = StackAPI('stackoverflow', max_pages=3)
-	questions = SITE.fetch('questions', page=2, tagged=tag, filter='!)re8*vhaqGn7n9_0lKeP')
+	SITE = StackAPI('stackoverflow', max_pages=6)
+	questions = SITE.fetch('questions', page=4, tagged=tag, filter='!)re8*vhaqGn7n9_0lKeP')
 
 	tag_map(questions, categories_dict)
 

@@ -1,0 +1,498 @@
+1. Python & FOR
+
+Trying to avoid nested for loops but I'm unsure how I shall use words = x.split() and words[y:y+n] inside the one liner.
+
+n = 1
+for x in data:
+    words = x.split()
+    for y in range(len(words)-n+1):
+        print(words[y:y+n])
+So far I'm working with the following:
+
+data = ' '.join([(x, y) for x in data words = x.split() for y in range(len(words)-n+1) words[y:y+n]])
+
+
+
+
+2. R & FOR LOOP 
+
+I want to assign values to a dataframe using a for-loop which loops trough different rows in a data-frame.
+
+I tried to assign my needed variable names, which are changing in each iteration, to some values and afterwards put those values together in a dataframe, which did not work
+
+banks <- read.csv("banks_csv.csv", sep = ";", stringsAsFactors = FALSE)
+banks<-data.frame(banks)
+
+for (row in 1:nrow(banks)){
+bank = banks[row, "Company"]
+
+reviews <- read.csv(paste(bank, "_cleaned.csv", sep = ""))
+reviews$X = NULL
+reviews_summary <- reviews %>% 
+group_by(Year_Quarter) %>%     
+    summarise(rat_gen = mean(rat_general, na.rm = TRUE), 
+              CV = mean(rat_CV, na.rm = TRUE), 
+              WL = mean(rat_WL, na.rm = TRUE), 
+              CO = mean(rat_CO, na.rm = TRUE), 
+              CB = mean(rat_CB, na.rm = TRUE), 
+              SM = mean(rat_SM, na.rm = TRUE)) 
+
+nam <- paste("general_", bank, sep = "")
+assign(nam, reviews_summary$rat_gen)
+
+nam <- paste("CV_", bank, sep = "")
+assign(nam, reviews_summary$CV)
+
+nam <- paste("WL_", bank, sep = "")
+assign(nam, reviews_summary$WL)
+
+nam <- paste("CO_", bank, sep = "")
+as.list(nam, reviews_summary$CO)
+
+nam <- paste("CB_", bank, sep = "")
+as.list(nam, reviews_summary$CB)
+
+nam <- paste("SM_", bank, sep = "")
+as.list(nam, reviews_summary$SM)
+
+df <- data.frame(paste("general_", bank, sep = ""), paste("CV_", bank, sep = ""), paste("WL_", bank, sep = ""), paste("CO_", bank, sep = ""), paste("CB_", bank, sep = ""), paste("SM_", bank, sep = ""))
+}
+EDIT: I would like to have only one data.frame, where each iteration adds 6 columns, instead of generating one dataframe for each iteration.
+
+3. Javascript & FOR
+Why does 'I' change for nested loops in a different function?
+
+
+I've been finding some weird behaviours in my code and finally tracked it down to what I considered impossible. A variable "i" used in a for loop is changed within an enclosing for loop on another function.
+
+In this case function a only logs 0 and function b 0-9. The behaviour I wanted was for both functions to log 0-9.
+
+I solved the problem in my code changing the variable name 'i1' & 'i2'. But I'm guessing there is a more elegant solution.
+
+function a() {
+
+    for (i=0;i<10;i++) { // Changed to i1
+    console.log('a',i);
+    b() ; }
+
+}
+
+function b() {
+    for (i=0;i<10;i++) { // Changed to i2
+        console.log('b',i);
+    }
+}
+
+a() ;
+
+
+4. JAVA AND FOR LOOP
+
+I need to get something similar to the image I attached to this question. I don't know how can I complete my code in order to get all of marks of the students, the total number of fails and the average of all the marks and how can I calculate the spaces between the students and the marks, and the subjects and the number of fails and the average (as you can see in the imagine) in order to have everything lined up. I would be so thankful if anyone can solve my problem.
+
+expected result
+
+public class marksheet{
+    public static String devuelvePalabra(int longitud) {
+        char[] vocales = { 'a', 'e', 'i', 'o', 'u'};
+        char[] consonantes = { 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 's', 't', 'v'};
+        String resultado = "";
+
+        for (int i = 0; i < longitud; i++) {
+            if (i%2==0)
+                resultado += consonantes[(int)(Math.random()*consonantes.length)];
+            else
+                resultado += vocales[(int)(Math.random()*vocales.length)];
+        }
+
+        return resultado;
+    }
+
+    public static String devuelveCadena(int numeroPalabras) {
+
+        String resultado = "";
+
+        for (int i = 0; i < numeroPalabras; i++) {
+            String nuevaPalabra = devuelvePalabra((int)(Math.random()*5)+5);
+            if (i == 2)
+                resultado += ", "+nuevaPalabra;
+            else if (i == 1)
+                resultado += ' '+ nuevaPalabra;
+            else
+                resultado += nuevaPalabra;
+        }
+
+        return resultado;
+    }
+
+    public static void main (String [] args){
+
+    //1 - Define the arrays
+        int [][] notas = new int [32][10];
+        String [] materias = new String [10];
+        String [] alumnado = new String [32];
+
+
+        int mayorlongitudNombreAlumnos = 0; 
+
+//2 - Initialize the arrays
+for (int i = 0; i < 32; i++) { //Students
+    alumnado[i] = devuelveCadena(3);
+    if (alumnado[i].length()>mayorlongitudNombreAlumnos){
+        mayorlongitudNombreAlumnos = alumnado[i].length();
+    }
+
+}
+
+int mayorlongitudNombreMaterias = 0; 
+for (int j = 0; j < 10; j++) { //Subjects
+    materias[j] = devuelveCadena(2);
+
+    if (materias[j].length()>mayorlongitudNombreMaterias){
+        mayorlongitudNombreMaterias = materias[j].length();
+    }
+}
+
+
+// For every student...
+for (int i = 0; i<32; i++){
+
+    //We write their name...
+    System.out.print(alumnado[i]);
+
+    //We put every mark of the students...
+    for(int j = 0; j<10; j++) {
+
+        notas[i][j] = (int)(Math.random()* 10) + 1; //notas[i][j] = (númeroaleatorioentre 1 y 10);
+        if (notas[i][j] == 10){
+            System.out.print("  " +notas[i][j]);
+        } else {
+            System.out.print(" " +notas [i][j]);
+        }
+    }
+
+    System.out.println();
+}
+
+
+//4 - We create the marksheet:
+ //The average
+/*for (int j = 10; j<0; j++){
+} int sumaMedia; //Poner en las materias la media y el numero de suspensos
+sumaMedia = 0;
+for (int i = 0; i < 32; i++){
+    for (int j = 0; j < 10; j++){ 
+                SumaMedia += notas [i][j]; 
+                int numSuspensos;
+                numSuspensos = 0;
+                if (notas [i][j] < 5){ //Number of fails 
+                    numSuspensos = notas [i][j];
+                    numSuspensos ++;
+                    System.out.pritnln (+numSuspensos);
+                }
+                System.out.println(+sumaMedia/10);
+                sumaMedia ++;
+            }
+        }
+    } */
+
+}
+
+}
+
+
+
+5. R AND FOR 
+I have a list of lists. A toy example similar is presented below. I want to extract the rownames from each list,and then store these rownames in either a new data frame or a new list of lists (in the same structure of the original).
+
+Ideally the colnames or new list names would be identical to the list names from the list of lists.
+
+note. the lists are all different lengths and must be taken into account. I would rather not fill the blank spaces with N/A.
+
+dput(head(Chars_alive)):
+
+list(FEB_games = list(GAME1 = structure(list(GAME1_Class = structure(c(2L, 
+1L, 5L, 4L, 3L), .Label = c("fighter", "paladin", "rouge", "sorcerer", 
+"wizard"), class = "factor"), GAME1_Race = structure(c(3L, 1L, 
+4L, 3L, 2L), .Label = c("elf", "gnome", "human", "orc"), class = "factor"), 
+GAME1_Alignment = structure(c(4L, 2L, 1L, 5L, 3L), .Label = c("CE", 
+"CG", "LG", "NE", "NN"), class = "factor"), GAME1_Level = c(6, 
+7, 6, 7, 7), GAME1_Alive = structure(c(1L, 1L, 1L, 1L, 1L
+), .Label = "y", class = "factor")), row.names = c("Stan", 
+"Kenny", "Cartman", "Kyle", "Butters"), class = "data.frame"), 
+GAME2 = structure(list(GAME2_Class = structure(c(5L, 2L, 
+4L, 1L), .Label = c("bard", "cleric", "fighter", "monk", 
+"wizard"), class = "factor"), GAME2_Race = structure(c(3L, 
+2L, 4L, 1L), .Label = c("dwarf", "elf", "half-elf", "human"
+), class = "factor"), GAME2_Alignment = structure(c(2L, 1L, 
+5L, 3L), .Label = c("CE", "CG", "LG", "NE", "NN"), class = "factor"), 
+    GAME2_Level = c(5, 5, 5, 5), GAME2_Alive = structure(c(2L, 
+    2L, 2L, 2L), .Label = c("n", "y"), class = "factor")), row.names = c("Kenny", 
+"Cartman", "Kyle", "Butters"), class = "data.frame")), MAR_games = list(
+GAME3 = structure(list(GAME3_Class = structure(c(2L, 1L, 
+5L, 3L), .Label = c("barbarian", "cleric", "monk", "ranger", 
+"warlock"), class = "factor"), GAME3_Race = structure(c(2L, 
+3L, 2L, 1L), .Label = c("dwarf", "elf", "half-elf", "human"
+), class = "factor"), GAME3_Alignment = structure(c(2L, 2L, 
+1L, 2L), .Label = c("CE", "LG", "LN"), class = "factor"), 
+    GAME3_Level = c(1, 1, 1, 1), GAME3_Alive = structure(c(2L, 
+    2L, 2L, 2L), .Label = c("n", "y"), class = "factor")), row.names = c("Stan", 
+"Kenny", "Cartman", "Butters"), class = "data.frame"), GAME4 = structure(list(
+    GAME4_Class = structure(c(1L, 5L, 4L, 3L), .Label = c("fighter", 
+    "paladin", "rouge", "sorcerer", "wizard"), class = "factor"), 
+    GAME4_Race = structure(c(3L, 2L, 4L, 1L), .Label = c("dwarf", 
+    "elf", "half-elf", "human"), class = "factor"), GAME4_Alignment = structure(c(2L, 
+    1L, 4L, 3L), .Label = c("CE", "CG", "LG", "LN"), class = "factor"), 
+    GAME4_Level = c(5, 5, 5, 5), GAME4_Alive = structure(c(2L, 
+    2L, 2L, 2L), .Label = c("n", "y"), class = "factor")), row.names = c("Kenny", 
+"Cartman", "Kyle", "Butters"), class = "data.frame")))
+as.data.frame(rownames(Chars_alive[[1]][[1]])) -> GAME1
+as.data.frame(rownames(Chars_alive[[2]][[1]])) -> GAME2
+Because GAME1 and GAME2 have different lengths a data frame may not be ideal (my actual data has vastly different lengths between lists of lists).
+
+for (i in Chars_alive) {
+  for (j in i)
+    rownames(j) -> x
+}
+A for-loop could work but I am new to loops and do not know how to place all the jth elements into one new data frame or list.
+
+ls2 <- list(Game1 <- rownames(Chars_alive[[1]][[1]]), Game2 <- rownames(Chars_alive[[1]][[2]]),
+                 Game3 <- rownames(Chars_alive[[2]][[1]]), Game4 <- rownames(Chars_alive[[2]][[2]]))
+Perhaps making an new list outright would work, but I'd like to keep the structure of the original list if that was the case i.e. FEB_games > GAME1, GAME2 and MAR_games > GAME3, GAME4. Also I'd prefer to keep the list names the same i.e GAME1, GAME2, GAME3 and GAME4.
+
+Ideal output would be either a data frame:
+
+    GAME1    GAME2    GAME3    GAME4
+1   Stan     Kenny    Stan     Kenny
+2   Kenny    Cartman  Kenny    Cartman
+3   Cartman  Kyle     Cartman  Kyle 
+4   Kyle     Butters  Butters  Butters
+5   Butters   
+Or a list:
+
+Listname
+    FEB_games
+        GAME1
+           'Stan', 'Kenny', 'Cartman', 'Kyle', 'Butters'
+        GAME2
+           'Kenny', 'Cartman', 'Kyle', 'Butters'
+    MAR_games
+        GAME3
+            'Stan', 'Kenny', 'Cartman', 'Butters'
+        GAME4
+            'Kenny', 'Cartman', 'Kyle', 'Butters'
+
+
+6. C AND FOR
+
+In the linux kernel (ASOP) code I came across the following macro code:
+
+#define for_each_cpu_and(cpu, mask, and)    \
+    for ((cpu) = 0; (cpu) < 1; (cpu)++, (void)mask, (void)and)
+I have never come across a for loop like the one above where there are several comma separated variables along with the increment part. Using the following code I tried to check how the aforementioned macro actually behaves:
+
+#include <stdio.h>
+#include <stdbool.h>
+
+#define for_each_cpu_and(cpu, mask, and)    \
+    for ((cpu) = 0; (cpu) < 1; (cpu)++, (void)mask, (void)and)
+
+int main()
+{
+    int i;
+    for_each_cpu_and(i, false, 3){
+      printf("i value: %d\n", i);
+    }
+    return 0;
+}
+The answer in the console is as follows:
+
+i value: 0
+If I tweek the code to the following:
+
+#include <stdio.h>
+#include <stdbool.h>
+
+#define for_each_cpu_and(cpu, mask, and)    \
+    for ((cpu) = 0; (cpu) < 3; (cpu)++, (void)mask, (cpu)+2)
+
+int main()
+{
+    int i;
+    for_each_cpu_and(i, 4, 3){
+      printf("i value: %d\n", i);
+    }
+    return 0;
+}
+The answer in the console is as follows:
+
+i value: 0
+
+i value: 1
+
+i value: 2
+So from the aformentioned code it seems like in the increment part only the first increment option i.e. (cpu)++ is given precedence and others are not being used.
+
+Can someone please explain with example(s) the usage of additional comma separated variables in the increment part of the for loop?
+
+Note: I am aware what a comma separated variable in C does in general and based on the rule the first varaible in the code should be given precedence. However, in the aforementioned code the case is not true. So explanation on the working of the comma separated variables in the increment part of the for-loop in the aforementioned code would be much appreciated.
+
+Comma separated variables in C: How does the Comma Operator work
+
+
+7. Python & FOR
+
+Opening multiple images on PIL with a for loop
+
+I have to open a couple of images with PIL. Right now, i only have 3 images, so I've been doing opening them like so, not within a for-loop:
+
+self.redpic = Image.open("red.png")
+self.redpic = self.redpic.resize((100,100), Image.ANTIALIAS)
+self.img1 = ImageTk.PhotoImage(self.redpic)
+But in the future, I will be opening at least 20 images, so I tried a for-loop implementation:
+
+def process_image(self):
+    for valx in range(5):
+        self.numbering = "image" + str(valx);
+        self.numbpng = numbering + ".png";
+        self.numbering = Image.open(numbpng);
+        self.numbering = self.numbering.resize((100,100), Image.ANTIALIAS)
+        self.numbering= ImageTk.PhotoImage(self.numbering)
+But with this, I do not get access to the images that I just created. I've been reading about dynamically creating variables and how it is not recommended, so I was wondering what would be the best way for me to get access to self.imagex where x is an number to an image. I know the number of images ahead of time. 
+
+
+
+8. R  & FOR LOOP
+
+I need to iterate thru a multi-feature SpatialPolygonsDataFrame (SPDF herein) and erase where each polygon intersects with SpatialLines contained in a list of single-feature SpatialLinesDataFrames (SLDF) and save the updated 'erased' SLDFs to a new list. If a line intersects with two different polygon features, I want two updated 'erased' SLDF to be created and added to the new SLDF list. In the sample I provide below, the SLDFs intersect with exactly one SPDF, except one of the SLDF intersects with two different SPDF polygon features. Therefore, the updated list should contain an additional SLDF element.
+
+However, when I run a nested for-loop, the resulting 'erased' SLDF list contains the same number of elements as the original SLDF list. I think there is a problem with my loop structure, but I cannot figure it out.
+
+library(rgdal)
+library(raster)
+library(rgeos)
+library(sp) 
+library(gdistance)
+
+#Reproducible example data prep:
+#'RDCO Regional Parks' data can be downloaded here: https://data- 
+rdco.opendata.arcgis.com/datasets? 
+group_ids=1950175c56c24073bb5cef3900e19460 
+parks <- readOGR("/Users/rachelfield/Documents/UBC/Data/Regional 
+Districts/RDCO/RDCO_Regional_Parks/RDCO_Regional_Parks.shp")
+
+#DEM data downloaded here: https://pub.data.gov.bc.ca/datasets/175624/82e/ 
+(files for '082e14_w.dem')
+dem <- raster("/path/to/example/data/082e14_w.dem")
+demproj <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
+
+#reproject parks to match dem
+p <- spTransform(parks, demproj)
+
+#subset of parks data to reduce for example
+e <- extent(dem)
+p_crop <- crop(p, e)
+p_sub <- p_crop[p_crop@data$Shapearea > 100000,]
+p_sub2 <- p_sub[p_sub@data$CommonName != "Mission Creek Greenway Regional 
+Park",]
+#fyi I delete polygon [7,] because violates rules of my actual data 
+(polygons do not touch)
+
+#create polygon centroids and convert to SpatialPointsDataFrame using data 
+from each 'origin' polygon data.frame
+p_cent <- gCentroid(p_sub, byid = TRUE)
+p_centdf <- SpatialPointsDataFrame(p_cent, data = data.frame(p_sub), 
+match.ID = FALSE)
+
+#manually create approx location of lowest elevation cell
+lowest <- SpatialPoints(coords = cbind(-119.47,49.86), proj4string = 
+CRS("+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"))
+
+#find LCPs from 'origin' polygon centroids to lowest elevation cell
+tr <- transition(dem, transitionFunction=function(x) 1/min(x), 
+directions=8) 
+trCost <- geoCorrection(tr, type="c")
+#run shortestPath (LCP) analysis for all polygon centroids
+lcp_list <- list()
+for(i in 1:nrow(p_centdf)){
+  origin <- p_centdf[i,]
+  #find LCP from each centroid
+  lcp <- shortestPath(trCost, origin, goal = lowest, 
+output="SpatialLines")
+  #convert LCP SpatialLines to SpatialLinesDataFrame object type, and 
+preserve ID from original centroid 
+  lcp_list[[i]] <- SpatialLinesDataFrame(lcp, data = 
+data.frame(p_centdf[i,]), match.ID = FALSE)
+}
+
+#my nested for-loop attempt to get resulting SLDF list 
+line_erasel <- list()
+#iterate thru all SPDF features
+for (i in seq_along(p_sub2)) {
+#iterate thru all SLDF list elements
+  for (j in seq_along(lcp_list)) {
+#if a SLDF intersects with a SPDF feature, execute erase function
+    if (tryCatch(!is.null(raster::intersect(lcp_list[[j]], p_sub2[i,])), 
+error=function(e) return(FALSE)) == 'TRUE'){
+      #erase part of line overlapped by intersected polygon and add to new list
+      line_erasel[[i]] <- erase(lcp_list[[j]],p_sub2[i,])
+}}
+
+
+
+
+9. Java While and FOR
+i cant change the array StrQuantityProducts i want to make it from 0 to 1 doing this StrQuantityProducts++ in the for loop , adding one
+
+static    Scanner reader = new Scanner (System.in);
+static    ArrayList<String> array = new ArrayList<String>();
+static String[] StrNameProducts = new String[]{"eggs","water","bananas","apples","paper"};
+ int[] StrQuantityProducts = {1,0,0,0,0};
+public static void main(String[] args) {
+    System.out.println("Please enter what do you want to buy");
+       String str = null;
+
+       while(!"done".equals(str)){
+           array.add(str);
+         str= reader.nextLine();
+         System.out.println("!if you dont want something else type done!");   
+         for(int i=0; i<=4; i++){
+             if(str==StrNameProducts[i])
+                 StrQuantityProducts[i]++;
+         }
+       }
+
+       System.out.println("---------------");
+
+        for(int i=0; i<=4; i++){
+            System.out.println("Product:" + StrNameProducts[i] + "Quantity:"+ StrQuantityProducts[i]);
+        }
+}
+}
+
+
+10. Python, If, For, While
+
+
+I want to write a program that adds all the numbers between 0 and 100 but my code does not add everything correctly. How do I add the next number to the number and then print the sum?
+
+This is the code I have:
+
+         for(int i = 0; i <= 100; i++){
+           i+=i;
+           println(i);
+         }
+The result of this shows 0, 2, 6, 14... and I need the sum of all the numbers 1 through 100.
+
+
+11.  Python & FOR
+'int' object is not callable How to solve this error?
+
+This seems very simple although is not running, obviously i miss something here. I want the user to enter for example 5 and to print 0 1 2 3 4.
+
+value = input("Insert a number from 0 to 9\n: ")
+value_int = int(value)
+
+for i in value_int:
+print(i)
+

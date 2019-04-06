@@ -29,6 +29,9 @@ If I input these years seperately, it gives four perfect plots.
 
 Many thanks in advance.
 
+
+
+
 2. FOR LOOP AND R
 I have a matrix and an adjacency/graph object. And I wrote a big for loop:
 

@@ -185,3 +185,129 @@ sigprocmask(SIG_SETMASK, &set, NULL);
 
 execve(...);
 But child process ignores signals
+
+
+
+
+3. Python And C
+
+How to compile C extension for Python 3.7 in Windows
+
+
+I am trying to compile a C file to use in Python. The file is a solver for differential algebric equations (DAE). My problem is that when I compile the setup.py file I receive the erro Cannot open source file: 'daesolver.c': No such file or directory. As the C file is quite complex I tried to do the same thing with a simpler example. I used the HelloWorld example provide by Elliot Forbes in (https://tutorialedge.net/python/python-c-extensions-tutorial/). Even in with this very simple function I receive the same error. Here is the full output I receive from the build command.
+
+C:\Users\Administrator>python c:\temp\teste_C2py\setup.py build
+running build
+running build_ext
+building 'myModule' extension
+C:\Program Files (x86)\Microsoft Visual 
+Studio\2017\Community\VC\Tools\MSVC\14.16.27023\bin\HostX86\x64\cl.exe /c 
+/nolog
+o /Ox /W3 /GL /DNDEBUG /MD -IC:\ProgramData\Anaconda3\include - 
+IC:\ProgramData\Anaconda3\include "-IC:\Program Files (x8
+6)\Microsoft Visual 
+Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include" "- 
+IC:\Program Files (x86)\Microsoft
+Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include" "- 
+IC:\Program Files (x86)\Windows Kits\10\include\10.0.1
+7763.0\ucrt" "-IC:\Program Files (x86)\Windows 
+Kits\10\include\10.0.17763.0\shared" "-IC:\Program Files (x86)\Windows Ki
+ts\10\include\10.0.17763.0\um" "-IC:\Program Files (x86)\Windows 
+Kits\10\include\10.0.17763.0\winrt" "-IC:\Program Files
+(x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt" /Tctest.c 
+/Fobuild\temp.win-amd64-3.7\Release\test.obj
+test.c
+c1: fatal error C1083: Cannot open source file: 'test.c': No such file or 
+directory
+error: command 'C:\\Program Files (x86)\\Microsoft Visual 
+Studio\\2017\\Community\\VC\\Tools\\MSVC\\14.16.27023\\bin\\Ho
+stX86\\x64\\cl.exe' failed with exit status 2
+Here is the test.c file
+
+#include <Python.h>
+
+// Function 1: A simple 'hello world' function
+static PyObject* helloworld(PyObject* self, PyObject* args)
+{
+    printf("Hello World\n");
+    return Py_None;
+}
+
+// Our Module's Function Definition struct
+// We require this `NULL` to signal the end of our method
+// definition
+static PyMethodDef myMethods[] = {
+    { "helloworld", helloworld, METH_NOARGS, "Prints Hello World" },
+    { NULL, NULL, 0, NULL }
+};
+
+// Our Module Definition struct
+static struct PyModuleDef myModule = {
+    PyModuleDef_HEAD_INIT,
+    "myModule",
+    "Test Module",
+    -1,
+    myMethods
+};
+
+// Initializes our module using our above struct
+PyMODINIT_FUNC PyInit_myModule(void)
+{
+    return PyModule_Create(&myModule);
+}
+and here is the setup.py
+
+from distutils.core import setup, Extension
+setup(name = 'myModule', version = '1.0',  \
+   ext_modules = [Extension('myModule', ['test.c'])])
+both files are located in the same folder c:\temp\teste_C2py.
+
+I am using Python 3.7 in the Anaconda distribution 64 bits (I also want to do the same for x86).
+
+I have installed in the same environment Visual Studio 2017 (community) with all the compiler for necessary (at least I think so).
+
+The thing that is really strange is that I was made to do that when I installed just vs build tools 2017 in a VM but when I try to replicate the same in another machine it give me this error. I also mess up the environment where I first made this work and now I am not able to do that again.
+
+I also set up the environment variables VS150COMNTOOLS = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools
+
+It seems that I am missing somenthing in the Visual Studio configuration because it does not make sense to no find a file that is the same folder.
+
+
+
+4.  C
+Receive a netlink message without using target input function
+
+I am using netlink sockets to communicate with user-space module and kernel module. The communication works like this. The kernel module will first send a netlink message to userspace module using nlmsg_unicast(). The userspace will send a reply and kernel will receive it on target function specified in .input parameter in netlink_kernel_cfg struct.
+
+Is there a way to receive the netlink message from userspace module without specifying target function in .input of netlink_kernel_cfg struct. Is there a function to directly receive the struct skb in kernel without specifying .input parameter. So I will be passing struct netlink_kernel_cfg = {0}
+
+
+5. 
+Writing a c program that reads from stdin and prints to stdout with no built-in limit of the line's length 
+
+I am reading the book of Kenneth Reek's Pointers On C and stumbled upon the following question:
+
+Write a program that reads lines from the standard input. Each line is printed on the standard output preceded by its line number. Try to write the program so that it has no built-in limit on how long a line it can handle.
+What I couldn't understand is how to accomplish this without using a buffer to store the input before passing it as output.
+
+I have tried to used standard functions for io operations like fgets or scanf but all of them seem to need a destination variable to store the input before it can be passed to the printf function.
+
+
+6. C
+
+Position of struct in C
+
+To make my code as clear as possible, I am trying to do something like :
+
+struct Test {
+   int a; 
+   int b;
+   struct Test2 c;
+};
+
+struct Test2{
+   int d;
+};
+Of course this code is wrong because struct Test2 is used before being defined. I want to declare the struct forward. So I typed struct Test2; before struct Test but it didn't work. Is there a solution?
+
+I know it is possible with functions, so maybe it should be the case for structures?

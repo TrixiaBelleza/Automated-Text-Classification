@@ -1,36 +1,37 @@
-insert into complete_train_data2 values ('1998423','I am using python3 and I have this code where I ask the user for three inputs. then I perform a calculation on them. I would like to keep adding the calculation results to a list. How to do that?
+insert into complete_train_data2 values ('199842065', 'writing a service that returns an Array of JSON values. At the Service Recipient end, Traversing array is handled using a *ngFor. Each JSON is getting retrieved but I am not able to parse each value inside the JSON. I Am trying to make a list of links, The Json Content is the name of the link and the route to which the link is supposed to be routing.
 
-...
+did try to access the values inside the JSON using the KeyValue pipe. did try to make a custom pipe. did try to call the value like "{{obj.Name}} {{obj.Route}}" in which obj is the json object.
 
-if choice == 1: #my fist input x
-    while True:
-        x = int(input(Please insert the number of things you consider yourself a fan of))
-        if x > 0:
-            break
-        else:
-             print(Please insert a number higher than 0)
+This is the structure of the JSON Array.
 
-elif choice == 2: #my second input y
-    while True:
-        y = int(input(Please insert the number of hobbies you like to do every month))
-        if y % 4 == 0:
-            break
-        else:
-            print(Please insert a valid number)
+const LinkDirectory: ILinks[] =
+[
+{Name: Home, Route: /home},
+{Name: Aboutus, Route: /Aboutus},
+];
+ILinks is an interface
 
-elif choice == 3: #my third input z
-    while True:
-        z = int(input(Please insert the number of sports you like))
-        if z > 0:
-            break
-        else:
-            print(Please insert a number higher than 0)
+export interface ILinks {
+    Name: string;
+    Route: string;
+}
+This is the Angular Component that receives the service.
 
-elif choice == 4: #the calculation part
-    import math
-    def square_root():
-        c=(42 * y ** 2)/(z + 1)
-        nerd_score=int(x*math.sqrt(c))
-        return nerd_score
-    print(your nerd score is, square_root())
-I want the loop to keep going, and each result to be added to the list. until the user exits the loop.', 1,0,0,0,0,0,0,1,1,0,0);
+export class LinksPopulate implements OnInit {
+  LinkDirectory: ILinks[];
+  constructor(private DirRetriver: Directory) {}
+  ngOnInit(): void {
+    this.LinkDirectory = this.DirRetriver.getLinks();
+  }
+}
+Html Code with *ngFor
+
+<div>
+      <ul>
+      <li *ngFor="let link of LinkDirectory">
+      <a routerLink={{link.Route}}>{{link.Name}}</a>
+      </li>
+      </ul>
+</div>
+list of links with the specified name. like an all products page in a shopping site'
+, 0,1,0,0,0,0,1,0,0,0,0);

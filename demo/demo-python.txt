@@ -1,0 +1,155 @@
+1. 
+So whenever I run python -v it says I'm using Python 2, why is python reserved for Python 2 on Ubuntu, and is there a way to make python reserve python 3? The latest version.
+
+For example, Id prefer to write
+
+`python /files/app.py`
+To execute my files than write
+
+`python3 /files/app.py`
+It seems messy to have to add the 3, you don't on Windows, so why is Ubuntu different?
+
+
+2. 
+
+I'm new to numpy and have been tasked with the following situation: I need to create two numpy arrays of random integers (between 0 + 1). One numpy array represents the x-coordinates and the other one represents the y-coordinates. I then need to check to see if the points fall inside a circle of radius one by using squareroot(x^2 + y^2) < 1.
+
+I'm currently just trying to square my arrays and add them together. What is probably a very simple task is giving me no ends of trouble.
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+plots = 100
+
+dataOne = np.random.random(size = plots)
+dataTwo = np.random.random(size = plots)
+
+circle = plt.Circle((0,0), 1, alpha = 0.1)
+plt.gca().add_patch(circle)
+plt.xlim(0, 5)
+plt.ylim(0, 5)
+plt.show()
+
+squareDataOne = dataOne ** 2
+squareDataTwo = dataTwo ** 2
+
+if squareDataOne + squareDataTwo < 1:
+    print("Now check square-root!")
+I keep receiving an error message: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(). Could anyone explain why Python/Numpy does not like this? I've been told to try and use a Boolean expression to slice the array. Can anyone provide suggestions on the best way to incorporate this into my given code? Any suggestions or tips for a newbie are appreciated.
+
+
+3. 
+
+Using a dictionary (such as {'aa': 3.0, 'bb': 1.2, 'ab': 3.0, 'cd': 6.0}), I want to return a list of the keys in descending order based on their values. If two or more keys have the same value, then the values will be ordered based on the alphabetical order of the keys. Using the previous dictionary as an example, I want my function to return: ['cd', 'aa', 'ab', 'bb'].
+
+I have thought about creating a helper function to make parallel lists of the keys and their corresponding values to accomplish what I want, but I have not been able to implement this. I've written a very basic outline of my code below:
+
+def f(d: Dict[str, float]) -> List[str]:
+
+    accumulator_list = []
+
+    # do something
+
+    return accumulator_list
+Edit: My question is unique because the other question was asking about a function that returns a list of values below a threshold, while my function has nothing to do with a threshold.
+
+
+4.
+
+I realize this question has been asked before, but none of those seem to work for me. I have a series called state that looks like:
+
+cash          17378.787327
+num_shares      895.000000
+cost_basis      102.153149
+open_price      106.300003
+close_10        108.889999
+close_9         109.790001
+close_8         109.209999
+close_7         108.230003
+close_6         109.330002
+close_5         108.080002
+close_4         106.910004
+close_3         106.419998
+close_2         104.410004
+close_1         106.650002
+dtype: float64
+I want to append it to a DataFrame, so I have:
+
+X = pd.DataFrame()
+X.append(state)
+But this gives an error TypeError: Can only append a Series if ignore_index=True or if the Series has a name, so I try:
+
+X.append(state, ignore_index=True)
+This doesn't actually append anything to X:
+
+Empty DataFrame
+Columns: []
+Index: []
+What am I doing incorrectly?
+
+
+
+5.
+
+
+I need to use the xarray's plotting functionality to plot a xarray Dataset from a netCDF file.
+
+The Dataset contains latitude, longitude and season dimensions. I need to draw a spatial map for each season on top of the Basemap with matplotlib.Basemap.
+
+Here is my code:
+
+import xarray as xr
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.basemap import Basemap
+
+ds_path = r'{path to the netCDF file}'
+ds = xr.open_mfdataset(ds_path)
+da = ds[{variable_name}]
+print(da)
+
+# Plot
+p = da.plot(levels=10, x='longitude', y='latitude', col='season')        # p is an instance of <class 'xarray.plot.facetgrid.FacetGrid'>
+
+# Draw the spatial map for each `season`
+for i, ax in enumerate(p.axes.flatten()):
+    map = Basemap(llcrnrlat=39.2,urcrnrlat=33.9,llcrnrlon=140.8,urcrnrlon=150.0,resolution='i',ax=ax)
+
+plt.show()
+How can I set the size of the subplot for each season on the plt.figure?
+
+
+6. 
+
+I can't seem to find the module for this error.
+
+I have tried installing a different version of fabric, but did not work.
+
+(python27) dhcp-v051-108:python Phu$ fab docker
+
+ModuleNotFoundError: No module named 'fabric.context_managers'
+
+
+
+7. Python & FOR -> In VIDEO
+
+Given my code i was wondering how would i add the actual number of asterixes before my rows of asterixes.
+
+for i in range (1, 10):
+    for i in range(0, i):
+      print("*", end=' ')
+    print("\r")
+Wanted output:
+
+1*
+2**
+3***
+4****
+...
+Current output
+
+*
+**
+***
+****
+...

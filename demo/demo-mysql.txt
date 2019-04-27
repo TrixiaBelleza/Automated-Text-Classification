@@ -1,0 +1,287 @@
+MYSQL 
+
+1. Python & Mysql in VIDEO
+
+I know there are questions similar to this one, but none of them have resolved my problem. I'm trying to put some JSON strings "{a:b, c:d...}" into MySQL. I can't use the JSON datatype in MySQL. I'm running 5.5 and don't want to update right now.
+
+Code:
+
+prop = blablabla,                               
+interface = 1,                             
+value = "val1"
+data = {"actual_value":""}
+
+prop = this.split(".", 1)[0]
+interface_value = this.split(".", 1)[1]
+interface = int(interface_value.split("=", 1)[0])
+value = interface_value.split("=", 1)[1]
+
+value = int(interface_value.split("=")[1])
+data["actual_value"] = value
+
+query = "UPDATE Blabla SET %s=\"%s\" WHERE InterfaceID=%s"
+cursor.execute(query, (prop, str(data), interface,))
+Error:
+
+Traceback (most recent call last):
+  File "ex1.py", line 69, in <module>
+    cursor.execute(querry, (prop, str(dates), interface,))
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/cursor.py", line 569, in execute
+    self._handle_result(self._connection.cmd_query(stmt))
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/connection.py", line 553, in cmd_query
+    result = self._handle_result(self._send_cmd(ServerCmd.QUERY, query))
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/connection.py", line 442, in _handle_result
+    raise errors.get_exception(packet)
+mysql.connector.errors.ProgrammingError: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''blablabla'="'{\'actual_value\': \'\"val1\"\'}'" WHERE InterfaceID=1' at line 1
+
+2. 
+
+I need to execute a trigger that includes an UPDATE statement on the same table.
+
+I have tried this code. If I check the table, the row is updated, but I get an error message:
+
+Can't update table 'Orders' in stored function/trigger because it is already used by statement which invoked this stored function/trigger
+
+DROP TRIGGER IF EXISTS UpdateTotal;
+
+DELIMITER |
+
+CREATE TRIGGER UpdateTotal BEFORE UPDATE ON Orders
+FOR EACH ROW 
+BEGIN
+  UPDATE Orders P1
+    SET NEW.order_total = NEW.order_total + 3.02
+    WHERE order_id IN (SELECT * FROM (SELECT MAX(order_id) FROM Orders) P2);
+END
+
+|
+
+DELIMITER ;
+
+3. JAVASCRIPT MYSQL  in VIDEO
+
+I'm using consign to make the autoload from modules on my Node JS api, in this I load all my routes, models and my database connection function, When I run the nodemom app the module that makes the connection is loaded but I Cannot connect to the database, he throws me this error TypeError: Cannot read property 'db' of undefined
+
+Look at my tree files:
+
+enter image description here
+
+I can load the routes cuz
+
+db.js (File that has de database configuration)
+
+var mysql = require('mysql');
+
+var connMySQL = function () {
+    console.log("I've Started the connection")
+    return mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'agimplant'
+    });
+}
+
+module.exports = function () {
+    console.log("I've loaded this function")
+    return connMySQL;
+}
+Server.js
+
+var express = require('express'),
+    bodyparser = require('body-parser'),
+    consign = require('consign'),
+    app = express();
+
+consign()
+    .include('./src/routes')
+    .then('./src/config/db.js')
+    .then('./src/models')
+    .into(app);
+
+app.use(bodyparser.urlencoded({ extended: true }));
+
+app.listen(4000, function () {
+    console.log("Servidor ON");
+});
+
+module.exports = app;
+Connection Calling on Home.route.js
+
+module.exports = function (app) {
+    app.get('/', (req, res) => {
+        console.log("Call the Connection Here")
+        var connection = app.config.db();
+    });
+}
+
+4. PYTHON MYSQL
+I know there are questions similar to this one, but none of them have resolved my problem. I'm trying to put some JSON strings "{a:b, c:d...}" into MySQL. I can't use the JSON datatype in MySQL. I'm running 5.5 and don't want to update right now.
+
+Code:
+
+prop = blablabla,                               
+interface = 1,                             
+value = "val1"
+data = {"actual_value":""}
+
+prop = this.split(".", 1)[0]
+interface_value = this.split(".", 1)[1]
+interface = int(interface_value.split("=", 1)[0])
+value = interface_value.split("=", 1)[1]
+
+if "\"" not in interface_value.split("=")[1]:
+  value = int(interface_value.split("=")[1])
+data["actual_value"] = value
+
+query = "UPDATE Blabla SET %s=\"%s\" WHERE InterfaceID=%s"
+cursor.execute(query, (prop, str(data), interface,))
+Error:
+
+Traceback (most recent call last):
+  File "ex1.py", line 69, in <module>
+    cursor.execute(querry, (prop, str(dates), interface,))
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/cursor.py", line 569, in execute
+    self._handle_result(self._connection.cmd_query(stmt))
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/connection.py", line 553, in cmd_query
+    result = self._handle_result(self._send_cmd(ServerCmd.QUERY, query))
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/connection.py", line 442, in _handle_result
+    raise errors.get_exception(packet)
+mysql.connector.errors.ProgrammingError: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''blablabla'="'{\'actual_value\': \'\"val1\"\'}'" WHERE InterfaceID=1' at line 1
+
+
+
+JAVA & MYSQL
+
+I'm working on logIn and singUp desktop app and I have problem with mySQL. Records are not saving in my table. Here is my code:
+
+Connection dbConnection;
+public Connection getConnection() throws ClassNotFoundException, 
+SQLException
+{
+    String connectionString = "jdbc:mysql://" + dbHost + ":"
+            + dbPort + "/"
+            + dbName;
+
+    Class.forName("com.mysql.cj.jdbc.Driver");
+
+    dbConnection = DriverManager.getConnection(connectionString +  "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", dbUser, dbPass);
+
+
+    return dbConnection;
+}
+public void signUpSave(User user)
+{
+    String insert = "INSERT INTO " + ConstData.LOGIN_TABLE + " (" + 
+ConstData.USER_NAME + "," + ConstData.USER_SURNAME + ","
+            +  ConstData.USER_LOGIN + "," + ConstData.USER_PASSWORD + ","
+            + ConstData.USER_EMAIL + ") " + "VALUES(?,?,?,?,?)";
+    try{
+        PreparedStatement preparedStatement = 
+getConnection().prepareStatement(insert);
+
+        preparedStatement.setString(1,user.getUserName());
+        preparedStatement.setString(2,user.getUserSurname());
+        preparedStatement.setString(3,user.getUserLogin());
+        preparedStatement.setString(4,user.getUserPassword());
+        preparedStatement.setString(5,user.getUserEmail());
+
+
+
+    } catch (SQLException e)
+    {
+        e.printStackTrace();
+    } catch (ClassNotFoundException e)
+    {
+        e.printStackTrace();
+    }
+Those are strings that I use in above code
+
+protected String dbHost = "localhost";
+protected String dbPort = "3306";
+protected String dbUser = "root";
+protected String dbPass = "root";
+protected String dbName = "login";
+There is a method that gets all strings from textFields
+
+private void createUser()
+{
+    DataBase dataBase = new DataBase();
+
+    String name = nameField.getText();
+    String lastName = surField.getText();
+    String userLogin = logField.getText();
+    String userPswd = pswField.getText();
+    String userMail = mailField.getText();
+
+    User user = new User(name, lastName, userLogin, userPswd, userMail);
+
+    dataBase.signUpSave(user);
+}
+User class is just a class with 5 string, contructor, 5x getter&setter.
+
+
+
+PYTHON & MYSQL
+Python and MySQL database efficiency
+I'm new to Python and trying to make an app that requests data from external websites such up HTTP response, uptime etc. but when it gets fully up and running it's going to have to record 100 or more bits of data to the MySQL database in 1 minute or so.
+
+I'm connecting using connect() construtor using Python 3.7 but in order to not cause myself pain in the future, what would be the most efficient way to write this data to keep the load on the database and server low. I can't seem to find a solid answer since there are many solutions.
+
+
+
+
+IF & MYSQL
+
+
+I'm trying to execute a parameterized query to update some stuff in the database.
+
+The problem is that it mysqli_stmt_prepare fails. The require is used to connect to the database.
+
+require 'includes/dbInclude.php';
+if ($codeQuery > 0){
+    $confirmationUsername = $_GET['confirmationUsername'];
+    $active = "active";
+    $noCode = "";
+    $insertSql = "UPDATE users SET accountStatus = ? WHERE username = $confirmationUsername";
+    $insertSql2 = "UPDATE users SET confirmationCode = ? WHERE username = $confirmationUsername";
+    $statement = mysqli_stmt_init($connection);
+    $statement2 = mysqli_stmt_init($connection);
+    if (!mysqli_stmt_prepare($statement, $insertSql)){
+        header("Location: registerComplete.php?error=sqlError1");
+        exit();
+    }
+    elseif (!mysqli_stmt_prepare($statement2, $insertSql2)){
+        header("Location: registerComplete.php?error=sqlError2");
+        exit();
+    }
+    else{
+        mysqli_stmt_bind_param($statement, "s", $active);
+        mysqli_stmt_execute($statement);
+        mysqli_stmt_bind_param($statement2, "s", $noCode);
+        mysqli_stmt_execute($statement2);
+    }
+}
+dbInclude.php contains:
+
+<?php
+
+//connection variables
+$serverName = "localhost";
+$dbUsername = "root";
+$dbPassword = "";
+$dbName = "ecglive";
+
+//connection
+$connection = mysqli_connect($serverName, $dbUsername, $dbPassword, $dbName);
+
+//connection error
+if(!$connection){
+    die("There was an error connceting to the database: " . mysqli_connect_error());
+}
+And where I used it works. I alos tried copy that code to this one just to see if there was any problem connecting to the database. It isn't.
+
+It always goes on the first error if, where it says sqlError1 and if I delete it, then it goes to the sqlError2.
+
+Did I make any mistake?
+

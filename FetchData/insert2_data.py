@@ -9,16 +9,16 @@ from nltk.stem.snowball import SnowballStemmer
 def insert_into_train_db(id, question_body, python, javascript, java, c, r, mysql, html, if_statement, while_loop, for_loop, css):
 	connection = pymysql.connect(host="localhost",user="root",passwd="592008",database="questions_db" )
 	cursor = connection.cursor()
-	sql_insert_query = """ INSERT IGNORE INTO `test_data`
+	sql_insert_query = """ INSERT IGNORE INTO `complete_train_data2`
 					  (`id`, `question_body`, `python`, `javascript`, `java`, `c`, `r`, `mysql`, `html`, `if_statement`, `while_loop`, `for_loop`, `css`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
 	insert_tuple = (id, question_body, python, javascript, java, c, r, mysql, html, if_statement, while_loop, for_loop, css)
 	result  = cursor.execute(sql_insert_query, insert_tuple)
 	connection.commit()
-	print ("Record inserted successfully into test_data table")
+	print ("Record inserted successfully into complete_train_data2 table")
 
 #Main
-SITE = StackAPI('stackoverflow', max_pages=4)
-questions = SITE.fetch('questions', page=1, tagged='python', filter='!)re8*vhaqGn7n9_0lKeP')
+SITE = StackAPI('stackoverflow', max_pages=5)
+questions = SITE.fetch('questions', page=3, tagged='mysql', filter='!)re8*vhaqGn7n9_0lKeP')
 
 ############ DATA PREPROCESSING ################
 stemmer = SnowballStemmer("english")
